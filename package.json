@@ -5,12 +5,9 @@
   "repository": "<fill-your-repository-here>",
   "nativescript": {
     "id": "org.nativescript.awesomeWeather",
-<<<<<<< HEAD
     "tns-android": {
       "version": "2.3.0"
     },
-=======
->>>>>>> c4f49c207ed466dac90a6f20fa54f6cc3d5a9752
     "tns-ios": {
       "version": "2.3.0"
     }

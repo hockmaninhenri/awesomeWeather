@@ -1,1 +1,0 @@
-import geolocation = require("location");
