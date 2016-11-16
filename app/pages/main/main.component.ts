@@ -9,8 +9,11 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
   templateUrl: "pages/main/main.html",
   styleUrls: ["pages/main/main-common.css", "pages/main/main.css"]
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
   constructor(private router: Router, private page: Page) {
 
+  }
+  ngOnInit() {
+    //this.page.actionBarHidden = true;
   }
 }

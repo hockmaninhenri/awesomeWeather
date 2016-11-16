@@ -7,6 +7,9 @@ var MainComponent = (function () {
         this.router = router;
         this.page = page;
     }
+    MainComponent.prototype.ngOnInit = function () {
+        //this.page.actionBarHidden = true;
+    };
     MainComponent = __decorate([
         core_1.Component({
             selector: "my-app",
