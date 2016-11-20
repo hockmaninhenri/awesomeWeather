@@ -86,7 +86,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		bQDphljMDEeENOkU3IufE5BTzI8=
+		6y3a5buTjpY6gpXwPsjO3kAHD2I=
 		</data>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
 		<data>
@@ -194,7 +194,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		7E15FmpKAcgqHXObHE6eJoL/Jwg=
+		58YwaWzyFyfn6kMMc6qDnUw17qw=
 		</data>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -202,7 +202,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		ehRQXt8Wj9Gf4wt63egiSWCPyKo=
+		OFqPBupUnWb/oBYKVPfmzVXgMKA=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -212,25 +212,21 @@
 		<data>
 		lhDFaE1p51VIFWPKnMVWD+dREFQ=
 		</data>
-		<key>app/app.component.html</key>
-		<data>
-		6OJx9rX3QB5llw7JtuGeySDlmRQ=
-		</data>
 		<key>app/app.component.js</key>
 		<data>
-		qA9azCSSCi2kAE4Q8lXcnpFBdqg=
+		LEQichh/Je5gAmrnnIM4iPmqR7M=
 		</data>
 		<key>app/app.component.js.map</key>
 		<data>
-		PtO7mz9b6aqjuZEz1w+RS6b5ViU=
+		KBw1+CEhTnUQWobtYKH0YdJyVOg=
 		</data>
 		<key>app/app.component.ts</key>
 		<data>
-		FeynOxvcLIowMjAuVN2YF5pyJnA=
+		IyoRVbUNttPqxYUgF9/0ixLyqsA=
 		</data>
 		<key>app/app.css</key>
 		<data>
-		WDmx5MKmUx34i8M3JwnAmhw/gTQ=
+		9452CP0ZWTFu/diuujHzVgRVt4Q=
 		</data>
 		<key>app/app.module.js</key>
 		<data>
@@ -271,6 +267,10 @@
 		<key>app/css/core.light.css</key>
 		<data>
 		VzIX377vActaeK77IrUiuRFjE6c=
+		</data>
+		<key>app/fonts/weathericons.ttf</key>
+		<data>
+		mRbj28OZDjBzz1ostMLpWCc7dTI=
 		</data>
 		<key>app/hooks/before-livesync/nativescript-angular-sync.js</key>
 		<data>
@@ -322,15 +322,15 @@
 		</data>
 		<key>app/pages/main/main.component.js</key>
 		<data>
-		HP9l3FtB/EidShh7hDdeyVZKrn8=
+		zpfX2PNFFA7p26tUh1I3TiRbf6I=
 		</data>
 		<key>app/pages/main/main.component.js.map</key>
 		<data>
-		BZigZmtodO/g2spUI1N+AVNkY8o=
+		FqdlqKw/SoYgyU7NKJpRetYVJD0=
 		</data>
 		<key>app/pages/main/main.component.ts</key>
 		<data>
-		r49bp/hW3ZKgSkfz28wSRq4IOUQ=
+		3qgelMtxBmom4NCUke97lGq0GMw=
 		</data>
 		<key>app/pages/main/main.css</key>
 		<data>
@@ -338,7 +338,7 @@
 		</data>
 		<key>app/pages/main/main.html</key>
 		<data>
-		qlgGfcWEFTMN1mweu6vPd+vSHzE=
+		2PJ6n8JV3AuMM9jIQuuIkH8OiFo=
 		</data>
 		<key>app/tns_modules/@angular/common/README.md</key>
 		<data>
@@ -14184,11 +14184,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			bQDphljMDEeENOkU3IufE5BTzI8=
+			6y3a5buTjpY6gpXwPsjO3kAHD2I=
 			</data>
 			<key>hash2</key>
 			<data>
-			lDN5T829fu8e69SCegLSypxYPaSP7hiiOVLGdNyV/Rg=
+			ARGb7g49MiF0DcgIywYAGIdw5TpDJUevumbat3slcwY=
 			</data>
 		</dict>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
@@ -14470,11 +14470,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7E15FmpKAcgqHXObHE6eJoL/Jwg=
+			58YwaWzyFyfn6kMMc6qDnUw17qw=
 			</data>
 			<key>hash2</key>
 			<data>
-			cCxbO6Pbka1c8RZL2YCuQdgXwik/M94/Bihg/ecmeGI=
+			BWL/yvcCxpHhaWVOd53XfaiM4vsgwmu0zgI+WTq809U=
 			</data>
 		</dict>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
@@ -14492,11 +14492,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ehRQXt8Wj9Gf4wt63egiSWCPyKo=
+			OFqPBupUnWb/oBYKVPfmzVXgMKA=
 			</data>
 			<key>hash2</key>
 			<data>
-			aoFKRGnD/TFttcwWXZQeu4Wr7ORPxXQJAlXZg2ggKcw=
+			i5lrDI+nq9s0Iyhs6uunp3CFLlLTfYd9dCqIgug7sxo=
 			</data>
 		</dict>
 		<key>app/LICENSE</key>
@@ -14510,59 +14510,48 @@
 			+NDgG9gomaErbKaLkuRRionBkAHEXEESAj4Qlm6zJD8=
 			</data>
 		</dict>
-		<key>app/app.component.html</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			6OJx9rX3QB5llw7JtuGeySDlmRQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			gufEDzpG/cwcLWz18BCHE6th280ralT2B/AIxFdNDxo=
-			</data>
-		</dict>
 		<key>app/app.component.js</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			qA9azCSSCi2kAE4Q8lXcnpFBdqg=
+			LEQichh/Je5gAmrnnIM4iPmqR7M=
 			</data>
 			<key>hash2</key>
 			<data>
-			X5XtGjlCIQmyr2pJ7/WX8kB7DNko3rHi4QgQlb7W8I0=
+			irkQnzGAi8+GpBQwvn2JlszMPeAtb9gBIIauFV4i0ZA=
 			</data>
 		</dict>
 		<key>app/app.component.js.map</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			PtO7mz9b6aqjuZEz1w+RS6b5ViU=
+			KBw1+CEhTnUQWobtYKH0YdJyVOg=
 			</data>
 			<key>hash2</key>
 			<data>
-			OFVDEWpC9UBiYFDoJx370ivlYtoZnTcLALvHcNIEOQw=
+			IGXbJ98KcW+dmnzEUcs1Gc6jgH4DQk+0jt7PDADHv9w=
 			</data>
 		</dict>
 		<key>app/app.component.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FeynOxvcLIowMjAuVN2YF5pyJnA=
+			IyoRVbUNttPqxYUgF9/0ixLyqsA=
 			</data>
 			<key>hash2</key>
 			<data>
-			0pf/gKM0M5dnBb8fGm/zP7AgBJSyPV/qhCU42gLe+1k=
+			PtCGoEm38CWgHRggl6VOklM5z0dClhIcwLyooRy73FQ=
 			</data>
 		</dict>
 		<key>app/app.css</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			WDmx5MKmUx34i8M3JwnAmhw/gTQ=
+			9452CP0ZWTFu/diuujHzVgRVt4Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			WUwGAiGxZzwImQh3IGlQ1SgqWp5CnXaOub6PzmXHkZk=
+			MveWXgV0HKXfPagqrw/xUv4bF7taZhSKLrdIZSsjQEs=
 			</data>
 		</dict>
 		<key>app/app.module.js</key>
@@ -14673,6 +14662,17 @@
 			<key>hash2</key>
 			<data>
 			g5UbTzBUt1i+LWLBxTU4u8m2v6t4O1wDtGySkuO2zmI=
+			</data>
+		</dict>
+		<key>app/fonts/weathericons.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			mRbj28OZDjBzz1ostMLpWCc7dTI=
+			</data>
+			<key>hash2</key>
+			<data>
+			F2vaZmHyE93kfCEU125HbsjKmq4H3VT5VQ0tKP4CtP0=
 			</data>
 		</dict>
 		<key>app/hooks/before-livesync/nativescript-angular-sync.js</key>
@@ -14811,33 +14811,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			HP9l3FtB/EidShh7hDdeyVZKrn8=
+			zpfX2PNFFA7p26tUh1I3TiRbf6I=
 			</data>
 			<key>hash2</key>
 			<data>
-			62oTnvsHDFf7nM6Mez3u7MYJxiuHX7n8IN3n1rvmweU=
+			goTDvP5LtstHogqeTRnUpr5IAyNC0mt/xkTDuTrzNxA=
 			</data>
 		</dict>
 		<key>app/pages/main/main.component.js.map</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			BZigZmtodO/g2spUI1N+AVNkY8o=
+			FqdlqKw/SoYgyU7NKJpRetYVJD0=
 			</data>
 			<key>hash2</key>
 			<data>
-			mrOY9nqs0Fhn+NtRqI7xw4xkG+1JQ4rvZVg9DGqi5tE=
+			O8cZcfKAMpSxPeSKGCYHWsJDCd5L8LDMaIMFwazLyF0=
 			</data>
 		</dict>
 		<key>app/pages/main/main.component.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			r49bp/hW3ZKgSkfz28wSRq4IOUQ=
+			3qgelMtxBmom4NCUke97lGq0GMw=
 			</data>
 			<key>hash2</key>
 			<data>
-			TeWFJTOD5KdS9RIbhgfXiPwvlyN0tLTEBiY2FgemKvE=
+			m+xRNE+zp78ipBufyz9l3dN/MOcjVv7GqdaVr4pNnrQ=
 			</data>
 		</dict>
 		<key>app/pages/main/main.css</key>
@@ -14855,11 +14855,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			qlgGfcWEFTMN1mweu6vPd+vSHzE=
+			2PJ6n8JV3AuMM9jIQuuIkH8OiFo=
 			</data>
 			<key>hash2</key>
 			<data>
-			GpQ0e5wLe14A7gwcOlY2TBsAZp3sGwNzKSvyNMWreM8=
+			PzDGjxUGhUMSN0gYD28O7+lb74WPDgE6fO1qyHuv+mQ=
 			</data>
 		</dict>
 		<key>app/tns_modules/@angular/common/README.md</key>

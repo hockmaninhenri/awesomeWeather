@@ -1,1 +1,28 @@
-@import '~/css/core.dark.css'; 
+@import '~/css/core.dark.css';
+
+Page {
+  background-color: #2196F3;
+  color: white;
+}
+
+.current {
+  height: 400;
+  border-width: 1;
+  border-color: red;
+}
+
+.title {
+  font-size: 55;
+  font-weight: bold;
+  color: black;
+  background-color: #2196F3;
+}
+
+.scroll-menu {
+  height: 250;
+}
+
+.forecast {
+  border-width: 1;
+  border-color: red;
+}
