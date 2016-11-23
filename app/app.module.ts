@@ -1,14 +1,9 @@
 import { NgModule } from "@angular/core";
+import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { NativeScriptModule } from "nativescript-angular/platform";
+import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { AppComponent } from "./app.component";
-<<<<<<< Updated upstream
-
-@NgModule({
-    declarations: [AppComponent],
-    bootstrap: [AppComponent],
-    imports: [NativeScriptModule]
-=======
 import { routes, navigatableComponents } from "./app.routing";
 import { Database } from "./providers/database/database";
 
@@ -26,7 +21,5 @@ import { Database } from "./providers/database/database";
   bootstrap: [AppComponent],
   providers: [Database]
 
->>>>>>> Stashed changes
 })
 export class AppModule { }
-
