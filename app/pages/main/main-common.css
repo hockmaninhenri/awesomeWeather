@@ -1,7 +1,7 @@
 .current {
   height: 450;
-  border-width: 1;
-  border-color: blue;
+  border-width: 0 0 1 0;
+  border-color: #BDBDBD;
   padding: 20;
   align-content: center;
 }
@@ -25,6 +25,7 @@
 }
 
 .temp-holder {
+  margin-top: 5;
   color: #212121;
 }
 
@@ -34,7 +35,11 @@
 
 .forecast {
   padding: 10;
-  border-width: 1;
-  border-color: #212121;
+  border-width: 0 1 0 0;
+  border-color: #BDBDBD;
   width: 200;
+}
+
+.forecast-last {
+  border-width: 0;
 }
