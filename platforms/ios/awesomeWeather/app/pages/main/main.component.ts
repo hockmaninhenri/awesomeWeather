@@ -43,10 +43,12 @@ export class MainComponent extends observable.Observable implements OnInit {
         }
     );
 
-    var weather = "clouds";
+    var weather = "clouds"; // THIS MUST GET CURRENT WEATHER DESC FROM API
 
     var icon = constants.WEATHER_ICONS[time_of_day][weather];
     this.set('icon', String.fromCharCode(icon));
+    this.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
+    this.set('curWeath', weather);
 
   }
 
@@ -62,18 +64,12 @@ export class MainComponent extends observable.Observable implements OnInit {
   }
 
   ngOnInit() {
-    //this.page.actionBarHidden = true;
+    this.page.actionBarHidden = true;
 
     function pageLoaded(args) {
       var page = args.object;
       var obj = new observable.Observable();
-      obj.set("someProperty", "Please change this text!");
-      page.bindingContext = obj;
     }
     exports.pageLoaded = pageLoaded;
-
-    var textView = new textViewModule.TextView();
-    textView.text = "I'ts damn cold outside";
-    textView.editable = false;
   }
 }

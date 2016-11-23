@@ -6,7 +6,6 @@ var locationStore = require('../../stores/location');
 var page_1 = require("ui/page");
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
-var textViewModule = require("ui/text-view");
 var observable = require("data/observable");
 var MainComponent = (function (_super) {
     __extends(MainComponent, _super);
@@ -32,9 +31,11 @@ var MainComponent = (function (_super) {
             // failed to get location
             alert(e.message);
         });
-        var weather = "clouds";
+        var weather = "clouds"; // THIS MUST GET CURRENT WEATHER DESC FROM API
         var icon = constants.WEATHER_ICONS[time_of_day][weather];
         this.set('icon', String.fromCharCode(icon));
+        this.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
+        this.set('curWeath', weather);
     }
     MainComponent.prototype.setIcons = function () {
         var _this = this;
@@ -48,17 +49,12 @@ var MainComponent = (function (_super) {
         });
     };
     MainComponent.prototype.ngOnInit = function () {
-        //this.page.actionBarHidden = true;
+        this.page.actionBarHidden = true;
         function pageLoaded(args) {
             var page = args.object;
             var obj = new observable.Observable();
-            obj.set("someProperty", "Please change this text!");
-            page.bindingContext = obj;
         }
         exports.pageLoaded = pageLoaded;
-        var textView = new textViewModule.TextView();
-        textView.text = "I'ts damn cold outside";
-        textView.editable = false;
     };
     MainComponent = __decorate([
         core_1.Component({

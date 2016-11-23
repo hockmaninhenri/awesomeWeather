@@ -1,0 +1,28 @@
+.current {
+  height: 450;
+  border-width: 1;
+  border-color: blue;
+  padding: 20;
+  align-content: center;
+}
+
+.title {
+  font-size: 55;
+  font-weight: bold;
+  color: black;
+}
+
+.temp-holder {
+  color: black;
+}
+
+.scroll-menu {
+  height: 200;
+}
+
+.forecast {
+  padding: 10;
+  border-width: 1;
+  border-color: black;
+  width: 200;
+}

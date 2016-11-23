@@ -2,6 +2,9 @@
 import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 
 import { AppModule } from "./app.module";
+import { setStatusBarColors } from "./common/status-bar-util";
+
 
 const platform = platformNativeScriptDynamic();
+setStatusBarColors();
 platform.bootstrapModule(AppModule);
