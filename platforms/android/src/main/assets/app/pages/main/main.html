@@ -1,11 +1,16 @@
 <StackLayout>
 
-  <StackLayout>
+  <StackLayout class="current">
+
     <!-- Here will be the big current weather set -->
+    <Label text="{{ icon }}" class="icon"></Label>
+    <TextView editable="false" class="title" text="Cold as hell outside"></TextView>
+
   </StackLayout>
 
   <ScrollView orientation="horizontal">
     <StackLayout orientation="horizontal" class="scroll-menu">
+
         <StackLayout class="forecast">
             <Label text="Here weather 2 hours forward"></Label>
         </StackLayout>
@@ -18,9 +23,7 @@
         <StackLayout class="forecast">
             <Label text="Here weather 8 hours forward"></Label>
         </StackLayout>
-        <StackLayout class="forecast">
-            <Label text="Here weather 10 hours forward"></Label>
-        </StackLayout>
+
     </StackLayout>
   </ScrollView>
 

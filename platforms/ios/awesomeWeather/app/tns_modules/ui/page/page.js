@@ -1,3 +1,4 @@
+var application = require("application");
 var pageCommon = require("./page-common");
 var view_1 = require("ui/core/view");
 var trace = require("trace");
@@ -105,6 +106,9 @@ var UIViewControllerImpl = (function (_super) {
             }
         }
         else {
+            if (!application.ios.window) {
+                uiUtils.ios._layoutRootView(owner, utils.ios.getter(UIScreen, UIScreen.mainScreen).bounds);
+            }
             owner._updateLayout();
         }
     };
@@ -169,7 +173,13 @@ var UIViewControllerImpl = (function (_super) {
             frame._updateActionBar(page);
             page.onNavigatedTo(isBack);
             frame.ios.controller.delegate = this[DELEGATE];
-            this.navigationController.interactivePopGestureRecognizer.delegate = this.navigationController;
+            if (frame.canGoBack()) {
+                this.navigationController.interactivePopGestureRecognizer.delegate = this.navigationController;
+                this.navigationController.interactivePopGestureRecognizer.enabled = page.enableSwipeBackNavigation;
+            }
+            else {
+                this.navigationController.interactivePopGestureRecognizer.enabled = false;
+            }
             frame._processNavigationQueue(page);
         }
         if (!this.presentedViewController) {
@@ -333,7 +343,15 @@ var Page = (function (_super) {
             frame._updateActionBar(this);
         }
     };
+    Page.prototype._updateEnableSwipeBackNavigation = function (enabled) {
+        var navController = this._ios.navigationController;
+        if (this.frame && navController && navController.interactivePopGestureRecognizer) {
+            enabled = enabled && this.frame.canGoBack();
+            navController.interactivePopGestureRecognizer.enabled = enabled;
+        }
+    };
     Page.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
+        view_1.View.adjustChildLayoutParams(this.layoutView, widthMeasureSpec, heightMeasureSpec);
         var width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
         var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
         var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
@@ -374,6 +392,7 @@ var Page = (function (_super) {
             statusBarHeight = 0;
         }
         view_1.View.layoutChild(this, this.layoutView, 0, navigationBarHeight + statusBarHeight, right - left, bottom - top);
+        view_1.View.restoreChildOriginalParams(this.layoutView);
     };
     Page.prototype._addViewToNativeVisualTree = function (view) {
         if (view === this.actionBar) {

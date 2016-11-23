@@ -6,6 +6,18 @@ global.moduleMerge(common, exports);
 var ImageSource = (function () {
     function ImageSource() {
     }
+    ImageSource.prototype.fromAsset = function (asset) {
+        return new Promise(function (resolve, reject) {
+            asset.getImageAsync(function (image, err) {
+                if (image) {
+                    resolve(common.fromNativeSource(image));
+                }
+                else {
+                    reject(err);
+                }
+            });
+        });
+    };
     ImageSource.prototype.loadFromResource = function (name) {
         this.ios = UIImage.tns_safeImageNamed(name) || UIImage.tns_safeImageNamed(name + ".jpg");
         return this.ios != null;
@@ -143,6 +155,13 @@ var ImageSource = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ImageSource.prototype, "rotationAngle", {
+        get: function () {
+            return NaN;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return ImageSource;
 }());
 exports.ImageSource = ImageSource;
@@ -153,7 +172,7 @@ function getImageData(instance, format, quality) {
         case enums.ImageFormat.png:
             data = UIImagePNGRepresentation(instance);
             break;
-        case enums.ImageFormat.jpeg:
+        case enums.ImageFormat.jpeg || enums.ImageFormat.jpg:
             data = UIImageJPEGRepresentation(instance, quality);
             break;
     }

@@ -141,11 +141,67 @@ var TextViewStyler = (function () {
             return textView.textColor;
         }
     };
+    TextViewStyler.setBorderTopWidthProperty = function (view, newValue) {
+        TextViewStyler.setNativeBorderTopWidth(view, newValue);
+    };
+    TextViewStyler.resetBorderTopWidthProperty = function (view, nativeValue) {
+        TextViewStyler.setNativeBorderTopWidth(view, nativeValue);
+    };
+    TextViewStyler.setNativeBorderTopWidth = function (view, newValue) {
+        var nativeTextView = view._nativeView;
+        var top = view.style.paddingTop + newValue;
+        var left = nativeTextView.textContainerInset.left;
+        var bottom = nativeTextView.textContainerInset.bottom;
+        var right = nativeTextView.textContainerInset.right;
+        nativeTextView.textContainerInset = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
+    };
+    TextViewStyler.setBorderRightWidthProperty = function (view, newValue) {
+        TextViewStyler.setNativeBorderRightWidth(view, newValue);
+    };
+    TextViewStyler.resetBorderRightWidthProperty = function (view, nativeValue) {
+        TextViewStyler.setNativeBorderRightWidth(view, nativeValue);
+    };
+    TextViewStyler.setNativeBorderRightWidth = function (view, newValue) {
+        var nativeTextView = view._nativeView;
+        var top = nativeTextView.textContainerInset.top;
+        var left = nativeTextView.textContainerInset.left;
+        var bottom = nativeTextView.textContainerInset.bottom;
+        var right = view.style.paddingRight + newValue;
+        nativeTextView.textContainerInset = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
+    };
+    TextViewStyler.setBorderBottomWidthProperty = function (view, newValue) {
+        TextViewStyler.setNativeBorderBottomWidth(view, newValue);
+    };
+    TextViewStyler.resetBorderBottomWidthProperty = function (view, nativeValue) {
+        TextViewStyler.setNativeBorderBottomWidth(view, nativeValue);
+    };
+    TextViewStyler.setNativeBorderBottomWidth = function (view, newValue) {
+        var nativeTextView = view._nativeView;
+        var top = nativeTextView.textContainerInset.top;
+        var left = nativeTextView.textContainerInset.left;
+        var bottom = view.style.paddingBottom + newValue;
+        var right = nativeTextView.textContainerInset.right;
+        nativeTextView.textContainerInset = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
+    };
+    TextViewStyler.setBorderLeftWidthProperty = function (view, newValue) {
+        TextViewStyler.setNativeBorderLeftWidth(view, newValue);
+    };
+    TextViewStyler.resetBorderLeftWidthProperty = function (view, nativeValue) {
+        TextViewStyler.setNativeBorderLeftWidth(view, nativeValue);
+    };
+    TextViewStyler.setNativeBorderLeftWidth = function (view, newValue) {
+        var nativeTextView = view._nativeView;
+        var top = nativeTextView.textContainerInset.top;
+        var left = view.style.paddingLeft + newValue;
+        var bottom = nativeTextView.textContainerInset.bottom;
+        var right = nativeTextView.textContainerInset.right;
+        nativeTextView.textContainerInset = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
+    };
     TextViewStyler.setPaddingProperty = function (view, newValue) {
-        var top = newValue.top + view.borderWidth;
-        var left = newValue.left + view.borderWidth;
-        var bottom = newValue.bottom + view.borderWidth;
-        var right = newValue.right + view.borderWidth;
+        var top = newValue.top + view.borderTopWidth;
+        var left = newValue.left + view.borderLeftWidth;
+        var bottom = newValue.bottom + view.borderBottomWidth;
+        var right = newValue.right + view.borderRightWidth;
         view._nativeView.textContainerInset = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
     };
     TextViewStyler.resetPaddingProperty = function (view, nativeValue) {
@@ -153,6 +209,10 @@ var TextViewStyler = (function () {
     };
     TextViewStyler.registerHandlers = function () {
         style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(TextViewStyler.setColorProperty, TextViewStyler.resetColorProperty, TextViewStyler.getNativeColorValue), "TextView");
+        style.registerHandler(style.borderTopWidthProperty, new style.StylePropertyChangedHandler(TextViewStyler.setBorderTopWidthProperty, TextViewStyler.resetBorderTopWidthProperty), "TextView");
+        style.registerHandler(style.borderRightWidthProperty, new style.StylePropertyChangedHandler(TextViewStyler.setBorderRightWidthProperty, TextViewStyler.resetBorderRightWidthProperty), "TextView");
+        style.registerHandler(style.borderBottomWidthProperty, new style.StylePropertyChangedHandler(TextViewStyler.setBorderBottomWidthProperty, TextViewStyler.resetBorderBottomWidthProperty), "TextView");
+        style.registerHandler(style.borderLeftWidthProperty, new style.StylePropertyChangedHandler(TextViewStyler.setBorderLeftWidthProperty, TextViewStyler.resetBorderLeftWidthProperty), "TextView");
         style.registerHandler(style.nativePaddingsProperty, new style.StylePropertyChangedHandler(TextViewStyler.setPaddingProperty, TextViewStyler.resetPaddingProperty), "TextView");
     };
     return TextViewStyler;

@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "nativescript-angular",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "An Angular 2 renderer that lets you build mobile apps with NativeScript.",
   "homepage": "http://www.telerik.com",
   "bugs": {
@@ -47,19 +47,19 @@
     "@angular/compiler-cli": "~2.1.1"
   },
   "nativescript": {},
-  "_id": "nativescript-angular@1.1.2",
-  "_shasum": "301c6295e0ebf7e0b9fd0759dfc8a1d52df600da",
-  "_resolved": "https://registry.npmjs.org/nativescript-angular/-/nativescript-angular-1.1.2.tgz",
-  "_from": "nativescript-angular@1.1.2",
+  "_id": "nativescript-angular@1.1.3",
+  "_shasum": "5a0486b1facf9850c9e96816128af669e8108cd7",
+  "_resolved": "https://registry.npmjs.org/nativescript-angular/-/nativescript-angular-1.1.3.tgz",
+  "_from": "nativescript-angular@1.1.3",
   "_npmVersion": "3.10.3",
-  "_nodeVersion": "6.5.0",
+  "_nodeVersion": "6.7.0",
   "_npmUser": {
-    "name": "hdeshev",
-    "email": "hristo@deshev.com"
+    "name": "tns-bot",
+    "email": "nativescript@telerik.com"
   },
   "dist": {
-    "shasum": "301c6295e0ebf7e0b9fd0759dfc8a1d52df600da",
-    "tarball": "https://registry.npmjs.org/nativescript-angular/-/nativescript-angular-1.1.2.tgz"
+    "shasum": "5a0486b1facf9850c9e96816128af669e8108cd7",
+    "tarball": "https://registry.npmjs.org/nativescript-angular/-/nativescript-angular-1.1.3.tgz"
   },
   "maintainers": [
     {
@@ -93,8 +93,7 @@
   ],
   "_npmOperationalInternal": {
     "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/nativescript-angular-1.1.2.tgz_1477657151706_0.9909395857248455"
+    "tmp": "tmp/nativescript-angular-1.1.3.tgz_1479301354096_0.41062153223901987"
   },
-  "directories": {},
-  "readme": "ERROR: No README data found!"
+  "directories": {}
 }

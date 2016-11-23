@@ -87,6 +87,26 @@ var FileSystemAccess = (function () {
             return undefined;
         }
     };
+    FileSystemAccess.prototype.getExistingFolder = function (path, onError) {
+        try {
+            var fileManager = utils.ios.getter(NSFileManager, NSFileManager.defaultManager);
+            var exists = this.folderExists(path);
+            if (exists) {
+                var dirName = fileManager.displayNameAtPath(path);
+                return {
+                    path: path,
+                    name: dirName
+                };
+            }
+            return undefined;
+        }
+        catch (ex) {
+            if (onError) {
+                onError(new Error("Failed to get folder at path '" + path + "'"));
+            }
+            return undefined;
+        }
+    };
     FileSystemAccess.prototype.eachEntity = function (path, onEntity, onError) {
         if (!onEntity) {
             return;

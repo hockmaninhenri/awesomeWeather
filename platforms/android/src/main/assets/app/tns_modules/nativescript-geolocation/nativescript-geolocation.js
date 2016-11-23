@@ -1,3 +1,4 @@
+"use strict";
 var appModule = require("application");
 var platform = require("platform");
 var enums = require("ui/enums");

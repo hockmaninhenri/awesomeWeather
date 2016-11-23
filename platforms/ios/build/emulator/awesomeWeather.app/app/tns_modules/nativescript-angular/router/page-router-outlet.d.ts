@@ -1,6 +1,7 @@
 import { ResolvedReflectiveProvider, ViewContainerRef, ComponentFactoryResolver, Injector } from '@angular/core';
 import { RouterOutletMap, ActivatedRoute } from '@angular/router';
 import { NSLocationStrategy } from "./ns-location-strategy";
+import { PageFactory } from "../platform-providers";
 import { Device } from "platform";
 import { Frame } from "ui/frame";
 import { BehaviorSubject } from "rxjs";
@@ -13,6 +14,7 @@ export declare class PageRouterOutlet {
     private locationStrategy;
     private componentFactoryResolver;
     private frame;
+    private pageFactory;
     private viewUtil;
     private refCache;
     private isInitalPage;
@@ -23,7 +25,7 @@ export declare class PageRouterOutlet {
     readonly isActivated: boolean;
     readonly component: Object;
     readonly activatedRoute: ActivatedRoute;
-    constructor(parentOutletMap: RouterOutletMap, containerRef: ViewContainerRef, name: string, locationStrategy: NSLocationStrategy, componentFactoryResolver: ComponentFactoryResolver, resolver: ComponentFactoryResolver, frame: Frame, device: Device);
+    constructor(parentOutletMap: RouterOutletMap, containerRef: ViewContainerRef, name: string, locationStrategy: NSLocationStrategy, componentFactoryResolver: ComponentFactoryResolver, resolver: ComponentFactoryResolver, frame: Frame, device: Device, pageFactory: PageFactory);
     deactivate(): void;
     private clearRefCache();
     private destroyCacheItem(popedItem);
