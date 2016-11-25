@@ -5,6 +5,7 @@ var platform_1 = require("nativescript-angular/platform");
 var router_1 = require("nativescript-angular/router");
 var app_component_1 = require("./app.component");
 var app_routing_1 = require("./app.routing");
+var database_1 = require("./providers/database/database");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -20,6 +21,7 @@ var AppModule = (function () {
                 app_component_1.AppComponent
             ].concat(app_routing_1.navigatableComponents),
             bootstrap: [app_component_1.AppComponent],
+            providers: [database_1.Database]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

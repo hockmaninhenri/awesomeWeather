@@ -1,19 +1,32 @@
 .current {
   height: 450;
-  border-width: 1;
-  border-color: blue;
+  border-width: 0 0 1 0;
+  border-color: #BDBDBD;
   padding: 20;
   align-content: center;
+}
+
+.icon {
+  font-family: 'weathericons-regular-webfont, Weather Icons';
+  font-size: 120px;
+  text-align: center;
+  padding-top: 40;
+}
+
+.small-icon {
+  font-family: 'weathericons-regular-webfont, Weather Icons';
+  font-size: 40px;
 }
 
 .title {
   font-size: 55;
   font-weight: bold;
-  color: black;
+  color: #212121;
 }
 
 .temp-holder {
-  color: black;
+  margin-top: 5;
+  color: #212121;
 }
 
 .scroll-menu {
@@ -22,7 +35,11 @@
 
 .forecast {
   padding: 10;
-  border-width: 1;
-  border-color: black;
+  border-width: 0 1 0 0;
+  border-color: #BDBDBD;
   width: 200;
+}
+
+.forecast-last {
+  border-width: 0;
 }

@@ -1,17 +1,7 @@
+@import url("~/platform.css");
+
 Page {
   background-color: #2196F3;
   color: white;
   font-size: 20;
-  margin-top: -20;
-}
-
-.icon {
-  font-family: 'weathericons-regular-webfont, Weather Icons';
-  font-size: 120px;
-  text-align: center;
-}
-
-.small-icon {
-  font-family: 'weathericons-regular-webfont, Weather Icons';
-  font-size: 40px;
 }
