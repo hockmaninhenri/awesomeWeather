@@ -1,15 +1,16 @@
 <StackLayout id="wrap">
-  <Button text="Go to Favorites >" class="btn" (tap)="goFavorites()"></Button>
+  <Button text="Go to Favorites >" class="btn fav-btn" (tap)="goFavorites()"></Button>
   <StackLayout class="current">
 
     <!-- Here will be the big current weather set -->
     <Label text="{{ icon }}" class="icon"></Label>
     <Label text="{{ curWeath }}" class="title" textWrap="true" width="320"></Label>
     <StackLayout horizontalAlignment="right" class="temp-holder">
-      <Label text="{{ curTemp }} &deg;C" class="curTemp"></Label>
-      <Label text="{{ curWind }}" class=""></Label>
-      <Label text="{{ curHumid }}" class=""></Label>
-      <Button text="Add city to favorites" class="btn" (tap)="addFavorite()"></Button>
+      <Label text="{{ curCity }}" class="curLabel"></Label>
+      <Label text="{{ curTemp }} &deg;C" class="curLabel"></Label>
+      <Label text="{{ curWind }}" class="curLabel"></Label>
+      <Label text="{{ curHumid }}" class="curLabel"></Label>
+      <Button text="Add city to favorites" class="btn add-btn" (tap)="addFavorite()"></Button>
     </StackLayout>
 
   </StackLayout>

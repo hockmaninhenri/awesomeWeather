@@ -30,8 +30,6 @@ export class MainComponent extends observable.Observable implements OnInit {
     // >> This set contains code for swipe event to change the page.
     // >> Didn't work somewhy, so changed to button-events
     /*
-    "cache" constructor "this"
-    var that = this;
 
     // Detecting swipe gestures on page, and routing to favorites if swipe right  THIS NEEDS ATTENTION, DOESN'T WORK YET
     this.page.on(GestureTypes.swipe, function(args: SwipeGestureEventData) {
@@ -58,23 +56,20 @@ export class MainComponent extends observable.Observable implements OnInit {
   ngOnInit() {
     this.page.actionBarHidden = true;
 
+    // "cache" OnInit "this"
+    var that = this;
+
     isLocationEnabled();
     getLocationNow();
 
     // get time of day
     var time_of_day = utilities.getTimeOfDay();
 
+    // load location from locationStore
+    var location = locationStore.getLocation();
+
     // set weather icons
     this.setIcons();
-
-    var weather = "clouds"; // THIS MUST GET CURRENT WEATHER DESC FROM API
-
-    var icon = constants.WEATHER_ICONS[time_of_day][weather];
-    this.set('icon', String.fromCharCode(icon));
-    this.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
-    this.set('curWind', 'tornado'); // HERE MUST GET WIND
-    this.set('curHumid', 'moist'); // HERE MUST GET HUMIDITY
-    this.set('curWeath', weather);
 
     function isLocationEnabled() {
       // Check if location services are enabled
@@ -84,18 +79,33 @@ export class MainComponent extends observable.Observable implements OnInit {
       if (isEnabledProperty) {
         message = "Location works";
       }
-      alert(message);
+      //alert(message);
     }
 
     function getLocationNow() {
       // get current location
       getCurrentLocation({ timeout: 10000 })
-        .then(location => {
-            console.log("Location received: " + location);
-            alert(location);
-        }).catch(error => {
-            console.log("Location error received: " + error);
-            alert("Location error received: " + error);
+        .then(function(loc) {
+          if (loc) {
+            console.log("Current location: " + loc);
+            locationStore.saveLocation(loc);
+
+            var url = ''; // HERE CONTRUCT THE API URL WITH KEY AND 'loc'
+
+            var weather = "clouds"; // THIS MUST GET CURRENT WEATHER DESC FROM API
+
+            var icon = constants.WEATHER_ICONS[time_of_day][weather];
+            that.set('icon', String.fromCharCode(icon));
+            that.set('curCity', loc.latitude + " " + loc.longitude); // HERE MUST CITY NAME
+            that.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
+            that.set('curWind', 'tornado'); // HERE MUST GET WIND
+            that.set('curHumid', 'moist'); // HERE MUST GET HUMIDITY
+            that.set('curWeath', weather);
+
+          }
+        }, function(e) {
+            console.log("Location error received: " + e);
+            alert("Location error received: " + e);
         });
     }
 
