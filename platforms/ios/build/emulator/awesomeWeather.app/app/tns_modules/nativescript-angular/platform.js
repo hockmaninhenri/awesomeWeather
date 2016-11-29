@@ -8,11 +8,11 @@ var core_1 = require('@angular/core');
 var core_2 = require('@angular/core');
 var application = require("application");
 var frame_1 = require("ui/frame");
-var page_1 = require('ui/page');
 var trace_1 = require("./trace");
 var text_view_1 = require('ui/text-view');
 var dom_adapter_1 = require('./dom-adapter');
 var resource_loader_1 = require('./resource-loader');
+var platform_providers_1 = require('./platform-providers');
 var nativescriptIntl = require("nativescript-intl");
 global.Intl = nativescriptIntl;
 var nativescript_module_1 = require("./nativescript.module");
@@ -29,6 +29,9 @@ exports.NS_COMPILER_PROVIDERS = [
         },
         multi: true
     }
+];
+var COMMON_PROVIDERS = [
+    platform_providers_1.defaultPageFactoryProvider,
 ];
 exports.onBeforeLivesync = new core_2.EventEmitter();
 exports.onAfterLivesync = new core_2.EventEmitter();
@@ -62,7 +65,7 @@ var NativeScriptPlatformRef = (function (_super) {
     NativeScriptPlatformRef.prototype.livesyncModule = function () {
         trace_1.rendererLog("ANGULAR LiveSync Started");
         exports.onBeforeLivesync.next(lastBootstrappedModule ? lastBootstrappedModule.get() : null);
-        var mainPageEntry = this.createNavigationEntry(this._bootstrapper, function (compRef) { return exports.onAfterLivesync.next(compRef); }, function (error) { return exports.onAfterLivesync.error(error); });
+        var mainPageEntry = this.createNavigationEntry(this._bootstrapper, function (compRef) { return exports.onAfterLivesync.next(compRef); }, function (error) { return exports.onAfterLivesync.error(error); }, true);
         mainPageEntry.animated = false;
         mainPageEntry.clearHistory = true;
         var frame = frame_1.topmost();
@@ -94,12 +97,14 @@ var NativeScriptPlatformRef = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    NativeScriptPlatformRef.prototype.createNavigationEntry = function (bootstrapAction, resolve, reject, isReboot) {
+    NativeScriptPlatformRef.prototype.createNavigationEntry = function (bootstrapAction, resolve, reject, isLivesync, isReboot) {
         var _this = this;
+        if (isLivesync === void 0) { isLivesync = false; }
         if (isReboot === void 0) { isReboot = false; }
+        var pageFactory = this.platform.injector.get(platform_providers_1.PAGE_FACTORY);
         var navEntry = {
             create: function () {
-                var page = new page_1.Page();
+                var page = pageFactory({ isBootstrap: true, isLivesync: isLivesync });
                 if (_this.appOptions) {
                     page.actionBarHidden = _this.appOptions.startPageActionBarHidden;
                 }
@@ -144,7 +149,7 @@ var NativeScriptPlatformRef = (function (_super) {
     return NativeScriptPlatformRef;
 }(core_2.PlatformRef));
 // Dynamic platfrom 
-var _platformNativeScriptDynamic = core_2.createPlatformFactory(compiler_1.platformCoreDynamic, 'nativeScriptDynamic', exports.NS_COMPILER_PROVIDERS);
+var _platformNativeScriptDynamic = core_2.createPlatformFactory(compiler_1.platformCoreDynamic, 'nativeScriptDynamic', COMMON_PROVIDERS.concat(exports.NS_COMPILER_PROVIDERS));
 function platformNativeScriptDynamic(options, extraProviders) {
     //Return raw platform to advanced users only if explicitly requested
     if (options && options.bootInExistingPage === true) {
@@ -156,7 +161,7 @@ function platformNativeScriptDynamic(options, extraProviders) {
 }
 exports.platformNativeScriptDynamic = platformNativeScriptDynamic;
 // "Static" platform
-var _platformNativeScript = core_2.createPlatformFactory(core_1.platformCore, 'nativeScript');
+var _platformNativeScript = core_2.createPlatformFactory(core_1.platformCore, 'nativeScript', COMMON_PROVIDERS.slice());
 function platformNativeScript(options, extraProviders) {
     //Return raw platform to advanced users only if explicitly requested
     if (options && options.bootInExistingPage === true) {

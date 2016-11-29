@@ -3,9 +3,10 @@ var types = require("utils/types");
 var utils = require("utils/utils");
 var getter = utils.ios.getter;
 var domainDebugger = require("./../debugger/debugger");
+var device = utils.ios.getter(UIDevice, UIDevice.currentDevice).userInterfaceIdiom === 0 ? "Phone" : "Pad";
 var GET = "GET";
 var USER_AGENT_HEADER = "User-Agent";
-var USER_AGENT = "Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25";
+var USER_AGENT = "Mozilla/5.0 (i" + device + "; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25";
 var sessionConfig = getter(NSURLSessionConfiguration, NSURLSessionConfiguration.defaultSessionConfiguration);
 var queue = getter(NSOperationQueue, NSOperationQueue.mainQueue);
 var session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfig, null, queue);
@@ -18,7 +19,8 @@ function ensureImageSource() {
 function request(options) {
     return new Promise(function (resolve, reject) {
         try {
-            var debugRequest = domainDebugger.network && domainDebugger.network.create();
+            var network = domainDebugger.getNetwork();
+            var debugRequest = network && network.create();
             var urlRequest = NSMutableURLRequest.requestWithURL(NSURL.URLWithString(options.url));
             urlRequest.HTTPMethod = types.isDefined(options.method) ? options.method : GET;
             urlRequest.setValueForHTTPHeaderField(USER_AGENT, USER_AGENT_HEADER);

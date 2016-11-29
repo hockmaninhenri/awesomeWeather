@@ -1,6 +1,6 @@
 {
   "name": "@angular/platform-browser",
-  "version": "2.1.2",
+  "version": "2.2.1",
   "description": "Angular - library for using Angular in a web browser",
   "main": "bundles/platform-browser.umd.js",
   "module": "index.js",
@@ -10,8 +10,8 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "2.1.2",
-    "@angular/common": "2.1.2"
+    "@angular/core": "2.2.1",
+    "@angular/common": "2.2.1"
   },
   "repository": {
     "type": "git",
@@ -21,20 +21,20 @@
     "url": "https://github.com/angular/angular/issues"
   },
   "homepage": "https://github.com/angular/angular#readme",
-  "_id": "@angular/platform-browser@2.1.2",
+  "_id": "@angular/platform-browser@2.2.1",
   "scripts": {},
-  "_shasum": "1f07c3a5668ac2381a7324f9001521deede159bc",
-  "_from": "@angular/platform-browser@2.1.2",
-  "_resolved": "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-2.1.2.tgz",
-  "_npmVersion": "3.10.3",
-  "_nodeVersion": "6.7.0",
+  "_shasum": "d51b36260089f3054e745efad05993523d5a5293",
+  "_from": "@angular/platform-browser@2.2.1",
+  "_resolved": "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-2.2.1.tgz",
+  "_npmVersion": "3.10.8",
+  "_nodeVersion": "6.9.1",
   "_npmUser": {
     "name": "angular",
     "email": "angular-core+npm@google.com"
   },
   "dist": {
-    "shasum": "1f07c3a5668ac2381a7324f9001521deede159bc",
-    "tarball": "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-2.1.2.tgz"
+    "shasum": "d51b36260089f3054e745efad05993523d5a5293",
+    "tarball": "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-2.2.1.tgz"
   },
   "maintainers": [
     {
@@ -43,9 +43,8 @@
     }
   ],
   "_npmOperationalInternal": {
-    "host": "packages-18-east.internal.npmjs.com",
-    "tmp": "tmp/platform-browser-2.1.2.tgz_1477593293322_0.9453387768007815"
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/platform-browser-2.2.1.tgz_1479411144940_0.48298584995791316"
   },
-  "directories": {},
-  "readme": "ERROR: No README data found!"
+  "directories": {}
 }
