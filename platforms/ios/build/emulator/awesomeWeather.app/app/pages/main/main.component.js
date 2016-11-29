@@ -6,11 +6,13 @@ var locationStore = require('../../stores/location');
 var page_1 = require("ui/page");
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
+var router_2 = require("nativescript-angular/router");
 var observable = require("data/observable");
 var MainComponent = (function (_super) {
     __extends(MainComponent, _super);
-    function MainComponent(router, page) {
+    function MainComponent(routerExtensions, router, page) {
         _super.call(this);
+        this.routerExtensions = routerExtensions;
         this.router = router;
         this.page = page;
         // check the geolocation
@@ -51,8 +53,14 @@ var MainComponent = (function (_super) {
     MainComponent.prototype.ngOnInit = function () {
         this.page.actionBarHidden = true;
         function pageLoaded(args) {
+            // Detecting swipe gestures on page, and routing to favorites if swipe right
             var page = args.object;
-            var obj = new observable.Observable();
+            var observer = page.on("swipe", function (args) {
+                console.log("Swipe direction: " + args.direction);
+                /*if (args.direction == right) {
+                  this.routerExtensions.navigate(["/favorites"]);
+                }*/
+            });
         }
         exports.pageLoaded = pageLoaded;
     };
@@ -62,7 +70,7 @@ var MainComponent = (function (_super) {
             templateUrl: "pages/main/main.html",
             styleUrls: ["pages/main/main-common.css", "pages/main/main.css"]
         }), 
-        __metadata('design:paramtypes', [router_1.Router, page_1.Page])
+        __metadata('design:paramtypes', [router_2.RouterExtensions, router_1.Router, page_1.Page])
     ], MainComponent);
     return MainComponent;
 }(observable.Observable));

@@ -5,8 +5,13 @@ import locationStore = require('../../stores/location');
 import { View } from "ui/core/view";
 import { Page } from "ui/page";
 import { Router } from "@angular/router";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { routes } from "../../app.routing";
+import { Component, NgModule, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
+import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
 
+import gestures = require("ui/gestures");
 import textViewModule = require("ui/text-view");
 import observable = require("data/observable");
 
@@ -16,7 +21,7 @@ import observable = require("data/observable");
   styleUrls: ["pages/main/main-common.css", "pages/main/main.css"]
 })
 export class MainComponent extends observable.Observable implements OnInit {
-  constructor(private router: Router, private page: Page) {
+  constructor(private routerExtensions: RouterExtensions, private router: Router, private page: Page) {
     super();
 
     // check the geolocation
@@ -50,6 +55,8 @@ export class MainComponent extends observable.Observable implements OnInit {
     this.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
     this.set('curWeath', weather);
 
+
+
   }
 
   setIcons() {
@@ -67,8 +74,15 @@ export class MainComponent extends observable.Observable implements OnInit {
     this.page.actionBarHidden = true;
 
     function pageLoaded(args) {
+      // Detecting swipe gestures on page, and routing to favorites if swipe right
       var page = args.object;
-      var obj = new observable.Observable();
+
+      var observer = page.on("swipe", function (args: gestures.SwipeGestureEventData) {
+        console.log("Swipe direction: " + args.direction);
+        /*if (args.direction == right) {
+          this.routerExtensions.navigate(["/favorites"]);
+        }*/
+      });
     }
     exports.pageLoaded = pageLoaded;
   }

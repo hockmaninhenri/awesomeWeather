@@ -3,7 +3,7 @@ import { FavoritesComponent } from "./pages/favorites/favorites.component";
 
 export const routes = [
   { path: "", component: MainComponent },
-  { path: "/favorites", component: FavoritesComponent }
+  { path: "favorites", component: FavoritesComponent }
 ];
 
 export const navigatableComponents = [
