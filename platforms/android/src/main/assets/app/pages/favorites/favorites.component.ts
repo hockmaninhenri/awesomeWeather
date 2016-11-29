@@ -1,5 +1,10 @@
-import { Component, OnInit} from "@angular/core";
+import { Component, NgModule, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Database } from "../../providers/database/database";
+import { Router } from "@angular/router";
+import { routes } from "../../app.routing";
+import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
+import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
   selector: "favorites",
@@ -10,7 +15,7 @@ export class FavoritesComponent implements OnInit {
 
   public favorites: Array<any>;
 
-  public constructor(private database: Database) {
+  public constructor(private database: Database, private routerExtensions: RouterExtensions, private router: Router) {
     this.favorites = [];
   }
 

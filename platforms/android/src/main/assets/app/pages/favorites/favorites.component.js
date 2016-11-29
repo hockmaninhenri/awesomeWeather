@@ -1,9 +1,13 @@
 "use strict";
 var core_1 = require("@angular/core");
 var database_1 = require("../../providers/database/database");
+var router_1 = require("@angular/router");
+var router_2 = require("nativescript-angular/router");
 var FavoritesComponent = (function () {
-    function FavoritesComponent(database) {
+    function FavoritesComponent(database, routerExtensions, router) {
         this.database = database;
+        this.routerExtensions = routerExtensions;
+        this.router = router;
         this.favorites = [];
     }
     FavoritesComponent.prototype.ngOnInit = function () {
@@ -30,7 +34,7 @@ var FavoritesComponent = (function () {
             templateUrl: "pages/favorites/favorites.html",
             styleUrls: ["pages/favorites/favorites-common.css", "pages/favorites/favorites.css"]
         }), 
-        __metadata('design:paramtypes', [database_1.Database])
+        __metadata('design:paramtypes', [database_1.Database, router_2.RouterExtensions, router_1.Router])
     ], FavoritesComponent);
     return FavoritesComponent;
 }());

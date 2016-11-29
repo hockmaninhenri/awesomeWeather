@@ -6,6 +6,7 @@ var page_1 = require("ui/page");
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 var router_2 = require("nativescript-angular/router");
+//import { GestureTypes, SwipeGestureEventData } from "ui/gestures";
 var observable = require("data/observable");
 var MainComponent = (function (_super) {
     __extends(MainComponent, _super);
@@ -55,6 +56,8 @@ var MainComponent = (function (_super) {
         var icon = constants.WEATHER_ICONS[time_of_day][weather];
         this.set('icon', String.fromCharCode(icon));
         this.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
+        this.set('curWind', 'tornado'); // HERE MUST GET WIND
+        this.set('curHumid', 'moist'); // HERE MUST GET HUMIDITY
         this.set('curWeath', weather);
         function isLocationEnabled() {
             // Check if location services are enabled
@@ -79,6 +82,13 @@ var MainComponent = (function (_super) {
         function pageLoaded(args) {
             exports.pageLoaded = pageLoaded;
         }
+    };
+    MainComponent.prototype.goFavorites = function () {
+        this.routerExtensions.navigate(["favorites"]);
+    };
+    MainComponent.prototype.addFavorite = function () {
+        // add favorite
+        return;
     };
     MainComponent = __decorate([
         core_1.Component({

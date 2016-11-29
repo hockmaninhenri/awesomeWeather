@@ -10,7 +10,7 @@ import { Component, NgModule, ElementRef, OnInit, ViewChild } from "@angular/cor
 import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
-import { GestureTypes, SwipeGestureEventData } from "ui/gestures";
+//import { GestureTypes, SwipeGestureEventData } from "ui/gestures";
 
 import observable = require("data/observable");
 
@@ -72,6 +72,8 @@ export class MainComponent extends observable.Observable implements OnInit {
     var icon = constants.WEATHER_ICONS[time_of_day][weather];
     this.set('icon', String.fromCharCode(icon));
     this.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
+    this.set('curWind', 'tornado'); // HERE MUST GET WIND
+    this.set('curHumid', 'moist'); // HERE MUST GET HUMIDITY
     this.set('curWeath', weather);
 
     function isLocationEnabled() {
@@ -100,6 +102,15 @@ export class MainComponent extends observable.Observable implements OnInit {
     function pageLoaded(args) {
       exports.pageLoaded = pageLoaded;
     }
-    
+
+  }
+
+  public goFavorites() {
+    this.routerExtensions.navigate(["favorites"]);
+  }
+
+  public addFavorite() {
+    // add favorite
+    return;
   }
 }
