@@ -1,0 +1,33 @@
+<StackLayout>
+
+  <StackLayout class="current">
+
+    <!-- Here will be the big current weather set -->
+    <Label text="{{ icon }}" class="icon"></Label>
+    <Label text="{{ curWeath }}" class="title" textWrap="true" width="320"></Label>
+    <StackLayout horizontalAlignment="right" class="temp-holder">
+      <Label text="{{ curTemp }} &deg;C" class="curTemp"></Label>
+    </StackLayout>
+
+  </StackLayout>
+
+  <ScrollView orientation="horizontal">
+    <StackLayout orientation="horizontal" class="scroll-menu">
+
+        <StackLayout class="forecast">
+            <Label textWrap="true" text="Here weather 2 hours forward"></Label>
+        </StackLayout>
+        <StackLayout class="forecast">
+            <Label textWrap="true" text="Here weather 4 hours forward"></Label>
+        </StackLayout>
+        <StackLayout class="forecast">
+            <Label textWrap="true" text="Here weather 6 hours forward"></Label>
+        </StackLayout>
+        <StackLayout class="forecast forecast-last">
+            <Label textWrap="true" text="Here weather 8 hours forward"></Label>
+        </StackLayout>
+
+    </StackLayout>
+  </ScrollView>
+
+</StackLayout>

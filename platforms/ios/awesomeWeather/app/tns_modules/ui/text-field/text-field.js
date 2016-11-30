@@ -94,7 +94,7 @@ var UITextFieldImpl = (function (_super) {
             return bounds;
         }
         var size = bounds.size;
-        return CGRectMake(owner.borderWidth + owner.style.paddingLeft, owner.borderWidth + owner.style.paddingTop, size.width - (owner.borderWidth + owner.style.paddingLeft + owner.style.paddingRight + owner.borderWidth), size.height - (owner.borderWidth + owner.style.paddingTop + owner.style.paddingBottom + owner.borderWidth));
+        return CGRectMake(owner.borderLeftWidth + owner.style.paddingLeft, owner.borderTopWidth + owner.style.paddingTop, size.width - (owner.borderLeftWidth + owner.style.paddingLeft + owner.style.paddingRight + owner.borderRightWidth), size.height - (owner.borderTopWidth + owner.style.paddingTop + owner.style.paddingBottom + owner.borderBottomWidth));
     };
     UITextFieldImpl.prototype.textRectForBounds = function (bounds) {
         return this._getTextRectForBounds(bounds);

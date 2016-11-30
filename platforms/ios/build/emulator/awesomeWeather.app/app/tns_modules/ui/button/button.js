@@ -76,7 +76,7 @@ var Button = (function (_super) {
         }
     };
     __decorate([
-        view_1.PseudoClassHandler("normal", "highlighted")
+        view_1.PseudoClassHandler("normal", "highlighted", "pressed", "active")
     ], Button.prototype, "_updateHandler", null);
     return Button;
 }(common.Button));
@@ -137,11 +137,67 @@ var ButtonStyler = (function () {
             contentAlign: btn.contentHorizontalAlignment
         };
     };
+    ButtonStyler.setBorderTopWidthProperty = function (view, newValue) {
+        ButtonStyler.setNativeBorderTopWidth(view, newValue);
+    };
+    ButtonStyler.resetBorderTopWidthProperty = function (view, nativeValue) {
+        ButtonStyler.setNativeBorderTopWidth(view, nativeValue);
+    };
+    ButtonStyler.setNativeBorderTopWidth = function (view, newValue) {
+        var nativeButton = view._nativeView;
+        var top = view.style.paddingTop + newValue;
+        var left = nativeButton.contentEdgeInsets.left;
+        var bottom = nativeButton.contentEdgeInsets.bottom;
+        var right = nativeButton.contentEdgeInsets.right;
+        nativeButton.contentEdgeInsets = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
+    };
+    ButtonStyler.setBorderRightWidthProperty = function (view, newValue) {
+        ButtonStyler.setNativeBorderRightWidth(view, newValue);
+    };
+    ButtonStyler.resetBorderRightWidthProperty = function (view, nativeValue) {
+        ButtonStyler.setNativeBorderRightWidth(view, nativeValue);
+    };
+    ButtonStyler.setNativeBorderRightWidth = function (view, newValue) {
+        var nativeButton = view._nativeView;
+        var top = nativeButton.contentEdgeInsets.top;
+        var left = nativeButton.contentEdgeInsets.left;
+        var bottom = nativeButton.contentEdgeInsets.bottom;
+        var right = view.style.paddingRight + newValue;
+        nativeButton.contentEdgeInsets = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
+    };
+    ButtonStyler.setBorderBottomWidthProperty = function (view, newValue) {
+        ButtonStyler.setNativeBorderBottomWidth(view, newValue);
+    };
+    ButtonStyler.resetBorderBottomWidthProperty = function (view, nativeValue) {
+        ButtonStyler.setNativeBorderBottomWidth(view, nativeValue);
+    };
+    ButtonStyler.setNativeBorderBottomWidth = function (view, newValue) {
+        var nativeButton = view._nativeView;
+        var top = nativeButton.contentEdgeInsets.top;
+        var left = nativeButton.contentEdgeInsets.left;
+        var bottom = view.style.paddingBottom + newValue;
+        var right = nativeButton.contentEdgeInsets.right;
+        nativeButton.contentEdgeInsets = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
+    };
+    ButtonStyler.setBorderLeftWidthProperty = function (view, newValue) {
+        ButtonStyler.setNativeBorderLeftWidth(view, newValue);
+    };
+    ButtonStyler.resetBorderLeftWidthProperty = function (view, nativeValue) {
+        ButtonStyler.setNativeBorderLeftWidth(view, nativeValue);
+    };
+    ButtonStyler.setNativeBorderLeftWidth = function (view, newValue) {
+        var nativeButton = view._nativeView;
+        var top = nativeButton.contentEdgeInsets.top;
+        var left = view.style.paddingLeft + newValue;
+        var bottom = nativeButton.contentEdgeInsets.bottom;
+        var right = nativeButton.contentEdgeInsets.right;
+        nativeButton.contentEdgeInsets = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
+    };
     ButtonStyler.setPaddingProperty = function (view, newValue) {
-        var top = newValue.top + view.borderWidth;
-        var left = newValue.left + view.borderWidth;
-        var bottom = newValue.bottom + view.borderWidth;
-        var right = newValue.right + view.borderWidth;
+        var top = newValue.top + view.borderTopWidth;
+        var left = newValue.left + view.borderLeftWidth;
+        var bottom = newValue.bottom + view.borderBottomWidth;
+        var right = newValue.right + view.borderRightWidth;
         view._nativeView.contentEdgeInsets = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
     };
     ButtonStyler.resetPaddingProperty = function (view, nativeValue) {
@@ -175,6 +231,10 @@ var ButtonStyler = (function () {
         style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(ButtonStyler.setColorProperty, ButtonStyler.resetColorProperty, ButtonStyler.getNativeColorValue), "Button");
         style.registerHandler(style.fontInternalProperty, new style.StylePropertyChangedHandler(ButtonStyler.setFontInternalProperty, ButtonStyler.resetFontInternalProperty, ButtonStyler.getNativeFontInternalValue), "Button");
         style.registerHandler(style.textAlignmentProperty, new style.StylePropertyChangedHandler(ButtonStyler.setTextAlignmentProperty, ButtonStyler.resetTextAlignmentProperty, ButtonStyler.getNativeTextAlignmentValue), "Button");
+        style.registerHandler(style.borderTopWidthProperty, new style.StylePropertyChangedHandler(ButtonStyler.setBorderTopWidthProperty, ButtonStyler.resetBorderTopWidthProperty), "Button");
+        style.registerHandler(style.borderRightWidthProperty, new style.StylePropertyChangedHandler(ButtonStyler.setBorderRightWidthProperty, ButtonStyler.resetBorderRightWidthProperty), "Button");
+        style.registerHandler(style.borderBottomWidthProperty, new style.StylePropertyChangedHandler(ButtonStyler.setBorderBottomWidthProperty, ButtonStyler.resetBorderBottomWidthProperty), "Button");
+        style.registerHandler(style.borderLeftWidthProperty, new style.StylePropertyChangedHandler(ButtonStyler.setBorderLeftWidthProperty, ButtonStyler.resetBorderLeftWidthProperty), "Button");
         style.registerHandler(style.nativePaddingsProperty, new style.StylePropertyChangedHandler(ButtonStyler.setPaddingProperty, ButtonStyler.resetPaddingProperty), "Button");
         style.registerHandler(style.textDecorationProperty, new style.StylePropertyChangedHandler(ButtonStyler.setTextDecorationProperty, ButtonStyler.resetTextDecorationProperty), "Button");
         style.registerHandler(style.textTransformProperty, new style.StylePropertyChangedHandler(ButtonStyler.setTextTransformProperty, ButtonStyler.resetTextTransformProperty), "Button");

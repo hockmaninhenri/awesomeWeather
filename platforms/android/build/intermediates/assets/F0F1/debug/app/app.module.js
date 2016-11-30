@@ -21,7 +21,7 @@ var AppModule = (function () {
                 app_component_1.AppComponent
             ].concat(app_routing_1.navigatableComponents),
             bootstrap: [app_component_1.AppComponent],
-            providers: [database_1.Database],
+            providers: [database_1.Database]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

@@ -5,7 +5,9 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { AppComponent } from "./app.component";
 import { routes, navigatableComponents } from "./app.routing";
+
 import { Database } from "./providers/database/database";
+
 
 @NgModule({
   imports: [
@@ -19,7 +21,8 @@ import { Database } from "./providers/database/database";
     ...navigatableComponents
   ],
   bootstrap: [AppComponent],
-  providers: [Database],
+  providers: [Database]
+
 
 })
 export class AppModule { }

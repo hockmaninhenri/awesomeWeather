@@ -54,7 +54,7 @@ var Image = (function (_super) {
         this._ios.tintColor = value;
     };
     Image.prototype._setNativeImage = function (nativeImage) {
-        if (this.style.color && nativeImage) {
+        if (this.style.tintColor && nativeImage) {
             nativeImage = nativeImage.imageWithRenderingMode(2);
             this._templateImageWasCreated = true;
         }
@@ -128,16 +128,15 @@ exports.Image = Image;
 var ImageStyler = (function () {
     function ImageStyler() {
     }
-    ImageStyler.setColorProperty = function (view, newValue) {
+    ImageStyler.setTintColorProperty = function (view, newValue) {
         var image = view;
         image._setTintColor(newValue);
     };
-    ImageStyler.resetColorProperty = function (view, nativeValue) {
-        var image = view;
-        image._setTintColor(null);
+    ImageStyler.resetTintColorProperty = function (view, nativeValue) {
+        view.ios.tintColor = null;
     };
     ImageStyler.registerHandlers = function () {
-        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(ImageStyler.setColorProperty, ImageStyler.resetColorProperty), "Image");
+        style.registerHandler(style.tintColorProperty, new style.StylePropertyChangedHandler(ImageStyler.setTintColorProperty, ImageStyler.resetTintColorProperty), "Image");
     };
     return ImageStyler;
 }());

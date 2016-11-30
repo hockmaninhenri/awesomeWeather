@@ -13,7 +13,7 @@ export declare class ModalDialogService {
     private containerRef;
     registerViewContainerRef(ref: ViewContainerRef): void;
     showModal(type: Type<any>, options: ModalDialogOptions): Promise<any>;
-    private static showDialog(type, options, doneCallback, containerRef, resolver, parentPage);
+    private static showDialog(type, options, doneCallback, containerRef, resolver, parentPage, pageFactory);
 }
 export declare class ModalDialogHost {
     constructor(containerRef: ViewContainerRef, modalService: ModalDialogService);

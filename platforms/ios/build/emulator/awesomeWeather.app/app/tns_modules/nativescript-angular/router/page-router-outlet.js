@@ -42,11 +42,12 @@ var RefCache = (function () {
     return RefCache;
 }());
 var PageRouterOutlet = (function () {
-    function PageRouterOutlet(parentOutletMap, containerRef, name, locationStrategy, componentFactoryResolver, resolver, frame, device) {
+    function PageRouterOutlet(parentOutletMap, containerRef, name, locationStrategy, componentFactoryResolver, resolver, frame, device, pageFactory) {
         this.containerRef = containerRef;
         this.locationStrategy = locationStrategy;
         this.componentFactoryResolver = componentFactoryResolver;
         this.frame = frame;
+        this.pageFactory = pageFactory;
         this.refCache = new RefCache();
         this.isInitalPage = true;
         parentOutletMap.registerOutlet(name ? name : router_1.PRIMARY_OUTLET, this);
@@ -136,7 +137,7 @@ var PageRouterOutlet = (function () {
         }
         else {
             log("PageRouterOutlet.activate() forward navigation - create detached loader in the loader container");
-            var page = new page_1.Page();
+            var page = this.pageFactory({ isNavigation: true, componentType: factory.componentType });
             var pageResolvedProvider = core_1.ReflectiveInjector.resolve([
                 { provide: page_1.Page, useValue: page }
             ]);
@@ -214,8 +215,9 @@ var PageRouterOutlet = (function () {
     PageRouterOutlet = __decorate([
         core_1.Directive({ selector: 'page-router-outlet' }),
         __param(2, core_1.Attribute('name')),
-        __param(7, core_1.Inject(platform_providers_1.DEVICE)), 
-        __metadata('design:paramtypes', [router_1.RouterOutletMap, core_1.ViewContainerRef, String, ns_location_strategy_1.NSLocationStrategy, core_1.ComponentFactoryResolver, core_1.ComponentFactoryResolver, frame_1.Frame, Object])
+        __param(7, core_1.Inject(platform_providers_1.DEVICE)),
+        __param(8, core_1.Inject(platform_providers_1.PAGE_FACTORY)), 
+        __metadata('design:paramtypes', [router_1.RouterOutletMap, core_1.ViewContainerRef, String, ns_location_strategy_1.NSLocationStrategy, core_1.ComponentFactoryResolver, core_1.ComponentFactoryResolver, frame_1.Frame, Object, Function])
     ], PageRouterOutlet);
     return PageRouterOutlet;
 }());

@@ -200,8 +200,7 @@ var Animation = (function (_super) {
                 };
                 propertyNameToAnimate = "transform.rotation";
                 originalValue = nativeView.layer.valueForKeyPath("transform.rotation");
-                if (originalValue === 0 && animation.target.rotate !== undefined &&
-                    animation.target.rotate !== 0 && Math.floor(value / 360) - value / 360 === 0) {
+                if (animation.target.rotate !== undefined && animation.target.rotate !== 0 && Math.floor(value / 360) - value / 360 === 0) {
                     originalValue = animation.target.rotate * Math.PI / 180;
                 }
                 value = value * Math.PI / 180;

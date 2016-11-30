@@ -191,6 +191,7 @@ var SearchBarStyler = (function () {
         style.registerHandler(style.backgroundColorProperty, new style.StylePropertyChangedHandler(SearchBarStyler.setBackgroundColorProperty, SearchBarStyler.resetBackgroundColorProperty, SearchBarStyler.getBackgroundColorProperty), "SearchBar");
         style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(SearchBarStyler.setColorProperty, SearchBarStyler.resetColorProperty, SearchBarStyler.getColorProperty), "SearchBar");
         style.registerHandler(style.fontInternalProperty, new style.StylePropertyChangedHandler(SearchBarStyler.setFontInternalProperty, SearchBarStyler.resetFontInternalProperty, SearchBarStyler.getNativeFontInternalValue), "SearchBar");
+        style.registerHandler(style.backgroundInternalProperty, style.ignorePropertyHandler, "SearchBar");
     };
     return SearchBarStyler;
 }());
