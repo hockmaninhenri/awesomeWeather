@@ -75,7 +75,7 @@ var MainComponent = (function (_super) {
                     var weather = "clouds"; // THIS MUST GET CURRENT WEATHER DESC FROM API
                     var icon = constants.WEATHER_ICONS[time_of_day][weather];
                     that.set('icon', String.fromCharCode(icon));
-                    that.set('curCity', loc.latitude + " " + loc.longitude); // HERE MUST CITY NAME
+                    that.set('curCity', "Lat: " + loc.latitude + ", Long: " + loc.longitude); // HERE MUST CITY NAME
                     that.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
                     that.set('curWind', 'tornado'); // HERE MUST GET WIND
                     that.set('curHumid', 'moist'); // HERE MUST GET HUMIDITY

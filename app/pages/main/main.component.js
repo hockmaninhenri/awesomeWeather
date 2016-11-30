@@ -47,8 +47,13 @@ var MainComponent = (function (_super) {
         this.page.actionBarHidden = true;
         // "cache" OnInit "this"
         var that = this;
+        var locationFound = false;
         isLocationEnabled();
-        getLocationNow();
+        if (locationFound) {
+            getLocationNow();
+        }
+        else
+            alert("This is new alert");
         // get time of day
         var time_of_day = utilities.getTimeOfDay();
         // load location from locationStore
@@ -61,8 +66,8 @@ var MainComponent = (function (_super) {
             var message = "Location services down";
             if (isEnabledProperty) {
                 message = "Location works";
+                locationFound = true;
             }
-            //alert(message);
         }
         function getLocationNow() {
             // get current location

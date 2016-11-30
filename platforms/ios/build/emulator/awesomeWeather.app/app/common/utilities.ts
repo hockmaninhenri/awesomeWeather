@@ -1,6 +1,6 @@
 import constants = require('./constants');
 
-/*
+
 export function degreeToDirection(num) {
   var val= Math.floor((num / 22.5) + .5);
   return constants.WIND_DIRECTIONS[(val % 16)];
@@ -48,7 +48,7 @@ export function describeHumidity(humidity) {
   }
   return 'very humid';
 }
-*/
+
 
 export function describeTemperature(temp) {
   var celsius = convertKelvinToCelsius(temp);

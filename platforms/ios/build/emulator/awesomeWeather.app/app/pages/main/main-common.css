@@ -1,16 +1,40 @@
+* {
+  font-size: 15;
+}
+
+Button {
+  background-color: #03A9F4;
+  color: #FFFFFF;
+  margin-left: 16;
+  margin-right: 16;
+  margin-bottom: 10;
+}
+
+.fav-btn, .add-btn {
+  /*width: 150;*/
+  padding-left: 15;
+  padding-right: 15;
+  margin-top: 20;
+}
+
+.add-btn {
+  margin-right: 0;
+}
+
 .current {
   height: 450;
   border-width: 0 0 1 0;
-  border-color: #BDBDBD;
+  border-color: #1976D2;
   padding: 20;
   align-content: center;
 }
 
 .icon {
+  height:200;
   font-family: 'weathericons-regular-webfont, Weather Icons';
   font-size: 120px;
   text-align: center;
-  padding-top: 40;
+  padding-top: 35;
 }
 
 .small-icon {
@@ -36,7 +60,7 @@
 .forecast {
   padding: 10;
   border-width: 0 1 0 0;
-  border-color: #BDBDBD;
+  border-color: #1976D2;
   width: 200;
 }
 

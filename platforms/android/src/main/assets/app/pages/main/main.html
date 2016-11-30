@@ -1,16 +1,18 @@
 <StackLayout id="wrap">
-  <Button text="Go to Favorites >" class="btn fav-btn" (tap)="goFavorites()"></Button>
+  <Button horizontalAlignment="right" text="Go to Favorites >" class="btn fav-btn" (tap)="goFavorites()"></Button>
   <StackLayout class="current">
 
     <!-- Here will be the big current weather set -->
-    <Label text="{{ icon }}" class="icon"></Label>
-    <Label text="{{ curWeath }}" class="title" textWrap="true" width="320"></Label>
+    <StackLayout class="big-current">
+      <Label text="{{ icon }}" class="icon"></Label>
+      <Label text="{{ curWeath }}" class="title" textWrap="true" width="320"></Label>
+    </StackLayout>
     <StackLayout horizontalAlignment="right" class="temp-holder">
-      <Label text="{{ curCity }}" class="curLabel"></Label>
-      <Label text="{{ curTemp }} &deg;C" class="curLabel"></Label>
-      <Label text="{{ curWind }}" class="curLabel"></Label>
-      <Label text="{{ curHumid }}" class="curLabel"></Label>
-      <Button text="Add city to favorites" class="btn add-btn" (tap)="addFavorite()"></Button>
+      <Label horizontalAlignment="right" text="{{ curCity }}" class="curLabel"></Label>
+      <Label horizontalAlignment="right" text="{{ curTemp }} &deg;C" class="curLabel"></Label>
+      <Label horizontalAlignment="right" text="{{ curWind }}" class="curLabel"></Label>
+      <Label horizontalAlignment="right" text="{{ curHumid }}" class="curLabel"></Label>
+      <Button horizontalAlignment="right" text="Add city to Favorites" class="btn add-btn" (tap)="addFavorite()"></Button>
     </StackLayout>
 
   </StackLayout>

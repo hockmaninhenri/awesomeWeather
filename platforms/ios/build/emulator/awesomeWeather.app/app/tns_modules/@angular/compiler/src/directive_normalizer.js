@@ -6,9 +6,10 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Injectable, ViewEncapsulation } from '@angular/core';
-import { CompileStylesheetMetadata, CompileTemplateMetadata } from './compile_metadata';
+import { CompileDirectiveMetadata, CompileStylesheetMetadata, CompileTemplateMetadata } from './compile_metadata';
 import { CompilerConfig } from './config';
-import { isBlank, isPresent, stringify } from './facade/lang';
+import { MapWrapper } from './facade/collection';
+import { isBlank, isPresent } from './facade/lang';
 import * as html from './ml_parser/ast';
 import { HtmlParser } from './ml_parser/html_parser';
 import { InterpolationConfig } from './ml_parser/interpolation_config';
@@ -42,54 +43,63 @@ export var DirectiveNormalizer = (function () {
         }
         return result;
     };
-    DirectiveNormalizer.prototype.normalizeTemplate = function (prenormData) {
+    DirectiveNormalizer.prototype.normalizeDirective = function (directive) {
         var _this = this;
+        if (!directive.isComponent) {
+            // For non components there is nothing to be normalized yet.
+            return new SyncAsyncResult(directive, Promise.resolve(directive));
+        }
         var normalizedTemplateSync = null;
         var normalizedTemplateAsync;
-        if (isPresent(prenormData.template)) {
-            normalizedTemplateSync = this.normalizeTemplateSync(prenormData);
+        if (isPresent(directive.template.template)) {
+            normalizedTemplateSync = this.normalizeTemplateSync(directive.type, directive.template);
             normalizedTemplateAsync = Promise.resolve(normalizedTemplateSync);
         }
-        else if (prenormData.templateUrl) {
-            normalizedTemplateAsync = this.normalizeTemplateAsync(prenormData);
+        else if (directive.template.templateUrl) {
+            normalizedTemplateAsync = this.normalizeTemplateAsync(directive.type, directive.template);
         }
         else {
-            throw new Error("No template specified for component " + stringify(prenormData.componentType));
+            throw new Error("No template specified for component " + directive.type.name);
         }
         if (normalizedTemplateSync && normalizedTemplateSync.styleUrls.length === 0) {
             // sync case
-            return new SyncAsyncResult(normalizedTemplateSync);
+            var normalizedDirective = _cloneDirectiveWithTemplate(directive, normalizedTemplateSync);
+            return new SyncAsyncResult(normalizedDirective, Promise.resolve(normalizedDirective));
         }
         else {
             // async case
-            return new SyncAsyncResult(null, normalizedTemplateAsync.then(function (normalizedTemplate) { return _this.normalizeExternalStylesheets(normalizedTemplate); }));
+            return new SyncAsyncResult(null, normalizedTemplateAsync
+                .then(function (normalizedTemplate) { return _this.normalizeExternalStylesheets(normalizedTemplate); })
+                .then(function (normalizedTemplate) {
+                return _cloneDirectiveWithTemplate(directive, normalizedTemplate);
+            }));
         }
     };
-    DirectiveNormalizer.prototype.normalizeTemplateSync = function (prenomData) {
-        return this.normalizeLoadedTemplate(prenomData, prenomData.template, prenomData.moduleUrl);
+    DirectiveNormalizer.prototype.normalizeTemplateSync = function (directiveType, template) {
+        return this.normalizeLoadedTemplate(directiveType, template, template.template, directiveType.moduleUrl);
     };
-    DirectiveNormalizer.prototype.normalizeTemplateAsync = function (prenomData) {
+    DirectiveNormalizer.prototype.normalizeTemplateAsync = function (directiveType, template) {
         var _this = this;
-        var templateUrl = this._urlResolver.resolve(prenomData.moduleUrl, prenomData.templateUrl);
+        var templateUrl = this._urlResolver.resolve(directiveType.moduleUrl, template.templateUrl);
         return this._fetch(templateUrl)
-            .then(function (value) { return _this.normalizeLoadedTemplate(prenomData, value, templateUrl); });
+            .then(function (value) { return _this.normalizeLoadedTemplate(directiveType, template, value, templateUrl); });
     };
-    DirectiveNormalizer.prototype.normalizeLoadedTemplate = function (prenomData, template, templateAbsUrl) {
-        var interpolationConfig = InterpolationConfig.fromArray(prenomData.interpolation);
-        var rootNodesAndErrors = this._htmlParser.parse(template, stringify(prenomData.componentType), false, interpolationConfig);
+    DirectiveNormalizer.prototype.normalizeLoadedTemplate = function (directiveType, templateMeta, template, templateAbsUrl) {
+        var interpolationConfig = InterpolationConfig.fromArray(templateMeta.interpolation);
+        var rootNodesAndErrors = this._htmlParser.parse(template, directiveType.name, false, interpolationConfig);
         if (rootNodesAndErrors.errors.length > 0) {
             var errorString = rootNodesAndErrors.errors.join('\n');
             throw new Error("Template parse errors:\n" + errorString);
         }
         var templateMetadataStyles = this.normalizeStylesheet(new CompileStylesheetMetadata({
-            styles: prenomData.styles,
-            styleUrls: prenomData.styleUrls,
-            moduleUrl: prenomData.moduleUrl
+            styles: templateMeta.styles,
+            styleUrls: templateMeta.styleUrls,
+            moduleUrl: directiveType.moduleUrl
         }));
         var visitor = new TemplatePreparseVisitor();
         html.visitAll(visitor, rootNodesAndErrors.rootNodes);
         var templateStyles = this.normalizeStylesheet(new CompileStylesheetMetadata({ styles: visitor.styles, styleUrls: visitor.styleUrls, moduleUrl: templateAbsUrl }));
-        var encapsulation = prenomData.encapsulation;
+        var encapsulation = templateMeta.encapsulation;
         if (isBlank(encapsulation)) {
             encapsulation = this._config.defaultEncapsulation;
         }
@@ -103,9 +113,10 @@ export var DirectiveNormalizer = (function () {
             encapsulation: encapsulation,
             template: template,
             templateUrl: templateAbsUrl, styles: styles, styleUrls: styleUrls,
+            externalStylesheets: templateMeta.externalStylesheets,
             ngContentSelectors: visitor.ngContentSelectors,
-            animations: prenomData.animations,
-            interpolation: prenomData.interpolation,
+            animations: templateMeta.animations,
+            interpolation: templateMeta.interpolation,
         });
     };
     DirectiveNormalizer.prototype.normalizeExternalStylesheets = function (templateMeta) {
@@ -132,7 +143,7 @@ export var DirectiveNormalizer = (function () {
             loadedStylesheets.set(styleUrl, stylesheet);
             return _this._loadMissingExternalStylesheets(stylesheet.styleUrls, loadedStylesheets);
         }); }))
-            .then(function (_) { return Array.from(loadedStylesheets.values()); });
+            .then(function (_) { return MapWrapper.values(loadedStylesheets); });
     };
     DirectiveNormalizer.prototype.normalizeStylesheet = function (stylesheet) {
         var _this = this;
@@ -173,13 +184,13 @@ var TemplatePreparseVisitor = (function () {
                 }
                 break;
             case PreparsedElementType.STYLE:
-                var textContent_1 = '';
+                var textContent = '';
                 ast.children.forEach(function (child) {
                     if (child instanceof html.Text) {
-                        textContent_1 += child.value;
+                        textContent += child.value;
                     }
                 });
-                this.styles.push(textContent_1);
+                this.styles.push(textContent);
                 break;
             case PreparsedElementType.STYLESHEET:
                 this.styleUrls.push(preparsedElement.hrefAttr);
@@ -203,4 +214,23 @@ var TemplatePreparseVisitor = (function () {
     TemplatePreparseVisitor.prototype.visitExpansionCase = function (ast, context) { return null; };
     return TemplatePreparseVisitor;
 }());
+function _cloneDirectiveWithTemplate(directive, template) {
+    return new CompileDirectiveMetadata({
+        type: directive.type,
+        isComponent: directive.isComponent,
+        selector: directive.selector,
+        exportAs: directive.exportAs,
+        changeDetection: directive.changeDetection,
+        inputs: directive.inputs,
+        outputs: directive.outputs,
+        hostListeners: directive.hostListeners,
+        hostProperties: directive.hostProperties,
+        hostAttributes: directive.hostAttributes,
+        providers: directive.providers,
+        viewProviders: directive.viewProviders,
+        queries: directive.queries,
+        viewQueries: directive.viewQueries,
+        entryComponents: directive.entryComponents, template: template,
+    });
+}
 //# sourceMappingURL=directive_normalizer.js.map

@@ -47,10 +47,6 @@ export var MockSchemaRegistry = (function () {
             return { error: false };
         }
     };
-    MockSchemaRegistry.prototype.normalizeAnimationStyleProperty = function (propName) { return propName; };
-    MockSchemaRegistry.prototype.normalizeAnimationStyleValue = function (camelCaseProp, userProvidedProp, val) {
-        return { error: null, value: val.toString() };
-    };
     return MockSchemaRegistry;
 }());
 //# sourceMappingURL=schema_registry_mock.js.map

@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.2.1
+ * @license Angular v2.1.2
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -15,8 +15,7 @@
     var _NoOpAnimationDriver = (function () {
         function _NoOpAnimationDriver() {
         }
-        _NoOpAnimationDriver.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing, previousPlayers) {
-            if (previousPlayers === void 0) { previousPlayers = []; }
+        _NoOpAnimationDriver.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing) {
             return new NoOpAnimationPlayer();
         };
         return _NoOpAnimationDriver;
@@ -70,7 +69,7 @@
         if (typeof token === 'string') {
             return token;
         }
-        if (token == null) {
+        if (token === undefined || token === null) {
             return '' + token;
         }
         if (token.overriddenName) {
@@ -87,18 +86,46 @@
         var parts = path.split('.');
         var obj = global;
         while (parts.length > 1) {
-            var name_1 = parts.shift();
-            if (obj.hasOwnProperty(name_1) && obj[name_1] != null) {
-                obj = obj[name_1];
+            var name = parts.shift();
+            if (obj.hasOwnProperty(name) && isPresent(obj[name])) {
+                obj = obj[name];
             }
             else {
-                obj = obj[name_1] = {};
+                obj = obj[name] = {};
             }
         }
         if (obj === undefined || obj === null) {
             obj = {};
         }
         obj[parts.shift()] = value;
+    }
+
+    /**
+     * @license
+     * Copyright Google Inc. All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    var CAMEL_CASE_REGEXP = /([A-Z])/g;
+    var DASH_CASE_REGEXP = /-([a-z])/g;
+    function camelCaseToDashCase(input) {
+        return input.replace(CAMEL_CASE_REGEXP, function () {
+            var m = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                m[_i - 0] = arguments[_i];
+            }
+            return '-' + m[1].toLowerCase();
+        });
+    }
+    function dashCaseToCamelCase(input) {
+        return input.replace(DASH_CASE_REGEXP, function () {
+            var m = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                m[_i - 0] = arguments[_i];
+            }
+            return m[1].toUpperCase();
+        });
     }
 
     /**
@@ -144,29 +171,24 @@
     }());
 
     var WebAnimationsPlayer = (function () {
-        function WebAnimationsPlayer(element, keyframes, options, previousPlayers) {
-            var _this = this;
-            if (previousPlayers === void 0) { previousPlayers = []; }
+        function WebAnimationsPlayer(element, keyframes, options) {
             this.element = element;
             this.keyframes = keyframes;
             this.options = options;
             this._onDoneFns = [];
             this._onStartFns = [];
-            this._initialized = false;
             this._finished = false;
+            this._initialized = false;
             this._started = false;
-            this._destroyed = false;
             this.parentPlayer = null;
             this._duration = options['duration'];
-            this.previousStyles = {};
-            previousPlayers.forEach(function (player) {
-                var styles = player._captureStyles();
-                Object.keys(styles).forEach(function (prop) { return _this.previousStyles[prop] = styles[prop]; });
-            });
         }
         WebAnimationsPlayer.prototype._onFinish = function () {
             if (!this._finished) {
                 this._finished = true;
+                if (!isPresent(this.parentPlayer)) {
+                    this.destroy();
+                }
                 this._onDoneFns.forEach(function (fn) { return fn(); });
                 this._onDoneFns = [];
             }
@@ -178,41 +200,21 @@
             this._initialized = true;
             var keyframes = this.keyframes.map(function (styles) {
                 var formattedKeyframe = {};
-                Object.keys(styles).forEach(function (prop, index) {
+                Object.keys(styles).forEach(function (prop) {
                     var value = styles[prop];
-                    if (value == _angular_core.AUTO_STYLE) {
-                        value = _computeStyle(_this.element, prop);
-                    }
-                    if (value != undefined) {
-                        formattedKeyframe[prop] = value;
-                    }
+                    formattedKeyframe[prop] = value == _angular_core.AUTO_STYLE ? _computeStyle(_this.element, prop) : value;
                 });
                 return formattedKeyframe;
             });
-            var previousStyleProps = Object.keys(this.previousStyles);
-            if (previousStyleProps.length) {
-                var startingKeyframe_1 = findStartingKeyframe(keyframes);
-                previousStyleProps.forEach(function (prop) {
-                    if (isPresent(startingKeyframe_1[prop])) {
-                        startingKeyframe_1[prop] = _this.previousStyles[prop];
-                    }
-                });
-            }
             this._player = this._triggerWebAnimation(this.element, keyframes, this.options);
-            this._finalKeyframe = _copyKeyframeStyles(keyframes[keyframes.length - 1]);
             // this is required so that the player doesn't start to animate right away
-            this._resetDomPlayerState();
-            this._player.addEventListener('finish', function () { return _this._onFinish(); });
+            this.reset();
+            this._player.onfinish = function () { return _this._onFinish(); };
         };
         /** @internal */
         WebAnimationsPlayer.prototype._triggerWebAnimation = function (element, keyframes, options) {
             return element.animate(keyframes, options);
         };
-        Object.defineProperty(WebAnimationsPlayer.prototype, "domPlayer", {
-            get: function () { return this._player; },
-            enumerable: true,
-            configurable: true
-        });
         WebAnimationsPlayer.prototype.onStart = function (fn) { this._onStartFns.push(fn); };
         WebAnimationsPlayer.prototype.onDone = function (fn) { this._onDoneFns.push(fn); };
         WebAnimationsPlayer.prototype.play = function () {
@@ -233,24 +235,15 @@
             this._onFinish();
             this._player.finish();
         };
-        WebAnimationsPlayer.prototype.reset = function () {
-            this._resetDomPlayerState();
-            this._destroyed = false;
-            this._finished = false;
-            this._started = false;
-        };
-        WebAnimationsPlayer.prototype._resetDomPlayerState = function () { this._player.cancel(); };
+        WebAnimationsPlayer.prototype.reset = function () { this._player.cancel(); };
         WebAnimationsPlayer.prototype.restart = function () {
             this.reset();
             this.play();
         };
         WebAnimationsPlayer.prototype.hasStarted = function () { return this._started; };
         WebAnimationsPlayer.prototype.destroy = function () {
-            if (!this._destroyed) {
-                this._resetDomPlayerState();
-                this._onFinish();
-                this._destroyed = true;
-            }
+            this.reset();
+            this._onFinish();
         };
         Object.defineProperty(WebAnimationsPlayer.prototype, "totalTime", {
             get: function () { return this._duration; },
@@ -259,61 +252,25 @@
         });
         WebAnimationsPlayer.prototype.setPosition = function (p) { this._player.currentTime = p * this.totalTime; };
         WebAnimationsPlayer.prototype.getPosition = function () { return this._player.currentTime / this.totalTime; };
-        WebAnimationsPlayer.prototype._captureStyles = function () {
-            var _this = this;
-            var styles = {};
-            if (this.hasStarted()) {
-                Object.keys(this._finalKeyframe).forEach(function (prop) {
-                    if (prop != 'offset') {
-                        styles[prop] =
-                            _this._finished ? _this._finalKeyframe[prop] : _computeStyle(_this.element, prop);
-                    }
-                });
-            }
-            return styles;
-        };
         return WebAnimationsPlayer;
     }());
     function _computeStyle(element, prop) {
         return getDOM().getComputedStyle(element)[prop];
     }
-    function _copyKeyframeStyles(styles) {
-        var newStyles = {};
-        Object.keys(styles).forEach(function (prop) {
-            if (prop != 'offset') {
-                newStyles[prop] = styles[prop];
-            }
-        });
-        return newStyles;
-    }
-    function findStartingKeyframe(keyframes) {
-        var startingKeyframe = keyframes[0];
-        // it's important that we find the LAST keyframe
-        // to ensure that style overidding is final.
-        for (var i = 1; i < keyframes.length; i++) {
-            var kf = keyframes[i];
-            var offset = kf['offset'];
-            if (offset !== 0)
-                break;
-            startingKeyframe = kf;
-        }
-        return startingKeyframe;
-    }
 
     var WebAnimationsDriver = (function () {
         function WebAnimationsDriver() {
         }
-        WebAnimationsDriver.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing, previousPlayers) {
-            if (previousPlayers === void 0) { previousPlayers = []; }
+        WebAnimationsDriver.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing) {
             var formattedSteps = [];
             var startingStyleLookup = {};
             if (isPresent(startingStyles) && startingStyles.styles.length > 0) {
-                startingStyleLookup = _populateStyles(startingStyles, {});
+                startingStyleLookup = _populateStyles(element, startingStyles, {});
                 startingStyleLookup['offset'] = 0;
                 formattedSteps.push(startingStyleLookup);
             }
             keyframes.forEach(function (keyframe) {
-                var data = _populateStyles(keyframe.styles, startingStyleLookup);
+                var data = _populateStyles(element, keyframe.styles, startingStyleLookup);
                 data['offset'] = keyframe.offset;
                 formattedSteps.push(data);
             });
@@ -336,16 +293,20 @@
             if (easing) {
                 playerOptions['easing'] = easing;
             }
-            // there may be a chance a NoOp player is returned depending
-            // on when the previous animation was cancelled
-            previousPlayers = previousPlayers.filter(filterWebAnimationPlayerFn);
-            return new WebAnimationsPlayer(element, formattedSteps, playerOptions, previousPlayers);
+            return new WebAnimationsPlayer(element, formattedSteps, playerOptions);
         };
         return WebAnimationsDriver;
     }());
-    function _populateStyles(styles, defaultStyles) {
+    function _populateStyles(element, styles, defaultStyles) {
         var data = {};
-        styles.styles.forEach(function (entry) { Object.keys(entry).forEach(function (prop) { data[prop] = entry[prop]; }); });
+        styles.styles.forEach(function (entry) {
+            Object.keys(entry).forEach(function (prop) {
+                var val = entry[prop];
+                var formattedProp = dashCaseToCamelCase(prop);
+                data[formattedProp] =
+                    val == _angular_core.AUTO_STYLE ? val : val.toString() + _resolveStyleUnit(val, prop, formattedProp);
+            });
+        });
         Object.keys(defaultStyles).forEach(function (prop) {
             if (!isPresent(data[prop])) {
                 data[prop] = defaultStyles[prop];
@@ -353,8 +314,64 @@
         });
         return data;
     }
-    function filterWebAnimationPlayerFn(player) {
-        return player instanceof WebAnimationsPlayer;
+    function _resolveStyleUnit(val, userProvidedProp, formattedProp) {
+        var unit = '';
+        if (_isPixelDimensionStyle(formattedProp) && val != 0 && val != '0') {
+            if (typeof val === 'number') {
+                unit = 'px';
+            }
+            else if (_findDimensionalSuffix(val.toString()).length == 0) {
+                throw new Error('Please provide a CSS unit value for ' + userProvidedProp + ':' + val);
+            }
+        }
+        return unit;
+    }
+    var _$0 = 48;
+    var _$9 = 57;
+    var _$PERIOD = 46;
+    function _findDimensionalSuffix(value) {
+        for (var i = 0; i < value.length; i++) {
+            var c = value.charCodeAt(i);
+            if ((c >= _$0 && c <= _$9) || c == _$PERIOD)
+                continue;
+            return value.substring(i, value.length);
+        }
+        return '';
+    }
+    function _isPixelDimensionStyle(prop) {
+        switch (prop) {
+            case 'width':
+            case 'height':
+            case 'minWidth':
+            case 'minHeight':
+            case 'maxWidth':
+            case 'maxHeight':
+            case 'left':
+            case 'top':
+            case 'bottom':
+            case 'right':
+            case 'fontSize':
+            case 'outlineWidth':
+            case 'outlineOffset':
+            case 'paddingTop':
+            case 'paddingLeft':
+            case 'paddingBottom':
+            case 'paddingRight':
+            case 'marginTop':
+            case 'marginLeft':
+            case 'marginBottom':
+            case 'marginRight':
+            case 'borderRadius':
+            case 'borderWidth':
+            case 'borderTopWidth':
+            case 'borderLeftWidth':
+            case 'borderRightWidth':
+            case 'borderBottomWidth':
+            case 'textIndent':
+                return true;
+            default:
+                return false;
+        }
     }
 
     /**
@@ -506,27 +523,13 @@
         BrowserDomAdapter.prototype.getProperty = function (el, name) { return el[name]; };
         BrowserDomAdapter.prototype.invoke = function (el, methodName, args) { (_a = el)[methodName].apply(_a, args); var _a; };
         // TODO(tbosch): move this into a separate environment class once we have it
-        BrowserDomAdapter.prototype.logError = function (error) {
-            if (window.console) {
-                (window.console.error || window.console.log)(error);
-            }
-        };
-        BrowserDomAdapter.prototype.log = function (error) {
-            if (window.console) {
-                window.console.log && window.console.log(error);
-            }
-        };
+        BrowserDomAdapter.prototype.logError = function (error) { (window.console.error || window.console.log)(error); };
+        BrowserDomAdapter.prototype.log = function (error) { window.console.log(error); };
         BrowserDomAdapter.prototype.logGroup = function (error) {
-            if (window.console) {
-                window.console.group && window.console.group(error);
-                this.logError(error);
-            }
+            window.console.group && window.console.group(error);
+            this.logError(error);
         };
-        BrowserDomAdapter.prototype.logGroupEnd = function () {
-            if (window.console) {
-                window.console.groupEnd && window.console.groupEnd();
-            }
-        };
+        BrowserDomAdapter.prototype.logGroupEnd = function () { window.console.groupEnd && window.console.groupEnd(); };
         Object.defineProperty(BrowserDomAdapter.prototype, "attrToPropMap", {
             get: function () { return _attrToPropMap; },
             enumerable: true,
@@ -1017,6 +1020,27 @@
         return Title;
     }());
 
+    // Safari doesn't implement MapIterator.next(), which is used is Traceur's polyfill of Array.from
+    // TODO(mlaval): remove the work around once we have a working polyfill of Array.from
+    var _arrayFromMap = (function () {
+        try {
+            if ((new Map()).values().next) {
+                return function createArrayFromMap(m, getValues) {
+                    return getValues ? Array.from(m.values()) : Array.from(m.keys());
+                };
+            }
+        }
+        catch (e) {
+        }
+        return function createArrayFromMapWithForeach(m, getValues) {
+            var res = new Array(m.size), i = 0;
+            m.forEach(function (v, k) {
+                res[i] = getValues ? v : k;
+                i++;
+            });
+            return res;
+        };
+    })();
     /**
      * Wraps Javascript Objects
      */
@@ -1051,6 +1075,72 @@
         };
         return StringMapWrapper;
     }());
+    var ListWrapper = (function () {
+        function ListWrapper() {
+        }
+        ListWrapper.removeAll = function (list, items) {
+            for (var i = 0; i < items.length; ++i) {
+                var index = list.indexOf(items[i]);
+                list.splice(index, 1);
+            }
+        };
+        ListWrapper.remove = function (list, el) {
+            var index = list.indexOf(el);
+            if (index > -1) {
+                list.splice(index, 1);
+                return true;
+            }
+            return false;
+        };
+        ListWrapper.equals = function (a, b) {
+            if (a.length != b.length)
+                return false;
+            for (var i = 0; i < a.length; ++i) {
+                if (a[i] !== b[i])
+                    return false;
+            }
+            return true;
+        };
+        ListWrapper.maximum = function (list, predicate) {
+            if (list.length == 0) {
+                return null;
+            }
+            var solution = null;
+            var maxValue = -Infinity;
+            for (var index = 0; index < list.length; index++) {
+                var candidate = list[index];
+                if (candidate == null) {
+                    continue;
+                }
+                var candidateValue = predicate(candidate);
+                if (candidateValue > maxValue) {
+                    solution = candidate;
+                    maxValue = candidateValue;
+                }
+            }
+            return solution;
+        };
+        ListWrapper.flatten = function (list) {
+            var target = [];
+            _flattenArray(list, target);
+            return target;
+        };
+        return ListWrapper;
+    }());
+    function _flattenArray(source, target) {
+        if (isPresent(source)) {
+            for (var i = 0; i < source.length; i++) {
+                var item = source[i];
+                if (Array.isArray(item)) {
+                    _flattenArray(item, target);
+                }
+                else {
+                    target.push(item);
+                }
+            }
+        }
+        return target;
+    }
 
     /**
      * A DI Token representing the main rendering context. In a browser this is the DOM Document.
@@ -1073,7 +1163,6 @@
         function EventManager(plugins, _zone) {
             var _this = this;
             this._zone = _zone;
-            this._eventNameToPlugin = new Map();
             plugins.forEach(function (p) { return p.manager = _this; });
             this._plugins = plugins.slice().reverse();
         }
@@ -1088,16 +1177,11 @@
         EventManager.prototype.getZone = function () { return this._zone; };
         /** @internal */
         EventManager.prototype._findPluginFor = function (eventName) {
-            var plugin = this._eventNameToPlugin.get(eventName);
-            if (plugin) {
-                return plugin;
-            }
             var plugins = this._plugins;
             for (var i = 0; i < plugins.length; i++) {
-                var plugin_1 = plugins[i];
-                if (plugin_1.supports(eventName)) {
-                    this._eventNameToPlugin.set(eventName, plugin_1);
-                    return plugin_1;
+                var plugin = plugins[i];
+                if (plugin.supports(eventName)) {
+                    return plugin;
                 }
             }
             throw new Error("No event manager plugin found for event " + eventName);
@@ -1115,14 +1199,14 @@
     var EventManagerPlugin = (function () {
         function EventManagerPlugin() {
         }
-        EventManagerPlugin.prototype.addGlobalEventListener = function (element, eventName, handler) {
-            var target = getDOM().getGlobalEventTarget(element);
-            if (!target) {
-                throw new Error("Unsupported event target " + target + " for event " + eventName);
-            }
-            return this.addEventListener(target, eventName, handler);
+        // That is equivalent to having supporting $event.target
+        EventManagerPlugin.prototype.supports = function (eventName) { return false; };
+        EventManagerPlugin.prototype.addEventListener = function (element, eventName, handler) {
+            throw 'not implemented';
         };
-        ;
+        EventManagerPlugin.prototype.addGlobalEventListener = function (element, eventName, handler) {
+            throw 'not implemented';
+        };
         return EventManagerPlugin;
     }());
 
@@ -1176,9 +1260,8 @@
         /** @internal */
         DomSharedStylesHost.prototype._addStylesToHost = function (styles, host) {
             for (var i = 0; i < styles.length; i++) {
-                var styleEl = document.createElement('style');
-                styleEl.textContent = styles[i];
-                host.appendChild(styleEl);
+                var style = styles[i];
+                getDOM().appendChild(host, getDOM().createStyleElement(style));
             }
         };
         DomSharedStylesHost.prototype.addHost = function (hostNode) {
@@ -1220,18 +1303,17 @@
     var TEMPLATE_COMMENT_TEXT = 'template bindings={}';
     var TEMPLATE_BINDINGS_EXP = /^template bindings=(.*)$/;
     var DomRootRenderer = (function () {
-        function DomRootRenderer(document, eventManager, sharedStylesHost, animationDriver, appId) {
+        function DomRootRenderer(document, eventManager, sharedStylesHost, animationDriver) {
             this.document = document;
             this.eventManager = eventManager;
             this.sharedStylesHost = sharedStylesHost;
             this.animationDriver = animationDriver;
-            this.appId = appId;
             this.registeredComponents = new Map();
         }
         DomRootRenderer.prototype.renderComponent = function (componentProto) {
             var renderer = this.registeredComponents.get(componentProto.id);
             if (!renderer) {
-                renderer = new DomRenderer(this, componentProto, this.animationDriver, this.appId + "-" + componentProto.id);
+                renderer = new DomRenderer(this, componentProto, this.animationDriver);
                 this.registeredComponents.set(componentProto.id, renderer);
             }
             return renderer;
@@ -1240,8 +1322,8 @@
     }());
     var DomRootRenderer_ = (function (_super) {
         __extends$3(DomRootRenderer_, _super);
-        function DomRootRenderer_(_document, _eventManager, sharedStylesHost, animationDriver, appId) {
-            _super.call(this, _document, _eventManager, sharedStylesHost, animationDriver, appId);
+        function DomRootRenderer_(_document, _eventManager, sharedStylesHost, animationDriver) {
+            _super.call(this, _document, _eventManager, sharedStylesHost, animationDriver);
         }
         DomRootRenderer_.decorators = [
             { type: _angular_core.Injectable },
@@ -1252,34 +1334,21 @@
             { type: EventManager, },
             { type: DomSharedStylesHost, },
             { type: AnimationDriver, },
-            { type: undefined, decorators: [{ type: _angular_core.Inject, args: [_angular_core.APP_ID,] },] },
         ];
         return DomRootRenderer_;
     }(DomRootRenderer));
-    var DIRECT_DOM_RENDERER = {
-        remove: function (node) {
-            if (node.parentNode) {
-                node.parentNode.removeChild(node);
-            }
-        },
-        appendChild: function (node, parent) { parent.appendChild(node); },
-        insertBefore: function (node, refNode) { refNode.parentNode.insertBefore(node, refNode); },
-        nextSibling: function (node) { return node.nextSibling; },
-        parentElement: function (node) { return node.parentNode; }
-    };
     var DomRenderer = (function () {
-        function DomRenderer(_rootRenderer, componentProto, _animationDriver, styleShimId) {
+        function DomRenderer(_rootRenderer, componentProto, _animationDriver) {
             this._rootRenderer = _rootRenderer;
             this.componentProto = componentProto;
             this._animationDriver = _animationDriver;
-            this.directRenderer = DIRECT_DOM_RENDERER;
-            this._styles = flattenStyles(styleShimId, componentProto.styles, []);
+            this._styles = _flattenStyles(componentProto.id, componentProto.styles, []);
             if (componentProto.encapsulation !== _angular_core.ViewEncapsulation.Native) {
                 this._rootRenderer.sharedStylesHost.addStyles(this._styles);
             }
             if (this.componentProto.encapsulation === _angular_core.ViewEncapsulation.Emulated) {
-                this._contentAttr = shimContentAttribute(styleShimId);
-                this._hostAttr = shimHostAttribute(styleShimId);
+                this._contentAttr = _shimContentAttribute(componentProto.id);
+                this._hostAttr = _shimHostAttribute(componentProto.id);
             }
             else {
                 this._contentAttr = null;
@@ -1289,86 +1358,75 @@
         DomRenderer.prototype.selectRootElement = function (selectorOrNode, debugInfo) {
             var el;
             if (typeof selectorOrNode === 'string') {
-                el = this._rootRenderer.document.querySelector(selectorOrNode);
-                if (!el) {
+                el = getDOM().querySelector(this._rootRenderer.document, selectorOrNode);
+                if (isBlank(el)) {
                     throw new Error("The selector \"" + selectorOrNode + "\" did not match any elements");
                 }
             }
             else {
                 el = selectorOrNode;
             }
-            while (el.firstChild) {
-                el.removeChild(el.firstChild);
-            }
+            getDOM().clearNodes(el);
             return el;
         };
         DomRenderer.prototype.createElement = function (parent, name, debugInfo) {
-            var el;
-            if (isNamespaced(name)) {
-                var nsAndName = splitNamespace(name);
-                el = document.createElementNS((NAMESPACE_URIS)[nsAndName[0]], nsAndName[1]);
+            var nsAndName = splitNamespace(name);
+            var el = isPresent(nsAndName[0]) ?
+                getDOM().createElementNS(NAMESPACE_URIS[nsAndName[0]], nsAndName[1]) :
+                getDOM().createElement(nsAndName[1]);
+            if (isPresent(this._contentAttr)) {
+                getDOM().setAttribute(el, this._contentAttr, '');
             }
-            else {
-                el = document.createElement(name);
-            }
-            if (this._contentAttr) {
-                el.setAttribute(this._contentAttr, '');
-            }
-            if (parent) {
-                parent.appendChild(el);
+            if (isPresent(parent)) {
+                getDOM().appendChild(parent, el);
             }
             return el;
         };
         DomRenderer.prototype.createViewRoot = function (hostElement) {
             var nodesParent;
             if (this.componentProto.encapsulation === _angular_core.ViewEncapsulation.Native) {
-                nodesParent = hostElement.createShadowRoot();
+                nodesParent = getDOM().createShadowRoot(hostElement);
                 this._rootRenderer.sharedStylesHost.addHost(nodesParent);
                 for (var i = 0; i < this._styles.length; i++) {
-                    var styleEl = document.createElement('style');
-                    styleEl.textContent = this._styles[i];
-                    nodesParent.appendChild(styleEl);
+                    getDOM().appendChild(nodesParent, getDOM().createStyleElement(this._styles[i]));
                 }
             }
             else {
-                if (this._hostAttr) {
-                    hostElement.setAttribute(this._hostAttr, '');
+                if (isPresent(this._hostAttr)) {
+                    getDOM().setAttribute(hostElement, this._hostAttr, '');
                 }
                 nodesParent = hostElement;
             }
             return nodesParent;
         };
         DomRenderer.prototype.createTemplateAnchor = function (parentElement, debugInfo) {
-            var comment = document.createComment(TEMPLATE_COMMENT_TEXT);
-            if (parentElement) {
-                parentElement.appendChild(comment);
+            var comment = getDOM().createComment(TEMPLATE_COMMENT_TEXT);
+            if (isPresent(parentElement)) {
+                getDOM().appendChild(parentElement, comment);
             }
             return comment;
         };
         DomRenderer.prototype.createText = function (parentElement, value, debugInfo) {
-            var node = document.createTextNode(value);
-            if (parentElement) {
-                parentElement.appendChild(node);
+            var node = getDOM().createTextNode(value);
+            if (isPresent(parentElement)) {
+                getDOM().appendChild(parentElement, node);
             }
             return node;
         };
         DomRenderer.prototype.projectNodes = function (parentElement, nodes) {
-            if (!parentElement)
+            if (isBlank(parentElement))
                 return;
             appendNodes(parentElement, nodes);
         };
         DomRenderer.prototype.attachViewAfter = function (node, viewRootNodes) { moveNodesAfterSibling(node, viewRootNodes); };
         DomRenderer.prototype.detachView = function (viewRootNodes) {
             for (var i = 0; i < viewRootNodes.length; i++) {
-                var node = viewRootNodes[i];
-                if (node.parentNode) {
-                    node.parentNode.removeChild(node);
-                }
+                getDOM().remove(viewRootNodes[i]);
             }
         };
         DomRenderer.prototype.destroyView = function (hostElement, viewAllNodes) {
-            if (this.componentProto.encapsulation === _angular_core.ViewEncapsulation.Native && hostElement) {
-                this._rootRenderer.sharedStylesHost.removeHost(hostElement.shadowRoot);
+            if (this.componentProto.encapsulation === _angular_core.ViewEncapsulation.Native && isPresent(hostElement)) {
+                this._rootRenderer.sharedStylesHost.removeHost(getDOM().getShadowRoot(hostElement));
             }
         };
         DomRenderer.prototype.listen = function (renderElement, name, callback) {
@@ -1378,41 +1436,39 @@
             return this._rootRenderer.eventManager.addGlobalEventListener(target, name, decoratePreventDefault(callback));
         };
         DomRenderer.prototype.setElementProperty = function (renderElement, propertyName, propertyValue) {
-            renderElement[propertyName] = propertyValue;
+            getDOM().setProperty(renderElement, propertyName, propertyValue);
         };
         DomRenderer.prototype.setElementAttribute = function (renderElement, attributeName, attributeValue) {
             var attrNs;
-            var attrNameWithoutNs = attributeName;
-            if (isNamespaced(attributeName)) {
-                var nsAndName = splitNamespace(attributeName);
-                attrNameWithoutNs = nsAndName[1];
+            var nsAndName = splitNamespace(attributeName);
+            if (isPresent(nsAndName[0])) {
                 attributeName = nsAndName[0] + ':' + nsAndName[1];
                 attrNs = NAMESPACE_URIS[nsAndName[0]];
             }
             if (isPresent(attributeValue)) {
-                if (attrNs) {
-                    renderElement.setAttributeNS(attrNs, attributeName, attributeValue);
+                if (isPresent(attrNs)) {
+                    getDOM().setAttributeNS(renderElement, attrNs, attributeName, attributeValue);
                 }
                 else {
-                    renderElement.setAttribute(attributeName, attributeValue);
+                    getDOM().setAttribute(renderElement, attributeName, attributeValue);
                 }
             }
             else {
                 if (isPresent(attrNs)) {
-                    renderElement.removeAttributeNS(attrNs, attrNameWithoutNs);
+                    getDOM().removeAttributeNS(renderElement, attrNs, nsAndName[1]);
                 }
                 else {
-                    renderElement.removeAttribute(attributeName);
+                    getDOM().removeAttribute(renderElement, attributeName);
                 }
             }
         };
         DomRenderer.prototype.setBindingDebugInfo = function (renderElement, propertyName, propertyValue) {
-            if (renderElement.nodeType === Node.COMMENT_NODE) {
-                var existingBindings = renderElement.nodeValue.replace(/\n/g, '').match(TEMPLATE_BINDINGS_EXP);
+            var dashCasedPropertyName = camelCaseToDashCase(propertyName);
+            if (getDOM().isCommentNode(renderElement)) {
+                var existingBindings = getDOM().getText(renderElement).replace(/\n/g, '').match(TEMPLATE_BINDINGS_EXP);
                 var parsedBindings = JSON.parse(existingBindings[1]);
-                parsedBindings[propertyName] = propertyValue;
-                renderElement.nodeValue =
-                    TEMPLATE_COMMENT_TEXT.replace('{}', JSON.stringify(parsedBindings, null, 2));
+                parsedBindings[dashCasedPropertyName] = propertyValue;
+                getDOM().setText(renderElement, TEMPLATE_COMMENT_TEXT.replace('{}', JSON.stringify(parsedBindings, null, 2)));
             }
             else {
                 this.setElementAttribute(renderElement, propertyName, propertyValue);
@@ -1420,60 +1476,56 @@
         };
         DomRenderer.prototype.setElementClass = function (renderElement, className, isAdd) {
             if (isAdd) {
-                renderElement.classList.add(className);
+                getDOM().addClass(renderElement, className);
             }
             else {
-                renderElement.classList.remove(className);
+                getDOM().removeClass(renderElement, className);
             }
         };
         DomRenderer.prototype.setElementStyle = function (renderElement, styleName, styleValue) {
             if (isPresent(styleValue)) {
-                renderElement.style[styleName] = stringify(styleValue);
+                getDOM().setStyle(renderElement, styleName, stringify(styleValue));
             }
             else {
-                // IE requires '' instead of null
-                // see https://github.com/angular/angular/issues/7916
-                renderElement.style[styleName] = '';
+                getDOM().removeStyle(renderElement, styleName);
             }
         };
         DomRenderer.prototype.invokeElementMethod = function (renderElement, methodName, args) {
-            renderElement[methodName].apply(renderElement, args);
+            getDOM().invoke(renderElement, methodName, args);
         };
-        DomRenderer.prototype.setText = function (renderNode, text) { renderNode.nodeValue = text; };
-        DomRenderer.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing, previousPlayers) {
-            if (previousPlayers === void 0) { previousPlayers = []; }
-            return this._animationDriver.animate(element, startingStyles, keyframes, duration, delay, easing, previousPlayers);
+        DomRenderer.prototype.setText = function (renderNode, text) { getDOM().setText(renderNode, text); };
+        DomRenderer.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing) {
+            return this._animationDriver.animate(element, startingStyles, keyframes, duration, delay, easing);
         };
         return DomRenderer;
     }());
-    function moveNodesAfterSibling(sibling, nodes) {
-        var parent = sibling.parentNode;
-        if (nodes.length > 0 && parent) {
-            var nextSibling = sibling.nextSibling;
-            if (nextSibling) {
+    function moveNodesAfterSibling(sibling /** TODO #9100 */, nodes /** TODO #9100 */) {
+        var parent = getDOM().parentElement(sibling);
+        if (nodes.length > 0 && isPresent(parent)) {
+            var nextSibling = getDOM().nextSibling(sibling);
+            if (isPresent(nextSibling)) {
                 for (var i = 0; i < nodes.length; i++) {
-                    parent.insertBefore(nodes[i], nextSibling);
+                    getDOM().insertBefore(nextSibling, nodes[i]);
                 }
             }
             else {
                 for (var i = 0; i < nodes.length; i++) {
-                    parent.appendChild(nodes[i]);
+                    getDOM().appendChild(parent, nodes[i]);
                 }
             }
         }
     }
-    function appendNodes(parent, nodes) {
+    function appendNodes(parent /** TODO #9100 */, nodes /** TODO #9100 */) {
         for (var i = 0; i < nodes.length; i++) {
-            parent.appendChild(nodes[i]);
+            getDOM().appendChild(parent, nodes[i]);
         }
     }
     function decoratePreventDefault(eventHandler) {
-        return function (event) {
+        return function (event /** TODO #9100 */) {
             var allowDefaultBehavior = eventHandler(event);
             if (allowDefaultBehavior === false) {
                 // TODO(tbosch): move preventDefault into event plugins...
-                event.preventDefault();
-                event.returnValue = false;
+                getDOM().preventDefault(event);
             }
         };
     }
@@ -1481,17 +1533,17 @@
     var COMPONENT_VARIABLE = '%COMP%';
     var HOST_ATTR = "_nghost-" + COMPONENT_VARIABLE;
     var CONTENT_ATTR = "_ngcontent-" + COMPONENT_VARIABLE;
-    function shimContentAttribute(componentShortId) {
+    function _shimContentAttribute(componentShortId) {
         return CONTENT_ATTR.replace(COMPONENT_REGEX, componentShortId);
     }
-    function shimHostAttribute(componentShortId) {
+    function _shimHostAttribute(componentShortId) {
         return HOST_ATTR.replace(COMPONENT_REGEX, componentShortId);
     }
-    function flattenStyles(compId, styles, target) {
+    function _flattenStyles(compId, styles, target) {
         for (var i = 0; i < styles.length; i++) {
             var style = styles[i];
             if (Array.isArray(style)) {
-                flattenStyles(compId, style, target);
+                _flattenStyles(compId, style, target);
             }
             else {
                 style = style.replace(COMPONENT_REGEX, compId);
@@ -1501,10 +1553,10 @@
         return target;
     }
     var NS_PREFIX_RE = /^:([^:]+):(.+)$/;
-    function isNamespaced(name) {
-        return name[0] === ':';
-    }
     function splitNamespace(name) {
+        if (name[0] != ':') {
+            return [null, name];
+        }
         var match = name.match(NS_PREFIX_RE);
         return [match[1], match[2]];
     }
@@ -1582,8 +1634,15 @@
         // events.
         DomEventsPlugin.prototype.supports = function (eventName) { return true; };
         DomEventsPlugin.prototype.addEventListener = function (element, eventName, handler) {
-            element.addEventListener(eventName, handler, false);
-            return function () { return element.removeEventListener(eventName, handler, false); };
+            var zone = this.manager.getZone();
+            var outsideHandler = function (event /** TODO #9100 */) { return zone.runGuarded(function () { return handler(event); }); };
+            return this.manager.getZone().runOutsideAngular(function () { return getDOM().onAndCancel(element, eventName, outsideHandler); });
+        };
+        DomEventsPlugin.prototype.addGlobalEventListener = function (target, eventName, handler) {
+            var element = getDOM().getGlobalEventTarget(target);
+            var zone = this.manager.getZone();
+            var outsideHandler = function (event /** TODO #9100 */) { return zone.runGuarded(function () { return handler(event); }); };
+            return this.manager.getZone().runOutsideAngular(function () { return getDOM().onAndCancel(element, eventName, outsideHandler); });
         };
         DomEventsPlugin.decorators = [
             { type: _angular_core.Injectable },
@@ -1600,12 +1659,12 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var __extends$6 = (this && this.__extends) || function (d, b) {
+    var __extends$7 = (this && this.__extends) || function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var EVENT_NAMES = {
+    var _eventNames = {
         // pan
         'pan': true,
         'panstart': true,
@@ -1641,6 +1700,29 @@
         'swipedown': true,
         // tap
         'tap': true,
+    };
+    var HammerGesturesPluginCommon = (function (_super) {
+        __extends$7(HammerGesturesPluginCommon, _super);
+        function HammerGesturesPluginCommon() {
+            _super.call(this);
+        }
+        HammerGesturesPluginCommon.prototype.supports = function (eventName) {
+            return _eventNames.hasOwnProperty(eventName.toLowerCase());
+        };
+        return HammerGesturesPluginCommon;
+    }(EventManagerPlugin));
+
+    /**
+     * @license
+     * Copyright Google Inc. All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    var __extends$6 = (this && this.__extends) || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
     /**
      * A DI token that you can use to provide{@link HammerGestureConfig} to Angular. Use it to configure
@@ -1680,10 +1762,9 @@
             this._config = _config;
         }
         HammerGesturesPlugin.prototype.supports = function (eventName) {
-            if (!EVENT_NAMES.hasOwnProperty(eventName.toLowerCase()) && !this.isCustomEvent(eventName)) {
+            if (!_super.prototype.supports.call(this, eventName) && !this.isCustomEvent(eventName))
                 return false;
-            }
-            if (!window.Hammer) {
+            if (!isPresent(window['Hammer'])) {
                 throw new Error("Hammer.js is not loaded, can not bind " + eventName + " event");
             }
             return true;
@@ -1695,11 +1776,11 @@
             return zone.runOutsideAngular(function () {
                 // Creating the manager bind events, must be done outside of angular
                 var mc = _this._config.buildHammer(element);
-                var callback = function (eventObj) {
+                var callback = function (eventObj /** TODO #???? */) {
                     zone.runGuarded(function () { handler(eventObj); });
                 };
                 mc.on(eventName, callback);
-                return function () { return mc.off(eventName, callback); };
+                return function () { mc.off(eventName, callback); };
             });
         };
         HammerGesturesPlugin.prototype.isCustomEvent = function (eventName) { return this._config.events.indexOf(eventName) > -1; };
@@ -1711,7 +1792,7 @@
             { type: HammerGestureConfig, decorators: [{ type: _angular_core.Inject, args: [HAMMER_GESTURE_CONFIG,] },] },
         ];
         return HammerGesturesPlugin;
-    }(EventManagerPlugin));
+    }(HammerGesturesPluginCommon));
 
     /**
      * @license
@@ -1720,13 +1801,13 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var __extends$7 = (this && this.__extends) || function (d, b) {
+    var __extends$8 = (this && this.__extends) || function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var MODIFIER_KEYS = ['alt', 'control', 'meta', 'shift'];
-    var MODIFIER_KEY_GETTERS = {
+    var modifierKeys = ['alt', 'control', 'meta', 'shift'];
+    var modifierKeyGetters = {
         'alt': function (event) { return event.altKey; },
         'control': function (event) { return event.ctrlKey; },
         'meta': function (event) { return event.metaKey; },
@@ -1736,14 +1817,16 @@
      * @experimental
      */
     var KeyEventsPlugin = (function (_super) {
-        __extends$7(KeyEventsPlugin, _super);
+        __extends$8(KeyEventsPlugin, _super);
         function KeyEventsPlugin() {
             _super.call(this);
         }
-        KeyEventsPlugin.prototype.supports = function (eventName) { return KeyEventsPlugin.parseEventName(eventName) != null; };
+        KeyEventsPlugin.prototype.supports = function (eventName) {
+            return isPresent(KeyEventsPlugin.parseEventName(eventName));
+        };
         KeyEventsPlugin.prototype.addEventListener = function (element, eventName, handler) {
             var parsedEvent = KeyEventsPlugin.parseEventName(eventName);
-            var outsideHandler = KeyEventsPlugin.eventCallback(parsedEvent['fullKey'], handler, this.manager.getZone());
+            var outsideHandler = KeyEventsPlugin.eventCallback(element, parsedEvent['fullKey'], handler, this.manager.getZone());
             return this.manager.getZone().runOutsideAngular(function () {
                 return getDOM().onAndCancel(element, parsedEvent['domEventName'], outsideHandler);
             });
@@ -1756,10 +1839,9 @@
             }
             var key = KeyEventsPlugin._normalizeKey(parts.pop());
             var fullKey = '';
-            MODIFIER_KEYS.forEach(function (modifierName) {
-                var index = parts.indexOf(modifierName);
-                if (index > -1) {
-                    parts.splice(index, 1);
+            modifierKeys.forEach(function (modifierName) {
+                if (parts.indexOf(modifierName) > -1) {
+                    ListWrapper.remove(parts, modifierName);
                     fullKey += modifierName + '.';
                 }
             });
@@ -1783,9 +1865,9 @@
             else if (key === '.') {
                 key = 'dot'; // because '.' is used as a separator in event names
             }
-            MODIFIER_KEYS.forEach(function (modifierName) {
+            modifierKeys.forEach(function (modifierName) {
                 if (modifierName != key) {
-                    var modifierGetter = MODIFIER_KEY_GETTERS[modifierName];
+                    var modifierGetter = modifierKeyGetters[modifierName];
                     if (modifierGetter(event)) {
                         fullKey += modifierName + '.';
                     }
@@ -1794,7 +1876,7 @@
             fullKey += key;
             return fullKey;
         };
-        KeyEventsPlugin.eventCallback = function (fullKey, handler, zone) {
+        KeyEventsPlugin.eventCallback = function (element, fullKey, handler, zone) {
             return function (event /** TODO #9100 */) {
                 if (KeyEventsPlugin.getEventFullKey(event) === fullKey) {
                     zone.runGuarded(function () { return handler(event); });
@@ -1803,7 +1885,7 @@
         };
         /** @internal */
         KeyEventsPlugin._normalizeKey = function (keyName) {
-            // TODO: switch to a Map if the mapping grows too much
+            // TODO: switch to a StringMap if the mapping grows too much
             switch (keyName) {
                 case 'esc':
                     return 'escape';
@@ -2205,7 +2287,7 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var __extends$8 = (this && this.__extends) || function (d, b) {
+    var __extends$9 = (this && this.__extends) || function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -2247,7 +2329,7 @@
         return DomSanitizer;
     }());
     var DomSanitizerImpl = (function (_super) {
-        __extends$8(DomSanitizerImpl, _super);
+        __extends$9(DomSanitizerImpl, _super);
         function DomSanitizerImpl() {
             _super.apply(this, arguments);
         }
@@ -2321,7 +2403,7 @@
         return SafeValueImpl;
     }());
     var SafeHtmlImpl = (function (_super) {
-        __extends$8(SafeHtmlImpl, _super);
+        __extends$9(SafeHtmlImpl, _super);
         function SafeHtmlImpl() {
             _super.apply(this, arguments);
         }
@@ -2329,7 +2411,7 @@
         return SafeHtmlImpl;
     }(SafeValueImpl));
     var SafeStyleImpl = (function (_super) {
-        __extends$8(SafeStyleImpl, _super);
+        __extends$9(SafeStyleImpl, _super);
         function SafeStyleImpl() {
             _super.apply(this, arguments);
         }
@@ -2337,7 +2419,7 @@
         return SafeStyleImpl;
     }(SafeValueImpl));
     var SafeScriptImpl = (function (_super) {
-        __extends$8(SafeScriptImpl, _super);
+        __extends$9(SafeScriptImpl, _super);
         function SafeScriptImpl() {
             _super.apply(this, arguments);
         }
@@ -2345,7 +2427,7 @@
         return SafeScriptImpl;
     }(SafeValueImpl));
     var SafeUrlImpl = (function (_super) {
-        __extends$8(SafeUrlImpl, _super);
+        __extends$9(SafeUrlImpl, _super);
         function SafeUrlImpl() {
             _super.apply(this, arguments);
         }
@@ -2353,7 +2435,7 @@
         return SafeUrlImpl;
     }(SafeValueImpl));
     var SafeResourceUrlImpl = (function (_super) {
-        __extends$8(SafeResourceUrlImpl, _super);
+        __extends$9(SafeResourceUrlImpl, _super);
         function SafeResourceUrlImpl() {
             _super.apply(this, arguments);
         }
@@ -2529,7 +2611,7 @@
      * @experimental All debugging apis are currently experimental.
      */
     function enableDebugTools(ref) {
-        Object.assign(context.ng, new AngularTools(ref));
+        context.ng = new AngularTools(ref);
         return ref;
     }
     /**
@@ -2538,9 +2620,7 @@
      * @experimental All debugging apis are currently experimental.
      */
     function disableDebugTools() {
-        if (context.ng) {
-            delete context.ng.profiler;
-        }
+        delete context.ng;
     }
 
     /**
@@ -2595,12 +2675,6 @@
         setRootDomAdapter: setRootDomAdapter,
         DomRootRenderer_: DomRootRenderer_,
         DomRootRenderer: DomRootRenderer,
-        NAMESPACE_URIS: NAMESPACE_URIS,
-        shimContentAttribute: shimContentAttribute,
-        shimHostAttribute: shimHostAttribute,
-        flattenStyles: flattenStyles,
-        splitNamespace: splitNamespace,
-        isNamespaced: isNamespaced,
         DomSharedStylesHost: DomSharedStylesHost,
         SharedStylesHost: SharedStylesHost,
         ELEMENT_PROBE_PROVIDERS: ELEMENT_PROBE_PROVIDERS,
@@ -2609,8 +2683,7 @@
         HammerGesturesPlugin: HammerGesturesPlugin,
         initDomAdapter: initDomAdapter,
         INTERNAL_BROWSER_PLATFORM_PROVIDERS: INTERNAL_BROWSER_PLATFORM_PROVIDERS,
-        BROWSER_SANITIZATION_PROVIDERS: BROWSER_SANITIZATION_PROVIDERS,
-        WebAnimationsDriver: WebAnimationsDriver
+        BROWSER_SANITIZATION_PROVIDERS: BROWSER_SANITIZATION_PROVIDERS
     };
 
     exports.BrowserModule = BrowserModule;

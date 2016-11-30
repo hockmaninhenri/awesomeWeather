@@ -1,4 +1,4 @@
-import geolocation = require("nativescript-geolocation");
+import { Location, getCurrentLocation, isEnabled, distance, enableLocationRequest } from "nativescript-geolocation";
 import constants = require("../../common/constants");
 import utilities = require("../../common/utilities");
 import locationStore = require('../../stores/location');
@@ -10,9 +10,8 @@ import { Component, NgModule, ElementRef, OnInit, ViewChild } from "@angular/cor
 import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
+//import { GestureTypes, SwipeGestureEventData } from "ui/gestures";
 
-import gestures = require("ui/gestures");
-import textViewModule = require("ui/text-view");
 import observable = require("data/observable");
 
 @Component({
@@ -24,38 +23,22 @@ export class MainComponent extends observable.Observable implements OnInit {
   constructor(private routerExtensions: RouterExtensions, private router: Router, private page: Page) {
     super();
 
-    // check the geolocation
-    if (!geolocation.isEnabled()) {
-      geolocation.enableLocationRequest(); // try to enable geolocation
-    }
+    // >> Enable location services
+    enableLocationRequest(true);
+    // << Enable location services
 
-    // get time of day
-    var time_of_day = utilities.getTimeOfDay();
-    this.setIcons();
+    // >> This set contains code for swipe event to change the page.
+    // >> Didn't work somewhy, so changed to button-events
+    /*
 
-    // try to get the location, alert if not success
-    var location = geolocation.getCurrentLocation({timeout: 10000}).
-      then(
-        (loc) => {
-          if (loc) {
-            // save the location
-            locationStore.saveLocation(loc);
-          }
-        },
-        (e) => {
-          // failed to get location
-          alert(e.message);
-        }
-    );
+    // Detecting swipe gestures on page, and routing to favorites if swipe right  THIS NEEDS ATTENTION, DOESN'T WORK YET
+    this.page.on(GestureTypes.swipe, function(args: SwipeGestureEventData) {
+        console.log("Swipe Direction From event function: " + args.direction);
 
-    var weather = "clouds"; // THIS MUST GET CURRENT WEATHER DESC FROM API
-
-    var icon = constants.WEATHER_ICONS[time_of_day][weather];
-    this.set('icon', String.fromCharCode(icon));
-    this.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
-    this.set('curWeath', weather);
-
-
+        that.onSwipe();
+    });
+    */
+    // << Swipe page change
 
   }
 
@@ -73,17 +56,77 @@ export class MainComponent extends observable.Observable implements OnInit {
   ngOnInit() {
     this.page.actionBarHidden = true;
 
-    function pageLoaded(args) {
-      // Detecting swipe gestures on page, and routing to favorites if swipe right
-      var page = args.object;
+    // "cache" OnInit "this"
+    var that = this;
+    let locationFound = false;
 
-      var observer = page.on("swipe", function (args: gestures.SwipeGestureEventData) {
-        console.log("Swipe direction: " + args.direction);
-        /*if (args.direction == right) {
-          this.routerExtensions.navigate(["/favorites"]);
-        }*/
-      });
+    isLocationEnabled();
+    
+    if (locationFound) {
+      getLocationNow();
+    } else alert("This is new alert");
+
+
+
+    // get time of day
+    var time_of_day = utilities.getTimeOfDay();
+
+    // load location from locationStore
+    var location = locationStore.getLocation();
+
+    // set weather icons
+    this.setIcons();
+
+    function isLocationEnabled() {
+      // Check if location services are enabled
+      let isEnabledProperty = isEnabled();
+
+      let message = "Location services down";
+      if (isEnabledProperty) {
+        message = "Location works";
+        locationFound = true;
+      }
     }
-    exports.pageLoaded = pageLoaded;
+
+    function getLocationNow() {
+      // get current location
+      getCurrentLocation({ timeout: 10000 })
+        .then(function(loc) {
+          if (loc) {
+            console.log("Current location: " + loc);
+            locationStore.saveLocation(loc);
+
+            var url = ''; // HERE CONTRUCT THE API URL WITH KEY AND 'loc'
+
+            var weather = "clouds"; // THIS MUST GET CURRENT WEATHER DESC FROM API
+
+            var icon = constants.WEATHER_ICONS[time_of_day][weather];
+            that.set('icon', String.fromCharCode(icon));
+            that.set('curCity', "Lat: " + loc.latitude + ", Long: " + loc.longitude); // HERE MUST CITY NAME
+            that.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
+            that.set('curWind', 'tornado'); // HERE MUST GET WIND
+            that.set('curHumid', 'moist'); // HERE MUST GET HUMIDITY
+            that.set('curWeath', weather);
+
+          }
+        }, function(e) {
+            console.log("Location error received: " + e);
+            alert("Location error received: " + e);
+        });
+    }
+
+    function pageLoaded(args) {
+      exports.pageLoaded = pageLoaded;
+    }
+
+  }
+
+  public goFavorites() {
+    this.routerExtensions.navigate(["favorites"]);
+  }
+
+  public addFavorite() {
+    // add favorite
+    return;
   }
 }

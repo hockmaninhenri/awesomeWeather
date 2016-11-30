@@ -117,8 +117,7 @@ var _Scanner = (function () {
         this.peek = ++this.index >= this.length ? chars.$EOF : this.input.charCodeAt(this.index);
     };
     _Scanner.prototype.scanToken = function () {
-        var input = this.input, length = this.length;
-        var peek = this.peek, index = this.index;
+        var input = this.input, length = this.length, peek = this.peek, index = this.index;
         // Skip whitespace.
         while (peek <= chars.$SPACE) {
             if (++index >= length) {
@@ -268,10 +267,10 @@ var _Scanner = (function () {
                 if (this.peek == chars.$u) {
                     // 4 character hex code for unicode character.
                     var hex = input.substring(this.index + 1, this.index + 5);
-                    if (/^[0-9a-f]+$/i.test(hex)) {
-                        unescapedCode = parseInt(hex, 16);
+                    try {
+                        unescapedCode = NumberWrapper.parseInt(hex, 16);
                     }
-                    else {
+                    catch (e) {
                         return this.error("Invalid unicode escape [\\u" + hex + "]", 0);
                     }
                     for (var i = 0; i < 5; i++) {

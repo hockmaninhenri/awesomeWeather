@@ -58,9 +58,15 @@ export class MainComponent extends observable.Observable implements OnInit {
 
     // "cache" OnInit "this"
     var that = this;
+    let locationFound = false;
 
     isLocationEnabled();
-    getLocationNow();
+
+    if (locationFound) {
+      getLocationNow();
+    } else alert("This is new alert");
+
+
 
     // get time of day
     var time_of_day = utilities.getTimeOfDay();
@@ -78,8 +84,8 @@ export class MainComponent extends observable.Observable implements OnInit {
       let message = "Location services down";
       if (isEnabledProperty) {
         message = "Location works";
+        locationFound = true;
       }
-      //alert(message);
     }
 
     function getLocationNow() {

@@ -28,8 +28,8 @@ export declare class ConvertPropertyBindingResult {
 export declare function convertPropertyBinding(builder: ClassBuilder, nameResolver: NameResolver, implicitReceiver: o.Expression, expression: cdAst.AST, bindingId: string): ConvertPropertyBindingResult;
 export declare class ConvertActionBindingResult {
     stmts: o.Statement[];
-    preventDefault: o.ReadVarExpr;
-    constructor(stmts: o.Statement[], preventDefault: o.ReadVarExpr);
+    preventDefault: o.Expression;
+    constructor(stmts: o.Statement[], preventDefault: o.Expression);
 }
 /**
  * Converts the given expression AST into an executable output AST, assuming the expression is

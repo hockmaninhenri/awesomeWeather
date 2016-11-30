@@ -5,15 +5,13 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { DoCheck, TemplateRef, ViewContainerRef } from '@angular/core';
+import { TemplateRef, ViewContainerRef } from '@angular/core';
 export declare class SwitchView {
     private _viewContainerRef;
     private _templateRef;
-    private _created;
     constructor(_viewContainerRef: ViewContainerRef, _templateRef: TemplateRef<Object>);
     create(): void;
     destroy(): void;
-    enforceState(created: boolean): void;
 }
 /**
  * @ngModule CommonModule
@@ -57,14 +55,14 @@ export declare class SwitchView {
  * @stable
  */
 export declare class NgSwitch {
-    private _defaultViews;
-    private _defaultUsed;
-    private _caseCount;
-    private _lastCaseCheckIndex;
-    private _lastCasesMatched;
-    private _ngSwitch;
+    private _switchValue;
+    private _useDefault;
+    private _valueViews;
+    private _activeViews;
     ngSwitch: any;
-    private _updateDefaultCases(useDefault);
+    private _emptyAllActiveViews();
+    private _activateViews(views?);
+    private _deregisterView(value, view);
 }
 /**
  * @ngModule CommonModule
@@ -90,12 +88,12 @@ export declare class NgSwitch {
  *
  * @stable
  */
-export declare class NgSwitchCase implements DoCheck {
-    private ngSwitch;
+export declare class NgSwitchCase {
+    private _value;
     private _view;
-    ngSwitchCase: any;
+    private _switch;
     constructor(viewContainer: ViewContainerRef, templateRef: TemplateRef<Object>, ngSwitch: NgSwitch);
-    ngDoCheck(): void;
+    ngSwitchCase: any;
 }
 /**
  * @ngModule CommonModule
@@ -121,5 +119,5 @@ export declare class NgSwitchCase implements DoCheck {
  * @stable
  */
 export declare class NgSwitchDefault {
-    constructor(viewContainer: ViewContainerRef, templateRef: TemplateRef<Object>, ngSwitch: NgSwitch);
+    constructor(viewContainer: ViewContainerRef, templateRef: TemplateRef<Object>, sswitch: NgSwitch);
 }

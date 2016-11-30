@@ -60,12 +60,12 @@
         "source": "/Users/Henkka/Documents/Koulu/Mediatekniikka-vuosi-3/Mobiili/awesomeWeather/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable-hdpi-v4/abc_scrubber_track_mtrl_alpha.9.png"
     },
     {
-        "merged": "/Users/Henkka/Documents/Koulu/Mediatekniikka-vuosi-3/Mobiili/awesomeWeather/platforms/android/build/intermediates/res/merged/F0F1/debug/drawable-hdpi-v4/abc_textfield_default_mtrl_alpha.9.png",
-        "source": "/Users/Henkka/Documents/Koulu/Mediatekniikka-vuosi-3/Mobiili/awesomeWeather/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable-hdpi-v4/abc_textfield_default_mtrl_alpha.9.png"
-    },
-    {
         "merged": "/Users/Henkka/Documents/Koulu/Mediatekniikka-vuosi-3/Mobiili/awesomeWeather/platforms/android/build/intermediates/res/merged/F0F1/debug/drawable-hdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png",
         "source": "/Users/Henkka/Documents/Koulu/Mediatekniikka-vuosi-3/Mobiili/awesomeWeather/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable-hdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/Henkka/Documents/Koulu/Mediatekniikka-vuosi-3/Mobiili/awesomeWeather/platforms/android/build/intermediates/res/merged/F0F1/debug/drawable-hdpi-v4/abc_textfield_default_mtrl_alpha.9.png",
+        "source": "/Users/Henkka/Documents/Koulu/Mediatekniikka-vuosi-3/Mobiili/awesomeWeather/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable-hdpi-v4/abc_textfield_default_mtrl_alpha.9.png"
     },
     {
         "merged": "/Users/Henkka/Documents/Koulu/Mediatekniikka-vuosi-3/Mobiili/awesomeWeather/platforms/android/build/intermediates/res/merged/F0F1/debug/drawable-hdpi-v4/abc_list_selector_disabled_holo_dark.9.png",
