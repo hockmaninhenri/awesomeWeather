@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { NativeScriptModule } from "nativescript-angular/platform";
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { AppComponent } from "./app.component";
@@ -12,6 +13,7 @@ import { Database } from "./providers/database/database";
 @NgModule({
   imports: [
     NativeScriptModule,
+    NativeScriptFormsModule,
     NativeScriptHttpModule,
     NativeScriptRouterModule,
     NativeScriptRouterModule.forRoot(routes)

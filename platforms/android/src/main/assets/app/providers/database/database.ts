@@ -44,4 +44,9 @@ export class Database {
     });
   }
 
+  public delete() {
+    return this.db
+    .execSQL("DELETE FROM favorites WHERE id = ?");
+  }
+
 }

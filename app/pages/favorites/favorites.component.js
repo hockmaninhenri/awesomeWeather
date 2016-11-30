@@ -14,7 +14,7 @@ var FavoritesComponent = (function () {
     };
     FavoritesComponent.prototype.insert = function () {
         var _this = this;
-        this.database.insert({ name: "Vesa" }).then(function (result) {
+        this.database.insert({ name: this.name }).then(function (result) {
             _this.fetch();
         });
     };

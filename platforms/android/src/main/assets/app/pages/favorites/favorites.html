@@ -1,6 +1,10 @@
+<ActionBar title="Favorites">
+
+</ActionBar>
+
 <GridLayout rows="auto, *">
   <GridLayout row="0" columns="*, auto" class="add-bar">
-    <TextField #citysTextField [(ngModel)]="name" hint="Type city name here" col="0"></TextField>
+    <TextField [(ngModel)]="name" hint="Type city name here" col="0"></TextField>
     <Button (tap)="insert()" col="1">Add</Button>
   </GridLayout>
 

@@ -1,10 +1,8 @@
-import { Component, NgModule, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, NgModule, ElementRef} from "@angular/core";
 import { Database } from "../../providers/database/database";
-import { Router } from "@angular/router";
-import { routes } from "../../app.routing";
-import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
-import { NativeScriptRouterModule } from "nativescript-angular/router";
-import { RouterExtensions } from "nativescript-angular/router";
+import { GestureTypes, GestureEventData } from "ui/gestures";
+import labelModule = require("ui/label");
+
 
 @Component({
   selector: "favorites",
@@ -13,9 +11,13 @@ import { RouterExtensions } from "nativescript-angular/router";
 })
 export class FavoritesComponent implements OnInit {
 
+  public name: string;
+  public id: Number;
   public favorites: Array<any>;
 
-  public constructor(private database: Database, private routerExtensions: RouterExtensions, private router: Router) {
+
+
+  public constructor(private database: Database) {
     this.favorites = [];
   }
 
@@ -26,7 +28,7 @@ export class FavoritesComponent implements OnInit {
   }
 
   public insert() {
-    this.database.insert({name: "Vesa"}).then(result => {
+    this.database.insert({name: this.name}).then(result => {
       this.fetch();
     });
   }
@@ -36,5 +38,13 @@ export class FavoritesComponent implements OnInit {
       this.favorites = result;
     });
   }
+
+/* EI KÄYTÖSSÄ VIELÄ
+  public delete() {
+    this.database.delete().then(result => {
+      this.fetch()
+    });
+  }
+  */
 
 }

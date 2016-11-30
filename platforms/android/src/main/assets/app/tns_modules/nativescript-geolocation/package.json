@@ -21,7 +21,7 @@
   "_id": "nativescript-geolocation@0.0.15",
   "_shasum": "a70e6d0a7eda7a91c595d32e4ca59911ffa2b591",
   "_resolved": "https://registry.npmjs.org/nativescript-geolocation/-/nativescript-geolocation-0.0.15.tgz",
-  "_from": "nativescript-geolocation@latest",
+  "_from": "nativescript-geolocation@0.0.15",
   "scripts": {},
   "_npmVersion": "3.10.8",
   "_nodeVersion": "6.9.1",
@@ -51,6 +51,5 @@
     "host": "packages-12-west.internal.npmjs.com",
     "tmp": "tmp/nativescript-geolocation-0.0.15.tgz_1479298295981_0.14421955263242126"
   },
-  "directories": {},
-  "readme": "ERROR: No README data found!"
+  "directories": {}
 }

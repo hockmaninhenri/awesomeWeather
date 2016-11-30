@@ -1,6 +1,6 @@
 {
   "name": "nativescript-theme-core",
-  "version": "0.2.3",
+  "version": "0.2.6",
   "description": "Telerik NativeScript Core Theme",
   "author": {
     "name": "Telerik",
@@ -15,9 +15,9 @@
   "bugs": {
     "url": "https://github.com/NativeScript/theme/issues"
   },
-  "_id": "nativescript-theme-core@0.2.3",
+  "_id": "nativescript-theme-core@0.2.6",
   "scripts": {},
-  "_shasum": "389afb80f86a8d0b3f8366b08b70347193b654c4",
+  "_shasum": "ca27c5030a1619cc8148f436330af5d2d381f629",
   "_from": "nativescript-theme-core@>=0.2.3 <0.3.0",
   "_npmVersion": "3.10.9",
   "_nodeVersion": "6.9.1",
@@ -26,8 +26,8 @@
     "email": "walkerrunpdx@gmail.com"
   },
   "dist": {
-    "shasum": "389afb80f86a8d0b3f8366b08b70347193b654c4",
-    "tarball": "https://registry.npmjs.org/nativescript-theme-core/-/nativescript-theme-core-0.2.3.tgz"
+    "shasum": "ca27c5030a1619cc8148f436330af5d2d381f629",
+    "tarball": "https://registry.npmjs.org/nativescript-theme-core/-/nativescript-theme-core-0.2.6.tgz"
   },
   "maintainers": [
     {
@@ -44,9 +44,9 @@
     }
   ],
   "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/nativescript-theme-core-0.2.3.tgz_1479625900688_0.8277713768184185"
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/nativescript-theme-core-0.2.6.tgz_1479832130157_0.2662058232817799"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/nativescript-theme-core/-/nativescript-theme-core-0.2.3.tgz"
+  "_resolved": "https://registry.npmjs.org/nativescript-theme-core/-/nativescript-theme-core-0.2.6.tgz"
 }
