@@ -38,7 +38,7 @@
   "_id": "tns-core-modules@2.4.0",
   "_shasum": "2fbcb3162ab0a1bb6396f3ebad07ff859d4a19f5",
   "_resolved": "https://registry.npmjs.org/tns-core-modules/-/tns-core-modules-2.4.0.tgz",
-  "_from": "tns-core-modules@2.4.0",
+  "_from": "tns-core-modules@latest",
   "scripts": {},
   "_npmVersion": "3.10.3",
   "_nodeVersion": "6.7.0",

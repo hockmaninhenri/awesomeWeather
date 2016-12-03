@@ -1,5 +1,7 @@
-import { Component, OnInit} from "@angular/core";
+import { Component, OnInit, NgModule, ElementRef} from "@angular/core";
 import { Database } from "../../providers/database/database";
+import { GestureTypes, GestureEventData } from "ui/gestures";
+
 
 @Component({
   selector: "favorites",
@@ -8,7 +10,10 @@ import { Database } from "../../providers/database/database";
 })
 export class FavoritesComponent implements OnInit {
 
+  public name: string;
   public favorites: Array<any>;
+
+
 
   public constructor(private database: Database) {
     this.favorites = [];
@@ -21,7 +26,7 @@ export class FavoritesComponent implements OnInit {
   }
 
   public insert() {
-    this.database.insert({name: "Vesa"}).then(result => {
+    this.database.insert({name: this.name}).then(result => {
       this.fetch();
     });
   }
@@ -31,5 +36,13 @@ export class FavoritesComponent implements OnInit {
       this.favorites = result;
     });
   }
+
+/* EI KÄYTÖSSÄ VIELÄ
+  public delete() {
+    this.database.delete().then(result => {
+      this.fetch()
+    });
+  }
+  */
 
 }

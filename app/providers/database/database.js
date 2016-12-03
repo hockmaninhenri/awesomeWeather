@@ -38,6 +38,10 @@ var Database = (function () {
             });
         });
     };
+    Database.prototype.delete = function () {
+        return this.db
+            .execSQL("DELETE FROM favorites WHERE id = ?");
+    };
     Database = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])
