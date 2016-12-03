@@ -9,8 +9,8 @@
   </GridLayout>
 
   <ListView [items]="favorites" row="1" class="favoriteList">
-    <template let-favorite="item">
-      <Label text="{{ favorite.name }}" class=""></Label>
+    <template let-favorite="item" class="">
+      <Label text="{{ favorite.name }}" class="item"></Label>
     </template>
   </ListView>
 </GridLayout>
