@@ -40,3 +40,5 @@ export const WIND_DIRECTIONS = [
   "South-southeast", "South", "South-southwest", "Southwest",
   "West-southwest", "West", "West-northwest", "Northwest", "North-northwest"
 ];
+
+export let firstVisit = true;

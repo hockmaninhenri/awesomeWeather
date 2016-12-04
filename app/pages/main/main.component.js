@@ -3,6 +3,7 @@ var nativescript_geolocation_1 = require("nativescript-geolocation");
 var constants = require("../../common/constants");
 var utilities = require("../../common/utilities");
 var locationStore = require('../../stores/location');
+var application = require("application");
 var page_1 = require("ui/page");
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
@@ -48,24 +49,28 @@ var MainComponent = (function (_super) {
         // "cache" OnInit "this"
         var that = this;
         var locationFound = false;
-        isLocationEnabled();
-        if (locationFound) {
-            getLocationNow();
+        // get the location based weather only when opening the app
+        if (constants.firstVisit) {
+            alert("First visit");
+            isLocationEnabled();
+            if (locationFound) {
+                getLocationNow();
+            }
+            else
+                alert("Location services down");
+            // get time of day
+            var time_of_day = utilities.getTimeOfDay();
+            // load location from locationStore
+            var location = locationStore.getLocation();
+            // set weather icons
+            this.setIcons();
+            // set the firstVisit to be false
+            constants.firstVisit = false;
         }
-        else
-            alert("This is new alert");
-        // get time of day
-        var time_of_day = utilities.getTimeOfDay();
-        // load location from locationStore
-        var location = locationStore.getLocation();
-        // set weather icons
-        this.setIcons();
         function isLocationEnabled() {
             // Check if location services are enabled
             var isEnabledProperty = nativescript_geolocation_1.isEnabled();
-            var message = "Location services down";
             if (isEnabledProperty) {
-                message = "Location works";
                 locationFound = true;
             }
         }
@@ -76,11 +81,14 @@ var MainComponent = (function (_super) {
                 if (loc) {
                     console.log("Current location: " + loc);
                     locationStore.saveLocation(loc);
-                    var url = ''; // HERE CONTRUCT THE API URL WITH KEY AND 'loc'
+                    // Construct the API url with key and 'loc'
+                    var url = '';
+                    // Resolve the result
                     var weather = "clouds"; // THIS MUST GET CURRENT WEATHER DESC FROM API
+                    // Set the correct data to screen
                     var icon = constants.WEATHER_ICONS[time_of_day][weather];
                     that.set('icon', String.fromCharCode(icon));
-                    that.set('curCity', "Lat: " + loc.latitude + ", Long: " + loc.longitude); // HERE MUST CITY NAME
+                    that.set('curCity', "Lat: " + loc.latitude + ", Long: " + loc.longitude); // HERE MUST GET CITY NAME
                     that.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
                     that.set('curWind', 'tornado'); // HERE MUST GET WIND
                     that.set('curHumid', 'moist'); // HERE MUST GET HUMIDITY
@@ -94,6 +102,19 @@ var MainComponent = (function (_super) {
         function pageLoaded(args) {
             exports.pageLoaded = pageLoaded;
         }
+        // When the application is about to close, set the 'firstVisit' value to true,
+        // to get the location based weather forecast on startup
+        application.on(application.exitEvent, function (args) {
+            if (args.android) {
+                // For Android applications, args.android is an android activity class.
+                constants.firstVisit = true;
+            }
+            else if (args.ios) {
+                // For iOS applications, args.ios is UIApplication.
+                constants.firstVisit = true;
+                console.log("First visit: " + constants.firstVisit);
+            }
+        });
     };
     MainComponent.prototype.goFavorites = function () {
         this.routerExtensions.navigate(["favorites"]);

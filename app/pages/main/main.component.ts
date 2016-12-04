@@ -2,6 +2,7 @@ import { Location, getCurrentLocation, isEnabled, distance, enableLocationReques
 import constants = require("../../common/constants");
 import utilities = require("../../common/utilities");
 import locationStore = require('../../stores/location');
+import application = require("application");
 import { View } from "ui/core/view";
 import { Page } from "ui/page";
 import { Router } from "@angular/router";
@@ -60,30 +61,35 @@ export class MainComponent extends observable.Observable implements OnInit {
     var that = this;
     let locationFound = false;
 
-    isLocationEnabled();
+    // get the location based weather only when opening the app
+    if (constants.firstVisit){
+      //alert("First visit");
 
-    if (locationFound) {
-      getLocationNow();
-    } else alert("This is new alert");
+      isLocationEnabled();
 
+      if (locationFound) {
+        getLocationNow();
+      } else alert("Location services down");
 
+      // get time of day
+      var time_of_day = utilities.getTimeOfDay();
 
-    // get time of day
-    var time_of_day = utilities.getTimeOfDay();
+      // load location from locationStore
+      var location = locationStore.getLocation();
 
-    // load location from locationStore
-    var location = locationStore.getLocation();
+      // set weather icons
+      this.setIcons();
 
-    // set weather icons
-    this.setIcons();
+      // set the firstVisit to be false
+      constants.firstVisit = false;
+
+    }
 
     function isLocationEnabled() {
       // Check if location services are enabled
       let isEnabledProperty = isEnabled();
 
-      let message = "Location services down";
       if (isEnabledProperty) {
-        message = "Location works";
         locationFound = true;
       }
     }
@@ -93,16 +99,25 @@ export class MainComponent extends observable.Observable implements OnInit {
       getCurrentLocation({ timeout: 10000 })
         .then(function(loc) {
           if (loc) {
-            console.log("Current location: " + loc);
+            //console.log("Current location: " + loc);
             locationStore.saveLocation(loc);
 
-            var url = ''; // HERE CONTRUCT THE API URL WITH KEY AND 'loc'
+            // Construct the API url with key and 'loc'
+            var url = '';
+
+            // Resolve the result
+            /*
+
+            PEDRO DO THIS
+
+            */
 
             var weather = "clouds"; // THIS MUST GET CURRENT WEATHER DESC FROM API
 
+            // Set the correct data to screen
             var icon = constants.WEATHER_ICONS[time_of_day][weather];
             that.set('icon', String.fromCharCode(icon));
-            that.set('curCity', "Lat: " + loc.latitude + ", Long: " + loc.longitude); // HERE MUST CITY NAME
+            that.set('curCity', "Lat: " + loc.latitude + ", Long: " + loc.longitude); // HERE MUST GET CITY NAME
             that.set('curTemp', '-4'); // HERE MUST GET DEGREES FROM API
             that.set('curWind', 'tornado'); // HERE MUST GET WIND
             that.set('curHumid', 'moist'); // HERE MUST GET HUMIDITY
@@ -118,6 +133,20 @@ export class MainComponent extends observable.Observable implements OnInit {
     function pageLoaded(args) {
       exports.pageLoaded = pageLoaded;
     }
+
+    // When the application is about to close, set the 'firstVisit' value to true,
+    // to get the location based weather forecast on startup
+    application.on(application.exitEvent, function (args: application.ApplicationEventData) {
+      if (args.android) {
+          // For Android applications, args.android is an android activity class.
+          constants.firstVisit = true;
+          //console.log("First visit: " + constants.firstVisit);
+      } else if (args.ios) {
+          // For iOS applications, args.ios is UIApplication.
+          constants.firstVisit = true;
+          console.log("First visit: " + constants.firstVisit);
+      }
+    });
 
   }
 
