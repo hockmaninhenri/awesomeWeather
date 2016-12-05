@@ -24,6 +24,14 @@ var FavoritesComponent = (function () {
             _this.favorites = result;
         });
     };
+    FavoritesComponent.prototype.onItemTap = function (args) {
+        var _this = this;
+        //console.log("clicked "+args.index);
+        var num = args.index;
+        this.database.delete({ id: 'num' }).then(function (result) {
+            _this.fetch();
+        });
+    };
     FavoritesComponent = __decorate([
         core_1.Component({
             selector: "favorites",

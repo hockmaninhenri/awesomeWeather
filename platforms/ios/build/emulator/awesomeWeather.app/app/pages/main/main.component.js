@@ -64,8 +64,8 @@ var MainComponent = (function (_super) {
             var location = locationStore.getLocation();
             // set weather icons
             this.setIcons();
-            // set the firstVisit to be false
-            constants.firstVisit = false;
+        }
+        else {
         }
         function isLocationEnabled() {
             // Check if location services are enabled
@@ -90,13 +90,12 @@ var MainComponent = (function (_super) {
                         var temperature = res.main.temp;
                         var icon = constants.WEATHER_ICONS[time_of_day][weather];
                         // Set the correct data to screen
-                        var icon = constants.WEATHER_ICONS[time_of_day][weather];
                         that.set('icon', String.fromCharCode(icon));
-                        that.set('curCity', "$res.name");
+                        that.set('curCity', res.name);
                         that.set('curTemp', utilities.describeTemperature(Math.floor(temperature)) + " (" + utilities.convertKelvinToCelsius(temperature).toFixed(2) + ")");
                         that.set('curWind', "" + utilities.describeWindSpeed(Math.floor(res.wind.speed)));
                         that.set('curHumid', "" + utilities.describeHumidity(Math.floor(res.main.humidity)));
-                        that.set('curWeath', weather);
+                        that.set('curWeath', weather_description);
                     });
                 }
             }, function (e) {
@@ -104,9 +103,11 @@ var MainComponent = (function (_super) {
                 alert("Location error received: " + e);
             });
         }
+        /*
         function pageLoaded(args) {
-            exports.pageLoaded = pageLoaded;
+          exports.pageLoaded = pageLoaded;
         }
+        */
         // When the application is about to close, set the 'firstVisit' value to true,
         // to get the location based weather forecast on startup
         application.on(application.exitEvent, function (args) {

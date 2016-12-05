@@ -7,15 +7,9 @@
  */
 import { PRIMARY_OUTLET } from './shared';
 export function validateConfig(config) {
-    // forEach doesn't iterate undefined values
-    for (var i = 0; i < config.length; i++) {
-        validateNode(config[i]);
-    }
+    config.forEach(validateNode);
 }
 function validateNode(route) {
-    if (!route) {
-        throw new Error("\n      Invalid route configuration: Encountered undefined route.\n      The reason might be an extra comma.\n       \n      Example: \n      const routes: Routes = [\n        { path: '', redirectTo: '/dashboard', pathMatch: 'full' },\n        { path: 'dashboard',  component: DashboardComponent },, << two commas\n        { path: 'detail/:id', component: HeroDetailComponent }\n      ];\n    ");
-    }
     if (Array.isArray(route)) {
         throw new Error("Invalid route configuration: Array cannot be specified");
     }
@@ -33,9 +27,6 @@ function validateNode(route) {
     }
     if (!!route.redirectTo && !!route.component) {
         throw new Error("Invalid configuration of route '" + route.path + "': redirectTo and component cannot be used together");
-    }
-    if (!!route.path && !!route.matcher) {
-        throw new Error("Invalid configuration of route '" + route.path + "': path and matcher cannot be used together");
     }
     if (route.redirectTo === undefined && !route.component && !route.children &&
         !route.loadChildren) {

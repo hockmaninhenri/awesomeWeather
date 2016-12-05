@@ -38,9 +38,9 @@ var Database = (function () {
             });
         });
     };
-    Database.prototype.delete = function () {
+    Database.prototype.delete = function (data) {
         return this.db
-            .execSQL("DELETE FROM favorites WHERE id = ?");
+            .execSQL("DELETE FROM favorites WHERE id = (?)", [data.id]);
     };
     Database = __decorate([
         core_1.Injectable(), 

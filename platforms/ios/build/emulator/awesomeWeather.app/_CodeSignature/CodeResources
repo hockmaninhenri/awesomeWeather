@@ -86,7 +86,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		JwLSuRFEUhVxekMc7iHDfgsY2GE=
+		67iOlS1mf8rB7Wvj1WjZKMsc9xI=
 		</data>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
 		<data>
@@ -126,7 +126,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		rIVjMM+R6RO+zIuMDFNsCO3oQKo=
+		jnJDcCezic0wFLr50fvoGt5aSgo=
 		</data>
 		<key>LaunchImage-568h@2x.png</key>
 		<data>
@@ -194,7 +194,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		9IXmTK92ZoZR/7GuW/TVjiFb5s8=
+		CS5A/IbvKHx66/++BmgEo/hzNpA=
 		</data>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -202,7 +202,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		g33WNyuvO4wFJ4SCH6gqChH8NNo=
+		IaWztdYEEQgS5F9KHQt8OP6bMFY=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -358,19 +358,19 @@
 		</data>
 		<key>app/pages/main/main-common.css</key>
 		<data>
-		sLNC30HFY3aaSqx4Xa2RVn3la5A=
+		Tvnwsn7BalIatBr2I4S0IaudzU0=
 		</data>
 		<key>app/pages/main/main.component.js</key>
 		<data>
-		NXBX0xZ1e4ltD8ZF9eW1kxvZZtg=
+		TReXSeBeHxQ7Tv/iYLvxaxAuopM=
 		</data>
 		<key>app/pages/main/main.component.js.map</key>
 		<data>
-		lzc/OGSfcnRExD5koO0PncOx3EM=
+		HjAbIg717j34nePM7G/ZBPrg8mE=
 		</data>
 		<key>app/pages/main/main.component.ts</key>
 		<data>
-		ofpZgkLftv8JBZ0ZKY9V4uDTA7w=
+		ASk60OClxbP7Sk6VYxvU2LJ8o4U=
 		</data>
 		<key>app/pages/main/main.css</key>
 		<data>
@@ -378,7 +378,7 @@
 		</data>
 		<key>app/pages/main/main.html</key>
 		<data>
-		uGPTddg9ukzFHvIenApCImySe8Q=
+		Rrsg7wR3q0Z7TqckmZFnMLyixlY=
 		</data>
 		<key>app/platform.css</key>
 		<data>
@@ -14604,11 +14604,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JwLSuRFEUhVxekMc7iHDfgsY2GE=
+			67iOlS1mf8rB7Wvj1WjZKMsc9xI=
 			</data>
 			<key>hash2</key>
 			<data>
-			ev3/2WeaG5q4Qg/zcWd9Q+2vqdZOyNe8Dz1wblyozVE=
+			JlCbo6DEqH1nqGbOjd3Dfl7qpBu4cwbEiNgXoluDGUE=
 			</data>
 		</dict>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
@@ -14890,11 +14890,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9IXmTK92ZoZR/7GuW/TVjiFb5s8=
+			CS5A/IbvKHx66/++BmgEo/hzNpA=
 			</data>
 			<key>hash2</key>
 			<data>
-			QpofPZ2+erunyM+7UKadFbmVJvs7lu1JBM6Z8Iok1Ew=
+			kImVzGuA43F65Rqdcqtzene7KIew1IL3B1U5GCTEG8Y=
 			</data>
 		</dict>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
@@ -14912,11 +14912,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			g33WNyuvO4wFJ4SCH6gqChH8NNo=
+			IaWztdYEEQgS5F9KHQt8OP6bMFY=
 			</data>
 			<key>hash2</key>
 			<data>
-			s7RPbJmae6ega5P1MB7gQIuNWYpGOwrhA2xRovEj9aE=
+			Tv7DpzdQT8146/w0xKBo7pMmgAALJsUgH1otxHSb1zk=
 			</data>
 		</dict>
 		<key>app/LICENSE</key>
@@ -15330,44 +15330,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sLNC30HFY3aaSqx4Xa2RVn3la5A=
+			Tvnwsn7BalIatBr2I4S0IaudzU0=
 			</data>
 			<key>hash2</key>
 			<data>
-			L5Cufcb9j82u9Mh7VE/XWONiQDkiZ4LSvBj5KC7mOrc=
+			/MtCL3jMndKzu2O7ZFlRBZZydJIyjg2Ry+IK7uhHGuk=
 			</data>
 		</dict>
 		<key>app/pages/main/main.component.js</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NXBX0xZ1e4ltD8ZF9eW1kxvZZtg=
+			TReXSeBeHxQ7Tv/iYLvxaxAuopM=
 			</data>
 			<key>hash2</key>
 			<data>
-			jTyWDm+zqwp68cd8OspjP6yPqOdScdlGgLCiZxAH+cc=
+			R2MIsdUF5yJOQrhem4dgy/7OYC87FLDv6AyJDAX8JFE=
 			</data>
 		</dict>
 		<key>app/pages/main/main.component.js.map</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			lzc/OGSfcnRExD5koO0PncOx3EM=
+			HjAbIg717j34nePM7G/ZBPrg8mE=
 			</data>
 			<key>hash2</key>
 			<data>
-			csm0XUZxuogM95oPWiMe/mkkGQfFKDB1XQYZ0Km5uBg=
+			SO/hK3uWDOMARfNfgvqZA+BmdbkzmmrD2ozk0+p/kwU=
 			</data>
 		</dict>
 		<key>app/pages/main/main.component.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ofpZgkLftv8JBZ0ZKY9V4uDTA7w=
+			ASk60OClxbP7Sk6VYxvU2LJ8o4U=
 			</data>
 			<key>hash2</key>
 			<data>
-			GHSamMG4S0AlesqwVTEfaX2OI7JK9WnvZu5LTrNoFKw=
+			IycFsZgPFLipLHRYSLP8AYKhDK3TlwLNTxpqKSidnbg=
 			</data>
 		</dict>
 		<key>app/pages/main/main.css</key>
@@ -15385,11 +15385,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uGPTddg9ukzFHvIenApCImySe8Q=
+			Rrsg7wR3q0Z7TqckmZFnMLyixlY=
 			</data>
 			<key>hash2</key>
 			<data>
-			gK0OmRfYTxIUwPQB2pTSsuiC+1PjlOdWQEQWhXb/DlI=
+			lY2Qy8aGK+KFTTRPAU9YGtZxGb6orcoCD9Altv3qQxc=
 			</data>
 		</dict>
 		<key>app/platform.css</key>

@@ -3,6 +3,7 @@ import { Database } from "../../providers/database/database";
 import { GestureTypes, GestureEventData } from "ui/gestures";
 
 
+
 @Component({
   selector: "favorites",
   templateUrl: "pages/favorites/favorites.html",
@@ -12,8 +13,6 @@ export class FavoritesComponent implements OnInit {
 
   public name: string;
   public favorites: Array<any>;
-
-
 
   public constructor(private database: Database) {
     this.favorites = [];
@@ -37,12 +36,11 @@ export class FavoritesComponent implements OnInit {
     });
   }
 
-/* EI KÄYTÖSSÄ VIELÄ
-  public delete() {
-    this.database.delete().then(result => {
-      this.fetch()
+  public onItemTap(args) {
+    //console.log("clicked "+args.index);
+    var num = args.index;
+    this.database.delete({id: 'num'}).then(result => {
+      this.fetch();
     });
   }
-  */
-
 }

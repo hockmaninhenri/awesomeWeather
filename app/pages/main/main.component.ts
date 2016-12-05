@@ -81,8 +81,11 @@ export class MainComponent extends observable.Observable implements OnInit {
       this.setIcons();
 
       // set the firstVisit to be false
-      constants.firstVisit = false;
+      // CHANGE THIS TO WHEN A CITY IS CLICKED IN FAVS
+      // constants.firstVisit = false;
 
+    } else {
+      // HERE HAVE TO MAKE API CALL WITH CITY NAME WHICH WAS CLICKED
     }
 
     function isLocationEnabled() {
@@ -114,13 +117,14 @@ export class MainComponent extends observable.Observable implements OnInit {
               var icon = constants.WEATHER_ICONS[time_of_day][weather];
 
               // Set the correct data to screen
-              var icon = constants.WEATHER_ICONS[time_of_day][weather];
               that.set('icon', String.fromCharCode(icon));
-              that.set('curCity', `$res.name`);
-              that.set('curTemp', `${utilities.describeTemperature(Math.floor(temperature))} (${utilities.convertKelvinToCelsius(temperature).toFixed(2)})`);
+              that.set('curWeath', weather_description);
+              that.set('curDesc', `${utilities.describeTemperature(Math.floor(temperature))}`);
+              that.set('curCity', res.name);
+              that.set('curTemp', `${utilities.convertKelvinToCelsius(temperature).toFixed(2)}`);
               that.set('curWind', `${utilities.describeWindSpeed(Math.floor(res.wind.speed))}`);
               that.set('curHumid', `${utilities.describeHumidity(Math.floor(res.main.humidity))}`);
-              that.set('curWeath', weather);
+
             });
           }
         }, function(e) {
@@ -129,9 +133,11 @@ export class MainComponent extends observable.Observable implements OnInit {
         });
     }
 
+    /*
     function pageLoaded(args) {
       exports.pageLoaded = pageLoaded;
     }
+    */
 
     // When the application is about to close, set the 'firstVisit' value to true,
     // to get the location based weather forecast on startup

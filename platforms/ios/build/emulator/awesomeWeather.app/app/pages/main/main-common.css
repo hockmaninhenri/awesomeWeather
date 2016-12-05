@@ -22,7 +22,7 @@ Button {
 }
 
 .current {
-  height: 450;
+  height: 400;
   border-width: 0 0 1 0;
   border-color: #1976D2;
   padding: 20;

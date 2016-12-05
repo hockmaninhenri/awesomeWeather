@@ -5,14 +5,14 @@
     <!-- Here will be the big current weather set -->
     <StackLayout class="big-current">
       <Label text="{{ icon }}" class="icon"></Label>
-      <Label text="{{ curWeath }}" class="title" textWrap="true" width="320"></Label>
+      <Label text="{{ curWeath }}, {{ curDesc }}" class="title" textWrap="true" width="320"></Label>
     </StackLayout>
     <StackLayout horizontalAlignment="right" class="temp-holder">
       <Label horizontalAlignment="right" text="{{ curCity }}" class="curLabel"></Label>
       <Label horizontalAlignment="right" text="{{ curTemp }} &deg;C" class="curLabel"></Label>
       <Label horizontalAlignment="right" text="{{ curWind }}" class="curLabel"></Label>
       <Label horizontalAlignment="right" text="{{ curHumid }}" class="curLabel"></Label>
-      <Button horizontalAlignment="right" text="Add city to Favorites" class="btn add-btn" (tap)="addFavorite()"></Button>
+      <Button horizontalAlignment="right" text="Add to Favorites" class="btn add-btn" (tap)="addFavorite()"></Button>
     </StackLayout>
 
   </StackLayout>

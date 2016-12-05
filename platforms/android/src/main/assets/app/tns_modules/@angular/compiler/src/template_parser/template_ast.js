@@ -79,22 +79,18 @@ export var BoundEventAst = (function () {
         this.handler = handler;
         this.sourceSpan = sourceSpan;
     }
-    BoundEventAst.calcFullName = function (name, target, phase) {
-        if (target) {
-            return target + ":" + name;
-        }
-        else if (phase) {
-            return "@" + name + "." + phase;
-        }
-        else {
-            return name;
-        }
-    };
     BoundEventAst.prototype.visit = function (visitor, context) {
         return visitor.visitEvent(this, context);
     };
     Object.defineProperty(BoundEventAst.prototype, "fullName", {
-        get: function () { return BoundEventAst.calcFullName(this.name, this.target, this.phase); },
+        get: function () {
+            if (this.target) {
+                return this.target + ":" + this.name;
+            }
+            else {
+                return this.name;
+            }
+        },
         enumerable: true,
         configurable: true
     });

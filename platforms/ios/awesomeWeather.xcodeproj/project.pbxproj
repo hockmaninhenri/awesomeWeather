@@ -9,11 +9,11 @@
 		858B842D18CA22B800AB12DE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 858B833A18CA111C00AB12DE /* InfoPlist.strings */; };
 		CD45EE7C18DC2D5800FB50C0 /* app in Resources */ = {isa = PBXBuildFile; fileRef = CD45EE7A18DC2D5800FB50C0 /* app */; };
 		CD62955D1BB2678900AE3A93 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD62955C1BB2678900AE3A93 /* main.m */; };
-		6922BBA5B6EB49FE99624E0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A19B630B3A9475281706424 /* Assets.xcassets */; };
-		98086830ED364F09B76C2F96 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EBCEEE1F9214D4399E8AE04 /* LaunchScreen.storyboard */; };
-		109FAABBC5904A5EAD200B3E /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = A2016B9CD17F45C3A6F388E8 /* build.xcconfig */; };
-		994877321505471FB4F73ED4 /* TNSWidgets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 093C8BCAB8B740ABAE6DE4D9 /* TNSWidgets.framework */; };
-		B11A087D6B20485B9492C8FE /* TNSWidgets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 093C8BCAB8B740ABAE6DE4D9 /* TNSWidgets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BAF4F6AD5D4B4CADB6255C04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AD0A066D1684879B1B51039 /* Assets.xcassets */; };
+		AFC6B9E18A8842AEB42A87FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F731C20D61384D598AE5A268 /* LaunchScreen.storyboard */; };
+		52F0BB1C317341B99BB8AC52 /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 833B05428B71419F8F8EC0B4 /* build.xcconfig */; };
+		68B7D17DE5AB4F46A28F97C9 /* TNSWidgets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76E10A14A24E47B08E3E05C4 /* TNSWidgets.framework */; };
+		50B94AFFC3024FB48F8ADB58 /* TNSWidgets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 76E10A14A24E47B08E3E05C4 /* TNSWidgets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,7 +23,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B11A087D6B20485B9492C8FE /* TNSWidgets.framework in Embed Frameworks */,
+				50B94AFFC3024FB48F8ADB58 /* TNSWidgets.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -41,10 +41,10 @@
 		CDD59A261BB43B5D00EC2671 /* build-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "build-debug.xcconfig"; sourceTree = "<group>"; };
 		CDD59A271BB43B5D00EC2671 /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "build-release.xcconfig"; sourceTree = "<group>"; };
 		CDF4743E1BA4855C0087EA85 /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = build.xcconfig; sourceTree = "<group>"; };
-		8A19B630B3A9475281706424 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = unknown; name = Assets.xcassets; path = "awesomeWeather/Resources/Assets.xcassets"; sourceTree = "<group>"; fileEncoding = 4; };
-		1EBCEEE1F9214D4399E8AE04 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = unknown; name = LaunchScreen.storyboard; path = "awesomeWeather/Resources/LaunchScreen.storyboard"; sourceTree = "<group>"; fileEncoding = 4; };
-		A2016B9CD17F45C3A6F388E8 /* build.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = unknown; name = build.xcconfig; path = "awesomeWeather/Resources/build.xcconfig"; sourceTree = "<group>"; fileEncoding = 4; };
-		093C8BCAB8B740ABAE6DE4D9 /* TNSWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TNSWidgets.framework; path = "../../lib/iOS/TNSWidgets.framework"; sourceTree = "<group>"; };
+		8AD0A066D1684879B1B51039 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = unknown; name = Assets.xcassets; path = "awesomeWeather/Resources/Assets.xcassets"; sourceTree = "<group>"; fileEncoding = 4; };
+		F731C20D61384D598AE5A268 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = unknown; name = LaunchScreen.storyboard; path = "awesomeWeather/Resources/LaunchScreen.storyboard"; sourceTree = "<group>"; fileEncoding = 4; };
+		833B05428B71419F8F8EC0B4 /* build.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = unknown; name = build.xcconfig; path = "awesomeWeather/Resources/build.xcconfig"; sourceTree = "<group>"; fileEncoding = 4; };
+		76E10A14A24E47B08E3E05C4 /* TNSWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TNSWidgets.framework; path = "../../lib/iOS/TNSWidgets.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				994877321505471FB4F73ED4 /* TNSWidgets.framework in Frameworks */,
+				68B7D17DE5AB4F46A28F97C9 /* TNSWidgets.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +81,7 @@
 		858B833018CA111C00AB12DE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				093C8BCAB8B740ABAE6DE4D9 /* TNSWidgets.framework */,
+				76E10A14A24E47B08E3E05C4 /* TNSWidgets.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,9 +112,9 @@
 		E070579D1B39A9D000214BF1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8A19B630B3A9475281706424 /* Assets.xcassets */,
-				1EBCEEE1F9214D4399E8AE04 /* LaunchScreen.storyboard */,
-				A2016B9CD17F45C3A6F388E8 /* build.xcconfig */,
+				8AD0A066D1684879B1B51039 /* Assets.xcassets */,
+				F731C20D61384D598AE5A268 /* LaunchScreen.storyboard */,
+				833B05428B71419F8F8EC0B4 /* build.xcconfig */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -177,9 +177,9 @@
 			files = (
 				CD45EE7C18DC2D5800FB50C0 /* app in Resources */,
 				858B842D18CA22B800AB12DE /* InfoPlist.strings in Resources */,
-				6922BBA5B6EB49FE99624E0D /* Assets.xcassets in Resources */,
-				98086830ED364F09B76C2F96 /* LaunchScreen.storyboard in Resources */,
-				109FAABBC5904A5EAD200B3E /* build.xcconfig in Resources */,
+				BAF4F6AD5D4B4CADB6255C04 /* Assets.xcassets in Resources */,
+				AFC6B9E18A8842AEB42A87FB /* LaunchScreen.storyboard in Resources */,
+				52F0BB1C317341B99BB8AC52 /* build.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

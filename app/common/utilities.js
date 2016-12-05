@@ -63,25 +63,25 @@ function describeHumidity(humidity) {
 exports.describeHumidity = describeHumidity;
 function describeTemperature(temp) {
     var celsius = convertKelvinToCelsius(temp);
-    if (celsius >= 0 && celsius < 7) {
-        return 'freezing';
+    if (celsius >= -5 && celsius < 6) {
+        return 'pretty cool, you should wear a jacket';
     }
-    else if (celsius >= 8 && celsius < 13) {
-        return 'cold';
+    else if (celsius >= 6 && celsius < 13) {
+        return 'almost like summer';
     }
     else if (celsius >= 13 && celsius < 18) {
-        return 'mild';
+        return 'bearable.';
     }
     else if (celsius >= 18 && celsius < 23) {
-        return 'warm';
+        return "wow, it's hot";
     }
     else if (celsius >= 23 && celsius < 28) {
-        return 'hot';
+        return 'this burns';
     }
-    else if (celsius >= 28 && celsius < 32) {
-        return 'very hot';
+    else if (celsius >= 28) {
+        return 'hot as h*ll';
     }
-    return 'hot as hell';
+    return "it's freezing, no climate change here";
 }
 exports.describeTemperature = describeTemperature;
 function convertKelvinToCelsius(celsius) {
