@@ -1,0 +1,8 @@
+Button {
+  height: 30;
+}
+
+.btn {
+  border-radius: 10;
+  border-color: #1976D2;
+}
