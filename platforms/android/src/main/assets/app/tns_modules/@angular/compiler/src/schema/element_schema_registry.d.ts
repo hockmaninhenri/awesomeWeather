@@ -21,9 +21,4 @@ export declare abstract class ElementSchemaRegistry {
         error: boolean;
         msg?: string;
     };
-    abstract normalizeAnimationStyleProperty(propName: string): string;
-    abstract normalizeAnimationStyleValue(camelCaseProp: string, userProvidedProp: string, val: string | number): {
-        error: string;
-        value: string;
-    };
 }

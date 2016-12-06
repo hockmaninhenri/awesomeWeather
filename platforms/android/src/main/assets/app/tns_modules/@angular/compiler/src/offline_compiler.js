@@ -6,11 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { AnimationCompiler } from './animation/animation_compiler';
+import { AnimationParser } from './animation/animation_parser';
 import { CompileProviderMetadata, createHostComponentMeta } from './compile_metadata';
-import { ListWrapper } from './facade/collection';
+import { ListWrapper, MapWrapper } from './facade/collection';
 import { Identifiers, resolveIdentifier, resolveIdentifierToken } from './identifiers';
 import * as o from './output/output_ast';
-import { ComponentFactoryDependency, DirectiveWrapperDependency, ViewClassDependency } from './view_compiler/view_compiler';
+import { ComponentFactoryDependency, DirectiveWrapperDependency, ViewFactoryDependency } from './view_compiler/view_compiler';
 export var SourceModule = (function () {
     function SourceModule(fileUrl, moduleUrl, source) {
         this.fileUrl = fileUrl;
@@ -21,26 +22,18 @@ export var SourceModule = (function () {
 }());
 // Returns all the source files and a mapping from modules to directives
 export function analyzeNgModules(programStaticSymbols, options, metadataResolver) {
-    var _a = _createNgModules(programStaticSymbols, options, metadataResolver), ngModules = _a.ngModules, symbolsMissingModule = _a.symbolsMissingModule;
-    return _analyzeNgModules(ngModules, symbolsMissingModule);
-}
-export function analyzeAndValidateNgModules(programStaticSymbols, options, metadataResolver) {
-    var result = analyzeNgModules(programStaticSymbols, options, metadataResolver);
-    if (result.symbolsMissingModule && result.symbolsMissingModule.length) {
-        var messages = result.symbolsMissingModule.map(function (s) { return ("Cannot determine the module for class " + s.name + " in " + s.filePath + "!"); });
-        throw new Error(messages.join('\n'));
-    }
-    return result;
-}
-// Wait for the directives in the given modules have been loaded
-export function loadNgModuleDirectives(ngModules) {
-    return Promise
-        .all(ListWrapper.flatten(ngModules.map(function (ngModule) { return ngModule.transitiveModule.directiveLoaders.map(function (loader) { return loader(); }); })))
-        .then(function () { });
-}
-function _analyzeNgModules(ngModuleMetas, symbolsMissingModule) {
+    var _a = _extractModulesAndPipesOrDirectives(programStaticSymbols, metadataResolver), programNgModules = _a.ngModules, programPipesOrDirectives = _a.pipesAndDirectives;
     var moduleMetasByRef = new Map();
-    ngModuleMetas.forEach(function (ngModule) { return moduleMetasByRef.set(ngModule.type.reference, ngModule); });
+    programNgModules.forEach(function (modMeta) {
+        if (options.transitiveModules) {
+            // For every input modules add the list of transitively included modules
+            modMeta.transitiveModule.modules.forEach(function (modMeta) { moduleMetasByRef.set(modMeta.type.reference, modMeta); });
+        }
+        else {
+            moduleMetasByRef.set(modMeta.type.reference, modMeta);
+        }
+    });
+    var ngModuleMetas = MapWrapper.values(moduleMetasByRef);
     var ngModuleByPipeOrDirective = new Map();
     var ngModulesByFile = new Map();
     var ngDirectivesByFile = new Map();
@@ -53,18 +46,24 @@ function _analyzeNgModules(ngModuleMetas, symbolsMissingModule) {
         var srcFileUrl = ngModuleMeta.type.reference.filePath;
         filePaths.add(srcFileUrl);
         ngModulesByFile.set(srcFileUrl, (ngModulesByFile.get(srcFileUrl) || []).concat(ngModuleMeta.type.reference));
-        ngModuleMeta.declaredDirectives.forEach(function (dirIdentifier) {
-            var fileUrl = dirIdentifier.reference.filePath;
+        ngModuleMeta.declaredDirectives.forEach(function (dirMeta) {
+            var fileUrl = dirMeta.type.reference.filePath;
             filePaths.add(fileUrl);
-            ngDirectivesByFile.set(fileUrl, (ngDirectivesByFile.get(fileUrl) || []).concat(dirIdentifier.reference));
-            ngModuleByPipeOrDirective.set(dirIdentifier.reference, ngModuleMeta);
+            ngDirectivesByFile.set(fileUrl, (ngDirectivesByFile.get(fileUrl) || []).concat(dirMeta.type.reference));
+            ngModuleByPipeOrDirective.set(dirMeta.type.reference, ngModuleMeta);
         });
-        ngModuleMeta.declaredPipes.forEach(function (pipeIdentifier) {
-            var fileUrl = pipeIdentifier.reference.filePath;
+        ngModuleMeta.declaredPipes.forEach(function (pipeMeta) {
+            var fileUrl = pipeMeta.type.reference.filePath;
             filePaths.add(fileUrl);
-            ngModuleByPipeOrDirective.set(pipeIdentifier.reference, ngModuleMeta);
+            ngModuleByPipeOrDirective.set(pipeMeta.type.reference, ngModuleMeta);
         });
     });
+    // Throw an error if any of the program pipe or directives is not declared by a module
+    var symbolsMissingModule = programPipesOrDirectives.filter(function (s) { return !ngModuleByPipeOrDirective.has(s); });
+    if (symbolsMissingModule.length) {
+        var messages = symbolsMissingModule.map(function (s) { return ("Cannot determine the module for class " + s.name + " in " + s.filePath + "!"); });
+        throw new Error(messages.join('\n'));
+    }
     var files = [];
     filePaths.forEach(function (srcUrl) {
         var directives = ngDirectivesByFile.get(srcUrl) || [];
@@ -76,12 +75,12 @@ function _analyzeNgModules(ngModuleMetas, symbolsMissingModule) {
         ngModuleByPipeOrDirective: ngModuleByPipeOrDirective,
         // list modules and directives for every source file
         files: files,
-        ngModules: ngModuleMetas, symbolsMissingModule: symbolsMissingModule
     };
 }
 export var OfflineCompiler = (function () {
-    function OfflineCompiler(_metadataResolver, _templateParser, _styleCompiler, _viewCompiler, _dirWrapperCompiler, _ngModuleCompiler, _outputEmitter, _localeId, _translationFormat, _animationParser) {
+    function OfflineCompiler(_metadataResolver, _directiveNormalizer, _templateParser, _styleCompiler, _viewCompiler, _dirWrapperCompiler, _ngModuleCompiler, _outputEmitter, _localeId, _translationFormat) {
         this._metadataResolver = _metadataResolver;
+        this._directiveNormalizer = _directiveNormalizer;
         this._templateParser = _templateParser;
         this._styleCompiler = _styleCompiler;
         this._viewCompiler = _viewCompiler;
@@ -90,17 +89,19 @@ export var OfflineCompiler = (function () {
         this._outputEmitter = _outputEmitter;
         this._localeId = _localeId;
         this._translationFormat = _translationFormat;
-        this._animationParser = _animationParser;
+        this._animationParser = new AnimationParser();
         this._animationCompiler = new AnimationCompiler();
     }
-    OfflineCompiler.prototype.clearCache = function () { this._metadataResolver.clearCache(); };
+    OfflineCompiler.prototype.clearCache = function () {
+        this._directiveNormalizer.clearCache();
+        this._metadataResolver.clearCache();
+    };
     OfflineCompiler.prototype.compileModules = function (staticSymbols, options) {
         var _this = this;
-        var _a = analyzeAndValidateNgModules(staticSymbols, options, this._metadataResolver), ngModuleByPipeOrDirective = _a.ngModuleByPipeOrDirective, files = _a.files, ngModules = _a.ngModules;
-        return loadNgModuleDirectives(ngModules).then(function () {
-            var sourceModules = files.map(function (file) { return _this._compileSrcFile(file.srcUrl, ngModuleByPipeOrDirective, file.directives, file.ngModules); });
-            return ListWrapper.flatten(sourceModules);
-        });
+        var _a = analyzeNgModules(staticSymbols, options, this._metadataResolver), ngModuleByPipeOrDirective = _a.ngModuleByPipeOrDirective, files = _a.files;
+        var sourceModules = files.map(function (file) { return _this._compileSrcFile(file.srcUrl, ngModuleByPipeOrDirective, file.directives, file.ngModules); });
+        return Promise.all(sourceModules)
+            .then(function (modules) { return ListWrapper.flatten(modules); });
     };
     OfflineCompiler.prototype._compileSrcFile = function (srcFileUrl, ngModuleByPipeOrDirective, directives, ngModules) {
         var _this = this;
@@ -113,7 +114,8 @@ export var OfflineCompiler = (function () {
         // compile directive wrappers
         exportedVars.push.apply(exportedVars, directives.map(function (directiveType) { return _this._compileDirectiveWrapper(directiveType, statements); }));
         // compile components
-        directives.forEach(function (dirType) {
+        return Promise
+            .all(directives.map(function (dirType) {
             var compMeta = _this._metadataResolver.getDirectiveMetadata(dirType);
             if (!compMeta.isComponent) {
                 return Promise.resolve(null);
@@ -122,20 +124,27 @@ export var OfflineCompiler = (function () {
             if (!ngModule) {
                 throw new Error("Internal Error: cannot determine the module for component " + compMeta.type.name + "!");
             }
-            _assertComponent(compMeta);
-            // compile styles
-            var stylesCompileResults = _this._styleCompiler.compileComponent(compMeta);
-            stylesCompileResults.externalStylesheets.forEach(function (compiledStyleSheet) {
-                outputSourceModules.push(_this._codgenStyles(srcFileUrl, compiledStyleSheet, fileSuffix));
+            return Promise
+                .all([compMeta].concat(ngModule.transitiveModule.directives).map(function (dirMeta) { return _this._directiveNormalizer.normalizeDirective(dirMeta).asyncResult; }))
+                .then(function (normalizedCompWithDirectives) {
+                var compMeta = normalizedCompWithDirectives[0], dirMetas = normalizedCompWithDirectives.slice(1);
+                _assertComponent(compMeta);
+                // compile styles
+                var stylesCompileResults = _this._styleCompiler.compileComponent(compMeta);
+                stylesCompileResults.externalStylesheets.forEach(function (compiledStyleSheet) {
+                    outputSourceModules.push(_this._codgenStyles(srcFileUrl, compiledStyleSheet, fileSuffix));
+                });
+                // compile components
+                exportedVars.push(_this._compileComponentFactory(compMeta, fileSuffix, statements), _this._compileComponent(compMeta, dirMetas, ngModule.transitiveModule.pipes, ngModule.schemas, stylesCompileResults.componentStylesheet, fileSuffix, statements));
             });
-            // compile components
-            exportedVars.push(_this._compileComponentFactory(compMeta, ngModule, fileSuffix, statements), _this._compileComponent(compMeta, ngModule, ngModule.transitiveModule.directives, stylesCompileResults.componentStylesheet, fileSuffix, statements));
+        }))
+            .then(function () {
+            if (statements.length > 0) {
+                var srcModule = _this._codegenSourceModule(srcFileUrl, _ngfactoryModuleUrl(srcFileUrl), statements, exportedVars);
+                outputSourceModules.unshift(srcModule);
+            }
+            return outputSourceModules;
         });
-        if (statements.length > 0) {
-            var srcModule = this._codegenSourceModule(srcFileUrl, _ngfactoryModuleUrl(srcFileUrl), statements, exportedVars);
-            outputSourceModules.unshift(srcModule);
-        }
-        return outputSourceModules;
     };
     OfflineCompiler.prototype._compileModule = function (ngModuleType, targetStatements) {
         var ngModule = this._metadataResolver.getNgModuleMetadata(ngModuleType);
@@ -166,9 +175,9 @@ export var OfflineCompiler = (function () {
         targetStatements.push.apply(targetStatements, dirCompileResult.statements);
         return dirCompileResult.dirWrapperClassVar;
     };
-    OfflineCompiler.prototype._compileComponentFactory = function (compMeta, ngModule, fileSuffix, targetStatements) {
+    OfflineCompiler.prototype._compileComponentFactory = function (compMeta, fileSuffix, targetStatements) {
         var hostMeta = createHostComponentMeta(compMeta);
-        var hostViewFactoryVar = this._compileComponent(hostMeta, ngModule, [compMeta.type], null, fileSuffix, targetStatements);
+        var hostViewFactoryVar = this._compileComponent(hostMeta, [compMeta], [], [], null, fileSuffix, targetStatements);
         var compFactoryVar = _componentFactoryName(compMeta.type);
         targetStatements.push(o.variable(compFactoryVar)
             .set(o.importExpr(resolveIdentifier(Identifiers.ComponentFactory), [o.importType(compMeta.type)])
@@ -180,21 +189,18 @@ export var OfflineCompiler = (function () {
             .toDeclStmt(null, [o.StmtModifier.Final]));
         return compFactoryVar;
     };
-    OfflineCompiler.prototype._compileComponent = function (compMeta, ngModule, directiveIdentifiers, componentStyles, fileSuffix, targetStatements) {
-        var _this = this;
+    OfflineCompiler.prototype._compileComponent = function (compMeta, directives, pipes, schemas, componentStyles, fileSuffix, targetStatements) {
         var parsedAnimations = this._animationParser.parseComponent(compMeta);
-        var directives = directiveIdentifiers.map(function (dir) { return _this._metadataResolver.getDirectiveSummary(dir.reference); });
-        var pipes = ngModule.transitiveModule.pipes.map(function (pipe) { return _this._metadataResolver.getPipeSummary(pipe.reference); });
-        var parsedTemplate = this._templateParser.parse(compMeta, compMeta.template.template, directives, pipes, ngModule.schemas, compMeta.type.name);
+        var parsedTemplate = this._templateParser.parse(compMeta, compMeta.template.template, directives, pipes, schemas, compMeta.type.name);
         var stylesExpr = componentStyles ? o.variable(componentStyles.stylesVar) : o.literalArr([]);
         var compiledAnimations = this._animationCompiler.compile(compMeta.type.name, parsedAnimations);
         var viewResult = this._viewCompiler.compileComponent(compMeta, parsedTemplate, stylesExpr, pipes, compiledAnimations);
         if (componentStyles) {
             targetStatements.push.apply(targetStatements, _resolveStyleStatements(componentStyles, fileSuffix));
         }
-        compiledAnimations.forEach(function (entry) { return targetStatements.push.apply(targetStatements, entry.statements); });
+        compiledAnimations.forEach(function (entry) { entry.statements.forEach(function (statement) { targetStatements.push(statement); }); });
         targetStatements.push.apply(targetStatements, _resolveViewStatements(viewResult));
-        return viewResult.viewClassVar;
+        return viewResult.viewFactoryVar;
     };
     OfflineCompiler.prototype._codgenStyles = function (fileUrl, stylesCompileResult, fileSuffix) {
         _resolveStyleStatements(stylesCompileResult, fileSuffix);
@@ -207,7 +213,7 @@ export var OfflineCompiler = (function () {
 }());
 function _resolveViewStatements(compileResult) {
     compileResult.dependencies.forEach(function (dep) {
-        if (dep instanceof ViewClassDependency) {
+        if (dep instanceof ViewFactoryDependency) {
             var vfd = dep;
             vfd.placeholder.moduleUrl = _ngfactoryModuleUrl(vfd.comp.moduleUrl);
         }
@@ -254,37 +260,26 @@ function _splitTypescriptSuffix(path) {
     }
     return [path, ''];
 }
-// Load the NgModules and check
-// that all directives / pipes that are present in the program
-// are also declared by a module.
-function _createNgModules(programStaticSymbols, options, metadataResolver) {
-    var ngModules = new Map();
-    var programPipesAndDirectives = [];
-    var ngModulePipesAndDirective = new Set();
-    var addNgModule = function (staticSymbol) {
-        if (ngModules.has(staticSymbol)) {
-            return false;
-        }
-        var ngModule = metadataResolver.getUnloadedNgModuleMetadata(staticSymbol, false, false);
-        if (ngModule) {
-            ngModules.set(ngModule.type.reference, ngModule);
-            ngModule.declaredDirectives.forEach(function (dir) { return ngModulePipesAndDirective.add(dir.reference); });
-            ngModule.declaredPipes.forEach(function (pipe) { return ngModulePipesAndDirective.add(pipe.reference); });
-            if (options.transitiveModules) {
-                // For every input modules add the list of transitively included modules
-                ngModule.transitiveModule.modules.forEach(function (modMeta) { return addNgModule(modMeta.type.reference); });
-            }
-        }
-        return !!ngModule;
-    };
+// Group the symbols by types:
+// - NgModules,
+// - Pipes and Directives.
+function _extractModulesAndPipesOrDirectives(programStaticSymbols, metadataResolver) {
+    var ngModules = [];
+    var pipesAndDirectives = [];
     programStaticSymbols.forEach(function (staticSymbol) {
-        if (!addNgModule(staticSymbol) &&
-            (metadataResolver.isDirective(staticSymbol) || metadataResolver.isPipe(staticSymbol))) {
-            programPipesAndDirectives.push(staticSymbol);
+        var ngModule = metadataResolver.getNgModuleMetadata(staticSymbol, false);
+        var directive = metadataResolver.getDirectiveMetadata(staticSymbol, false);
+        var pipe = metadataResolver.getPipeMetadata(staticSymbol, false);
+        if (ngModule) {
+            ngModules.push(ngModule);
+        }
+        else if (directive) {
+            pipesAndDirectives.push(staticSymbol);
+        }
+        else if (pipe) {
+            pipesAndDirectives.push(staticSymbol);
         }
     });
-    // Throw an error if any of the program pipe or directives is not declared by a module
-    var symbolsMissingModule = programPipesAndDirectives.filter(function (s) { return !ngModulePipesAndDirective.has(s); });
-    return { ngModules: Array.from(ngModules.values()), symbolsMissingModule: symbolsMissingModule };
+    return { ngModules: ngModules, pipesAndDirectives: pipesAndDirectives };
 }
 //# sourceMappingURL=offline_compiler.js.map

@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { COMPILER_OPTIONS, Compiler, CompilerFactory, Inject, Injectable, Optional, PLATFORM_INITIALIZER, ReflectiveInjector, TRANSLATIONS, TRANSLATIONS_FORMAT, ViewEncapsulation, createPlatformFactory, isDevMode, platformCore } from '@angular/core';
-import { AnimationParser } from './animation/animation_parser';
 import { CompilerConfig } from './config';
 import { DirectiveNormalizer } from './directive_normalizer';
 import { DirectiveResolver } from './directive_resolver';
@@ -72,8 +71,7 @@ export var COMPILER_PROVIDERS = [
     UrlResolver,
     DirectiveResolver,
     PipeResolver,
-    NgModuleResolver,
-    AnimationParser
+    NgModuleResolver
 ];
 export var RuntimeCompilerFactory = (function () {
     function RuntimeCompilerFactory(defaultOptions) {

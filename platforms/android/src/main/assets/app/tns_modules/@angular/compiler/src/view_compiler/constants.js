@@ -6,8 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { createEnumExpression } from '../compiler_util/identifier_util';
-import { Identifiers } from '../identifiers';
+import { Identifiers, resolveEnumIdentifier } from '../identifiers';
 import * as o from '../output/output_ast';
+function _enumExpression(classIdentifier, name) {
+    return o.importExpr(resolveEnumIdentifier(classIdentifier, name));
+}
 export var ViewTypeEnum = (function () {
     function ViewTypeEnum() {
     }
@@ -44,15 +47,15 @@ export var ViewConstructorVars = (function () {
     function ViewConstructorVars() {
     }
     ViewConstructorVars.viewUtils = o.variable('viewUtils');
-    ViewConstructorVars.parentView = o.variable('parentView');
-    ViewConstructorVars.parentIndex = o.variable('parentIndex');
-    ViewConstructorVars.parentElement = o.variable('parentElement');
+    ViewConstructorVars.parentInjector = o.variable('parentInjector');
+    ViewConstructorVars.declarationEl = o.variable('declarationEl');
     return ViewConstructorVars;
 }());
 export var ViewProperties = (function () {
     function ViewProperties() {
     }
     ViewProperties.renderer = o.THIS_EXPR.prop('renderer');
+    ViewProperties.projectableNodes = o.THIS_EXPR.prop('projectableNodes');
     ViewProperties.viewUtils = o.THIS_EXPR.prop('viewUtils');
     return ViewProperties;
 }());

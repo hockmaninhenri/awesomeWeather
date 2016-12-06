@@ -1,6 +1,6 @@
 {
   "name": "@angular/core",
-  "version": "2.2.1",
+  "version": "2.1.2",
   "description": "Angular - the core framework",
   "main": "bundles/core.umd.js",
   "module": "index.js",
@@ -21,20 +21,20 @@
     "url": "https://github.com/angular/angular/issues"
   },
   "homepage": "https://github.com/angular/angular#readme",
-  "_id": "@angular/core@2.2.1",
+  "_id": "@angular/core@2.1.2",
   "scripts": {},
-  "_shasum": "86fdc34a370a4fcfe84ed9de4b3c43548612919c",
-  "_from": "@angular/core@2.2.1",
-  "_resolved": "https://registry.npmjs.org/@angular/core/-/core-2.2.1.tgz",
-  "_npmVersion": "3.10.8",
-  "_nodeVersion": "6.9.1",
+  "_shasum": "ce39521643f3d97bc5923d5a7aa76604e973dac8",
+  "_from": "@angular/core@>=2.1.1 <2.2.0",
+  "_resolved": "https://registry.npmjs.org/@angular/core/-/core-2.1.2.tgz",
+  "_npmVersion": "3.10.3",
+  "_nodeVersion": "6.7.0",
   "_npmUser": {
     "name": "angular",
     "email": "angular-core+npm@google.com"
   },
   "dist": {
-    "shasum": "86fdc34a370a4fcfe84ed9de4b3c43548612919c",
-    "tarball": "https://registry.npmjs.org/@angular/core/-/core-2.2.1.tgz"
+    "shasum": "ce39521643f3d97bc5923d5a7aa76604e973dac8",
+    "tarball": "https://registry.npmjs.org/@angular/core/-/core-2.1.2.tgz"
   },
   "maintainers": [
     {
@@ -44,7 +44,7 @@
   ],
   "_npmOperationalInternal": {
     "host": "packages-18-east.internal.npmjs.com",
-    "tmp": "tmp/core-2.2.1.tgz_1479411131065_0.6184867259580642"
+    "tmp": "tmp/core-2.1.2.tgz_1477593272741_0.5004757556598634"
   },
   "directories": {}
 }

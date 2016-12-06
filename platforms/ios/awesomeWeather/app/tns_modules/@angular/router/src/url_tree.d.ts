@@ -122,7 +122,7 @@ export declare class UrlSegmentGroup {
  */
 export declare class UrlSegment {
     /**
-     * The path part of a URL segment.
+     * The part part of a URL segment.
      */
     path: string;
     /**
@@ -133,7 +133,7 @@ export declare class UrlSegment {
     };
     constructor(
         /**
-         * The path part of a URL segment.
+         * The part part of a URL segment.
          */
         path: string, 
         /**
