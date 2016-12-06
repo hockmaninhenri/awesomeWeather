@@ -122,7 +122,7 @@ export class MainComponent extends observable.Observable implements OnInit {
 
     function getLocationNow() {
       // get current location
-      getCurrentLocation({ timeout: 10000 })
+      getCurrentLocation({ timeout: 30000 })
         .then(function(loc) {
           if (loc) {
             //console.log("Current location: " + loc);

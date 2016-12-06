@@ -97,7 +97,7 @@ var MainComponent = (function (_super) {
         }
         function getLocationNow() {
             // get current location
-            nativescript_geolocation_1.getCurrentLocation({ timeout: 10000 })
+            nativescript_geolocation_1.getCurrentLocation({ timeout: 30000 })
                 .then(function (loc) {
                 if (loc) {
                     //console.log("Current location: " + loc);
