@@ -23,11 +23,11 @@ var MainComponent = (function (_super) {
         // >> This set contains code for swipe event to change the page.
         // >> Didn't work somewhy, so changed to button-events
         /*
-    
+
         // Detecting swipe gestures on page, and routing to favorites if swipe right  THIS NEEDS ATTENTION, DOESN'T WORK YET
         this.page.on(GestureTypes.swipe, function(args: SwipeGestureEventData) {
             console.log("Swipe Direction From event function: " + args.direction);
-    
+
             that.onSwipe();
         });
         */
@@ -81,8 +81,10 @@ var MainComponent = (function (_super) {
                 if (loc) {
                     //console.log("Current location: " + loc);
                     locationStore.saveLocation(loc);
+
                     // Construct the API url with key and 'loc'
                     var url = "" + constants.WEATHER_URL + constants.CURRENT_WEATHER_PATH + "?lat=" + loc.latitude + "&lon=" + loc.longitude + "&apikey=" + constants.WEATHER_APIKEY;
+
                     // Resolve the result
                     requestor.get(url).then(function (res) {
                         var weather = res.weather[0].main.toLowerCase();
@@ -90,7 +92,7 @@ var MainComponent = (function (_super) {
                         var temperature = res.main.temp;
                         var icon = constants.WEATHER_ICONS[time_of_day][weather];
                         // Set the correct data to screen
-                        var icon = constants.WEATHER_ICONS[time_of_day][weather];
+
                         that.set('icon', String.fromCharCode(icon));
                         that.set('curCity', "$res.name");
                         that.set('curTemp', utilities.describeTemperature(Math.floor(temperature)) + " (" + utilities.convertKelvinToCelsius(temperature).toFixed(2) + ")");
@@ -133,7 +135,7 @@ var MainComponent = (function (_super) {
             selector: "my-app",
             templateUrl: "pages/main/main.html",
             styleUrls: ["pages/main/main-common.css", "pages/main/main.css"]
-        }), 
+        }),
         __metadata('design:paramtypes', [router_2.RouterExtensions, router_1.Router, page_1.Page])
     ], MainComponent);
     return MainComponent;

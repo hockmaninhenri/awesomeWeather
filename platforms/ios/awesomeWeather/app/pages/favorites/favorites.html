@@ -1,7 +1,3 @@
-<ActionBar title="Favorites">
-
-</ActionBar>
-
 <GridLayout  class="wrap" rows="auto, *">
   <GridLayout row="0" columns="*, auto" class="add-bar">
     <TextField [(ngModel)]="name" hint="Type city name here" col="0"></TextField>
@@ -9,8 +5,8 @@
   </GridLayout>
 
   <ListView [items]="favorites" row="1" class="favoriteList">
-    <template let-favorite="item" class="">
-      <Label text="{{ favorite.name }}" class="item"></Label>
+    <template let-favorite="item" let-i="index" class="">
+      <Label text="{{ favorite.name }}" class="item" (longPress)="onLongPress($event)"></Label>
     </template>
   </ListView>
 </GridLayout>

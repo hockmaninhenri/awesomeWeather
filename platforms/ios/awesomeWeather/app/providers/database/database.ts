@@ -44,9 +44,9 @@ export class Database {
     });
   }
 
-  public delete() {
+  public delete(data:any): Promise<any> {
     return this.db
-    .execSQL("DELETE FROM favorites WHERE id = ?");
+    .execSQL("DELETE FROM favorites WHERE name = ?", [data.name]);
   }
 
 }
