@@ -124,11 +124,9 @@ var MainComponent = (function (_super) {
                 alert("Location error received: " + e);
             });
         }
-        /*
         function pageLoaded(args) {
-          exports.pageLoaded = pageLoaded;
+            exports.pageLoaded = pageLoaded;
         }
-        */
         // When the application is about to close, set the 'firstVisit' value to true,
         // to get the location based weather forecast on startup
         application.on(application.exitEvent, function (args) {

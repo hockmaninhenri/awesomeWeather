@@ -153,11 +153,11 @@ export class MainComponent extends observable.Observable implements OnInit {
         });
     }
 
-    /*
+    
     function pageLoaded(args) {
       exports.pageLoaded = pageLoaded;
     }
-    */
+
 
     // When the application is about to close, set the 'firstVisit' value to true,
     // to get the location based weather forecast on startup
