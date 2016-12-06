@@ -1,56 +1,60 @@
 * {
-  font-size: 15;
+  margin: 0;
+  padding: 0;
+}
+
+#wrap {
+  padding-top: 30;
 }
 
 Button {
   background-color: #03A9F4;
   color: #FFFFFF;
-  margin-left: 16;
-  margin-right: 16;
-  margin-bottom: 10;
-}
-
-.fav-btn, .add-btn {
-  /*width: 150;*/
   padding-left: 15;
   padding-right: 15;
-  margin-top: 20;
 }
 
-.add-btn {
-  margin-right: 0;
+.fav-btn{
+  margin-right: 15;
 }
 
 .current {
-  height: 450;
   border-width: 0 0 1 0;
   border-color: #1976D2;
-  padding: 20;
   align-content: center;
+  padding: 10 15;
+}
+
+.big-current {
+  height: 270;
 }
 
 .icon {
-  height:200;
+  height: 125;
   font-family: 'weathericons-regular-webfont, Weather Icons';
-  font-size: 120px;
+  font-size: 85;
   text-align: center;
-  padding-top: 35;
+  margin-bottom: 5;
 }
 
 .small-icon {
   font-family: 'weathericons-regular-webfont, Weather Icons';
-  font-size: 40px;
+  font-size: 40;
 }
 
 .title {
-  font-size: 55;
+  font-size: 33;
   font-weight: bold;
   color: #212121;
 }
 
 .temp-holder {
-  margin-top: 5;
+  margin-bottom: 5;
   color: #212121;
+}
+
+.add-btn {
+  margin-top: 5;
 }
 
 .scroll-menu {
@@ -58,10 +62,10 @@ Button {
 }
 
 .forecast {
-  padding: 10;
   border-width: 0 1 0 0;
   border-color: #1976D2;
   width: 200;
+  padding: 10;
 }
 
 .forecast-last {

@@ -4,13 +4,7 @@
   "readme": "NativeScript Application",
   "repository": "<fill-your-repository-here>",
   "nativescript": {
-    "id": "org.nativescript.awesomeWeather",
-    "tns-ios": {
-      "version": "2.3.0"
-    },
-    "tns-android": {
-      "version": "2.4.1"
-    }
+    "id": "org.nativescript.awesomeWeather"
   },
   "dependencies": {
     "@angular/common": "2.2.1",

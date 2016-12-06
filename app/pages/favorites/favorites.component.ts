@@ -13,8 +13,6 @@ export class FavoritesComponent implements OnInit {
   public name: string;
   public favorites: Array<any>;
 
-
-
   public constructor(private database: Database) {
     this.favorites = [];
   }
@@ -37,7 +35,6 @@ export class FavoritesComponent implements OnInit {
     });
   }
 
-
   public onLongPress(args) {
     //console.log(args.object.get("text"));
     this.database.delete({name: args.object.get("text")}).then(result => {
@@ -45,5 +42,11 @@ export class FavoritesComponent implements OnInit {
     });
   }
 
-
+  public onItemTap(args) {
+    console.log("clicked " + args.index);
+    /*var num = args.index;
+    this.database.delete({id: 'num'}).then(result => {
+      this.fetch();
+    });*/
+  }
 }

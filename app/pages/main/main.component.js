@@ -23,11 +23,11 @@ var MainComponent = (function (_super) {
         // >> This set contains code for swipe event to change the page.
         // >> Didn't work somewhy, so changed to button-events
         /*
-
+    
         // Detecting swipe gestures on page, and routing to favorites if swipe right  THIS NEEDS ATTENTION, DOESN'T WORK YET
         this.page.on(GestureTypes.swipe, function(args: SwipeGestureEventData) {
             console.log("Swipe Direction From event function: " + args.direction);
-
+    
             that.onSwipe();
         });
         */
@@ -64,8 +64,8 @@ var MainComponent = (function (_super) {
             var location = locationStore.getLocation();
             // set weather icons
             this.setIcons();
-            // set the firstVisit to be false
-            constants.firstVisit = false;
+        }
+        else {
         }
         function isLocationEnabled() {
             // Check if location services are enabled
@@ -81,10 +81,8 @@ var MainComponent = (function (_super) {
                 if (loc) {
                     //console.log("Current location: " + loc);
                     locationStore.saveLocation(loc);
-
                     // Construct the API url with key and 'loc'
                     var url = "" + constants.WEATHER_URL + constants.CURRENT_WEATHER_PATH + "?lat=" + loc.latitude + "&lon=" + loc.longitude + "&apikey=" + constants.WEATHER_APIKEY;
-
                     // Resolve the result
                     requestor.get(url).then(function (res) {
                         var weather = res.weather[0].main.toLowerCase();
@@ -92,13 +90,13 @@ var MainComponent = (function (_super) {
                         var temperature = res.main.temp;
                         var icon = constants.WEATHER_ICONS[time_of_day][weather];
                         // Set the correct data to screen
-
                         that.set('icon', String.fromCharCode(icon));
-                        that.set('curCity', "$res.name");
-                        that.set('curTemp', utilities.describeTemperature(Math.floor(temperature)) + " (" + utilities.convertKelvinToCelsius(temperature).toFixed(2) + ")");
+                        that.set('curWeath', weather_description);
+                        that.set('curDesc', "" + utilities.describeTemperature(Math.floor(temperature)));
+                        that.set('curCity', res.name);
+                        that.set('curTemp', "" + utilities.convertKelvinToCelsius(temperature).toFixed(2));
                         that.set('curWind', "" + utilities.describeWindSpeed(Math.floor(res.wind.speed)));
                         that.set('curHumid', "" + utilities.describeHumidity(Math.floor(res.main.humidity)));
-                        that.set('curWeath', weather);
                     });
                 }
             }, function (e) {
@@ -106,9 +104,11 @@ var MainComponent = (function (_super) {
                 alert("Location error received: " + e);
             });
         }
+        /*
         function pageLoaded(args) {
-            exports.pageLoaded = pageLoaded;
+          exports.pageLoaded = pageLoaded;
         }
+        */
         // When the application is about to close, set the 'firstVisit' value to true,
         // to get the location based weather forecast on startup
         application.on(application.exitEvent, function (args) {
@@ -135,7 +135,7 @@ var MainComponent = (function (_super) {
             selector: "my-app",
             templateUrl: "pages/main/main.html",
             styleUrls: ["pages/main/main-common.css", "pages/main/main.css"]
-        }),
+        }), 
         __metadata('design:paramtypes', [router_2.RouterExtensions, router_1.Router, page_1.Page])
     ], MainComponent);
     return MainComponent;

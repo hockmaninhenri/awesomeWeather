@@ -31,6 +31,13 @@ var FavoritesComponent = (function () {
             _this.fetch();
         });
     };
+    FavoritesComponent.prototype.onItemTap = function (args) {
+        console.log("clicked " + args.index);
+        /*var num = args.index;
+        this.database.delete({id: 'num'}).then(result => {
+          this.fetch();
+        });*/
+    };
     FavoritesComponent = __decorate([
         core_1.Component({
             selector: "favorites",
