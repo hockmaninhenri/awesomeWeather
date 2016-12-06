@@ -1,6 +1,8 @@
 "use strict";
 var core_1 = require("@angular/core");
 var database_1 = require("../../providers/database/database");
+var constants = require("../../common/constants");
+var dialogs = require("ui/dialogs");
 var FavoritesComponent = (function () {
     function FavoritesComponent(database) {
         this.database = database;
@@ -16,6 +18,7 @@ var FavoritesComponent = (function () {
         var _this = this;
         this.database.insert({ name: this.name }).then(function (result) {
             _this.fetch();
+            _this.name = "";
         });
     };
     FavoritesComponent.prototype.fetch = function () {
@@ -26,17 +29,23 @@ var FavoritesComponent = (function () {
     };
     FavoritesComponent.prototype.onLongPress = function (args) {
         var _this = this;
-        //console.log(args.object.get("text"));
-        this.database.delete({ name: args.object.get("text") }).then(function (result) {
-            _this.fetch();
+        dialogs.confirm({
+            title: "Delete from favorites",
+            message: "Are you sure you want to delete " + args.object.get("text") + " from the list?",
+            okButtonText: "Yes",
+            cancelButtonText: "Cancel"
+        }).then(function (result) {
+            //console.log("Dialog result: " +result);
+            if (result == true) {
+                _this.database.delete({ name: args.object.get("text") }).then(function (result) {
+                    _this.fetch();
+                });
+            }
         });
     };
-    FavoritesComponent.prototype.onItemTap = function (args) {
-        console.log("clicked " + args.index);
-        /*var num = args.index;
-        this.database.delete({id: 'num'}).then(result => {
-          this.fetch();
-        });*/
+    FavoritesComponent.prototype.onTap = function (args) {
+        constants.searchCity = args.object.get("text");
+        console.log(constants.searchCity);
     };
     FavoritesComponent = __decorate([
         core_1.Component({

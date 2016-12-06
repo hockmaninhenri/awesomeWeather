@@ -40,5 +40,4 @@ exports.WIND_DIRECTIONS = [
     "West-southwest", "West", "West-northwest", "Northwest", "North-northwest"
 ];
 exports.firstVisit = true;
-exports.searchCity = "";
 //# sourceMappingURL=constants.js.map

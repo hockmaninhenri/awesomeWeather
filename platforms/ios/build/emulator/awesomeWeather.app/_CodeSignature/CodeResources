@@ -86,7 +86,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		9GG6v4ePDs1UYUZExXQkmZDwJow=
+		UcnGJBdKdq/Z59UbauoycQNvy5s=
 		</data>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
 		<data>
@@ -194,7 +194,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		l/MWtQLPF1jLJN6WJ1I/IEYlbm0=
+		CH20eh0Gd/X++2rgmaCrVnYDZeI=
 		</data>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -202,7 +202,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		WYWfIzaQqOiVUUz1fRnFR+4l8P8=
+		euqV0mXxzZva0M+VCkRuH3wCq4M=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -266,11 +266,11 @@
 		</data>
 		<key>app/common/constants.js.map</key>
 		<data>
-		L7S7mM8PaFhsLFA3oitir88kgT8=
+		SZxPcrdHvdm+7LlUbjXl7fm1Pqg=
 		</data>
 		<key>app/common/constants.ts</key>
 		<data>
-		bZGouBuxEwux8i074gQCBt0ZxYM=
+		U0zaAdB+lRcIxwe+GHdh1JTV+MM=
 		</data>
 		<key>app/common/requestor.js</key>
 		<data>
@@ -338,15 +338,15 @@
 		</data>
 		<key>app/pages/favorites/favorites.component.js</key>
 		<data>
-		yWya/fBcWprXKyCMZA9dL6bcHoQ=
+		wb1xwrPQV0QMX9d+9IOewrKugo4=
 		</data>
 		<key>app/pages/favorites/favorites.component.js.map</key>
 		<data>
-		aq+TOllewIdjvnCy1brO/MRr9mI=
+		gi5xnyNAr0J6n96DHavOwa+L7Uk=
 		</data>
 		<key>app/pages/favorites/favorites.component.ts</key>
 		<data>
-		QIAEDeOT3b+Kv+tZxxSkIhaHZo0=
+		vWRiP6jH7YLU+SK9iZPqk7QF9Ag=
 		</data>
 		<key>app/pages/favorites/favorites.css</key>
 		<data>
@@ -354,7 +354,7 @@
 		</data>
 		<key>app/pages/favorites/favorites.html</key>
 		<data>
-		QMK9pNh0GpBPB+1GGwug4/80/EA=
+		OoEa613ZFOOwB94EowspFwuZRFE=
 		</data>
 		<key>app/pages/main/main-common.css</key>
 		<data>
@@ -362,15 +362,15 @@
 		</data>
 		<key>app/pages/main/main.component.js</key>
 		<data>
-		Vk8j1vyuL4JQ2048IJCdnWfyaAM=
+		dwbsD6GmUlbWm4kqU37TM9BXkuc=
 		</data>
 		<key>app/pages/main/main.component.js.map</key>
 		<data>
-		FE26tY3deG4VaSEIBf7/z2W5MUU=
+		JZV1voHUSR+Adh/R6rbjnbqNiwc=
 		</data>
 		<key>app/pages/main/main.component.ts</key>
 		<data>
-		+EKFGsWTBwm89job3gGRkB8ThQE=
+		WMKZ+XD7pnt0zvAJc0NJ2IOB7Pk=
 		</data>
 		<key>app/pages/main/main.css</key>
 		<data>
@@ -14540,11 +14540,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9GG6v4ePDs1UYUZExXQkmZDwJow=
+			UcnGJBdKdq/Z59UbauoycQNvy5s=
 			</data>
 			<key>hash2</key>
 			<data>
-			VNtuYtcVacrINO5Y1gCURCurJ+txzVIFOxy3doucp0Q=
+			B19ueaAI4TMiyZhkXTjIu5diacR1tb9sviPTOQVY6xA=
 			</data>
 		</dict>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
@@ -14826,11 +14826,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			l/MWtQLPF1jLJN6WJ1I/IEYlbm0=
+			CH20eh0Gd/X++2rgmaCrVnYDZeI=
 			</data>
 			<key>hash2</key>
 			<data>
-			X4pO1piUNvD/kq9mTahBLYTm247jDJ+tQbCb1BGEH1s=
+			nt9G8djP5fzkWj9rsdC91eMKLoOzsqaiQpqZPUCbGbA=
 			</data>
 		</dict>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
@@ -14848,11 +14848,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WYWfIzaQqOiVUUz1fRnFR+4l8P8=
+			euqV0mXxzZva0M+VCkRuH3wCq4M=
 			</data>
 			<key>hash2</key>
 			<data>
-			UMRsDjZw47pWKKvR5wxvd8moQKPFNddPIU5eNNImhrY=
+			Zir14NxzGRUQKxBTnH7YienGCpqiOK+J3UOt6uOgr2c=
 			</data>
 		</dict>
 		<key>app/LICENSE</key>
@@ -15013,22 +15013,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			L7S7mM8PaFhsLFA3oitir88kgT8=
+			SZxPcrdHvdm+7LlUbjXl7fm1Pqg=
 			</data>
 			<key>hash2</key>
 			<data>
-			j/fF9UumoRd6IqudFgvEbrE6z9LzkgM68+1sx43ZUEY=
+			jpSA4UTjAzE50y7vIIeShtql42Uw2ZJiPXO9PzNOkPs=
 			</data>
 		</dict>
 		<key>app/common/constants.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			bZGouBuxEwux8i074gQCBt0ZxYM=
+			U0zaAdB+lRcIxwe+GHdh1JTV+MM=
 			</data>
 			<key>hash2</key>
 			<data>
-			jaZEn68bn209vUnjqx+kF7CeHt7Bcaofoyf9X2OwyMc=
+			ixnXjImzFuQttCP49Igu321mvYdtvvtojtR6mQqoGPo=
 			</data>
 		</dict>
 		<key>app/common/requestor.js</key>
@@ -15211,33 +15211,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			yWya/fBcWprXKyCMZA9dL6bcHoQ=
+			wb1xwrPQV0QMX9d+9IOewrKugo4=
 			</data>
 			<key>hash2</key>
 			<data>
-			AqU4VexiT+d0F+cc5BL6EEH2yxnBLdZ3uSw2zrPKKc8=
+			5G0+U0hVbrOKTJALZw8YnzwIF98+GVurwaDOX83YuU8=
 			</data>
 		</dict>
 		<key>app/pages/favorites/favorites.component.js.map</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			aq+TOllewIdjvnCy1brO/MRr9mI=
+			gi5xnyNAr0J6n96DHavOwa+L7Uk=
 			</data>
 			<key>hash2</key>
 			<data>
-			8X1LykSO/wB3BKVOvG6AiWJj2YKG2EhHTe9TotgVii0=
+			eHEWRuL6mj/eJlb0Ohx/f8EIXACB6N+Eqjd8xCnzEH4=
 			</data>
 		</dict>
 		<key>app/pages/favorites/favorites.component.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			QIAEDeOT3b+Kv+tZxxSkIhaHZo0=
+			vWRiP6jH7YLU+SK9iZPqk7QF9Ag=
 			</data>
 			<key>hash2</key>
 			<data>
-			HNGgLSGTvt2eTyvde7NocYHADpNcKEZ5IC7SBUMUWYk=
+			ZWlvdWJ1J8LCo6XMNmMDY/+HZEpyjBwKNl9Lv+2jt0g=
 			</data>
 		</dict>
 		<key>app/pages/favorites/favorites.css</key>
@@ -15255,11 +15255,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			QMK9pNh0GpBPB+1GGwug4/80/EA=
+			OoEa613ZFOOwB94EowspFwuZRFE=
 			</data>
 			<key>hash2</key>
 			<data>
-			iwD/EMehq3bSbP8zNU6GzipPxVJvFvq9QwGKNuwxXqc=
+			H5P6w3YnV1EsZRDwbvp8Clh23+w812EeXqA08JAcJRo=
 			</data>
 		</dict>
 		<key>app/pages/main/main-common.css</key>
@@ -15277,33 +15277,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Vk8j1vyuL4JQ2048IJCdnWfyaAM=
+			dwbsD6GmUlbWm4kqU37TM9BXkuc=
 			</data>
 			<key>hash2</key>
 			<data>
-			3UU63mp2pMNyLBEKjgbpS82arNfRxHH0Lpmkn+zkO5k=
+			Z3r77HWehQeBD1WrdXRkA8kFzmoe6b5ezH5DcpelQ5Y=
 			</data>
 		</dict>
 		<key>app/pages/main/main.component.js.map</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FE26tY3deG4VaSEIBf7/z2W5MUU=
+			JZV1voHUSR+Adh/R6rbjnbqNiwc=
 			</data>
 			<key>hash2</key>
 			<data>
-			2hc4iML4TRhayidgi7Y/FHoBo8J5TGK3oAhKf7CcGlc=
+			t/owQzFb1/ffGIt1b7LoM8S0ZdjD5xg9kFMjwvo3xMo=
 			</data>
 		</dict>
 		<key>app/pages/main/main.component.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			+EKFGsWTBwm89job3gGRkB8ThQE=
+			WMKZ+XD7pnt0zvAJc0NJ2IOB7Pk=
 			</data>
 			<key>hash2</key>
 			<data>
-			nGRxmnIm5EulH667yw1Xl+P4Px8A9V4yxE58iAScbn4=
+			BsI1oM3r0jGR2K1HFOwIXx2m7Tkh+trHMkKRxM0++sE=
 			</data>
 		</dict>
 		<key>app/pages/main/main.css</key>

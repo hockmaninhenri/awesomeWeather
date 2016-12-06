@@ -1,6 +1,8 @@
 import { Component, OnInit, NgModule, ElementRef} from "@angular/core";
 import { Database } from "../../providers/database/database";
+import constants = require("../../common/constants");
 import { GestureTypes, GestureEventData } from "ui/gestures";
+import dialogs = require("ui/dialogs");
 
 @Component({
   selector: "favorites",
@@ -26,6 +28,7 @@ export class FavoritesComponent implements OnInit {
   public insert() {
     this.database.insert({name: this.name}).then(result => {
       this.fetch();
+      this.name = "";
     });
   }
 
@@ -36,17 +39,23 @@ export class FavoritesComponent implements OnInit {
   }
 
   public onLongPress(args) {
-    //console.log(args.object.get("text"));
-    this.database.delete({name: args.object.get("text")}).then(result => {
-      this.fetch();
+    dialogs.confirm({
+      title: "Delete from favorites",
+      message: "Are you sure you want to delete " + args.object.get("text") + " from the list?",
+      okButtonText: "Yes",
+      cancelButtonText: "Cancel"
+    }).then(result => {
+      //console.log("Dialog result: " +result);
+      if (result == true) {
+        this.database.delete({name: args.object.get("text")}).then(result => {
+          this.fetch();
+        });
+      }
     });
   }
 
-  public onItemTap(args) {
-    console.log("clicked " + args.index);
-    /*var num = args.index;
-    this.database.delete({id: 'num'}).then(result => {
-      this.fetch();
-    });*/
+  public onTap(args) {
+    constants.searchCity = args.object.get("text");
+    console.log(constants.searchCity);
   }
 }
