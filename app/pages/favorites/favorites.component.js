@@ -25,12 +25,11 @@ var FavoritesComponent = (function () {
         });
     };
     FavoritesComponent.prototype.onItemTap = function (args) {
-        var _this = this;
-        //console.log("clicked "+args.index);
-        var num = args.index;
-        this.database.delete({ id: 'num' }).then(function (result) {
-            _this.fetch();
-        });
+        console.log("clicked " + args.count);
+        /*var num = args.index;
+        this.database.delete({id: 'num'}).then(result => {
+          this.fetch();
+        });*/
     };
     FavoritesComponent = __decorate([
         core_1.Component({

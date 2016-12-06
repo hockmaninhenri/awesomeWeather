@@ -3,6 +3,12 @@ import { Database } from "../../providers/database/database";
 import { GestureTypes, GestureEventData } from "ui/gestures";
 
 
+//import frame = require("ui/frame");
+//import {Page} from 'ui/page';
+//import {Observable} from "data/observable";
+//import {ObservableArray} from "data/observable-array";
+import {ListView, ItemEventData} from "ui/list-view";
+
 
 @Component({
   selector: "favorites",
@@ -37,10 +43,18 @@ export class FavoritesComponent implements OnInit {
   }
 
   public onItemTap(args) {
-    //console.log("clicked "+args.index);
-    var num = args.index;
+    console.log("clicked " + args.count);
+    /*var num = args.index;
     this.database.delete({id: 'num'}).then(result => {
       this.fetch();
-    });
+    });*/
   }
 }
+
+export function listViewItemLoading(args) {
+    var cell = args.ios;
+    if (cell) {
+      cell.selectionStyle = UIListViewCellSelectionStyleNone
+    }
+}
+exports.listViewItemLoading = listViewItemLoading;

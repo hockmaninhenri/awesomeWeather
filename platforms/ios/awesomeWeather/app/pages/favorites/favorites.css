@@ -5,5 +5,9 @@ ActionBar {
   margin-top: 20;
 }
 .favoriteList {
-  background-color: #2196F3;
+  background-color: #FFFFFF;
+}
+
+.item {
+  color: #212121;
 }
