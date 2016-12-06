@@ -66,9 +66,9 @@ export class MainComponent extends observable.Observable implements OnInit {
 
     // get the location based weather only when opening the app
     if (constants.firstVisit){
-      //alert("First visit");
-
-      isLocationEnabled();
+      setTimeout(() => {
+        isLocationEnabled();
+      }, 10000);
 
       if (locationFound) {
         getLocationNow();
@@ -81,8 +81,9 @@ export class MainComponent extends observable.Observable implements OnInit {
       this.setIcons();
 
     } else if (constants.searchCity){
+
       // get clicked favorite to keyword for API call
-      var keyword = constants.searchCity;
+      var keyword = utilities.replaceUmlauts(constants.searchCity);
 
       // Construct the API url with key and 'loc'
       var url = `${constants.WEATHER_URL}${constants.CURRENT_WEATHER_PATH}?q=${keyword}&apikey=${constants.WEATHER_APIKEY}`;

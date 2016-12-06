@@ -53,8 +53,9 @@ var MainComponent = (function (_super) {
         var time_of_day = utilities.getTimeOfDay();
         // get the location based weather only when opening the app
         if (constants.firstVisit) {
-            //alert("First visit");
-            isLocationEnabled();
+            setTimeout(function () {
+                isLocationEnabled();
+            }, 10000);
             if (locationFound) {
                 getLocationNow();
             }
@@ -67,7 +68,7 @@ var MainComponent = (function (_super) {
         }
         else if (constants.searchCity) {
             // get clicked favorite to keyword for API call
-            var keyword = constants.searchCity;
+            var keyword = utilities.replaceUmlauts(constants.searchCity);
             // Construct the API url with key and 'loc'
             var url = "" + constants.WEATHER_URL + constants.CURRENT_WEATHER_PATH + "?q=" + keyword + "&apikey=" + constants.WEATHER_APIKEY;
             // Resolve the result
