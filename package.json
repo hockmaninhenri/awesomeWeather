@@ -7,9 +7,6 @@
     "id": "org.nativescript.awesomeWeather",
     "tns-ios": {
       "version": "2.3.0"
-    },
-    "tns-android": {
-      "version": "2.3.0"
     }
   },
   "dependencies": {
