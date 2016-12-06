@@ -3,8 +3,14 @@ var core_1 = require("@angular/core");
 var database_1 = require("../../providers/database/database");
 var constants = require("../../common/constants");
 var dialogs = require("ui/dialogs");
+var page_1 = require("ui/page");
+var router_1 = require("@angular/router");
+var router_2 = require("nativescript-angular/router");
 var FavoritesComponent = (function () {
-    function FavoritesComponent(database) {
+    function FavoritesComponent(routerExtensions, router, page, database) {
+        this.routerExtensions = routerExtensions;
+        this.router = router;
+        this.page = page;
         this.database = database;
         this.favorites = [];
     }
@@ -46,6 +52,9 @@ var FavoritesComponent = (function () {
     FavoritesComponent.prototype.onTap = function (args) {
         constants.searchCity = args.object.get("text");
         console.log(constants.searchCity);
+        // set the firstVisit to be false
+        constants.firstVisit = false;
+        this.routerExtensions.navigate(["main"]);
     };
     FavoritesComponent = __decorate([
         core_1.Component({
@@ -53,7 +62,7 @@ var FavoritesComponent = (function () {
             templateUrl: "pages/favorites/favorites.html",
             styleUrls: ["pages/favorites/favorites-common.css", "pages/favorites/favorites.css"]
         }), 
-        __metadata('design:paramtypes', [database_1.Database])
+        __metadata('design:paramtypes', [router_2.RouterExtensions, router_1.Router, page_1.Page, database_1.Database])
     ], FavoritesComponent);
     return FavoritesComponent;
 }());

@@ -3,6 +3,12 @@ import { Database } from "../../providers/database/database";
 import constants = require("../../common/constants");
 import { GestureTypes, GestureEventData } from "ui/gestures";
 import dialogs = require("ui/dialogs");
+import { Page } from "ui/page";
+import { Router } from "@angular/router";
+import { routes } from "../../app.routing";
+import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
+import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
   selector: "favorites",
@@ -15,7 +21,7 @@ export class FavoritesComponent implements OnInit {
   public name: string;
   public favorites: Array<any>;
 
-  public constructor(private database: Database) {
+  public constructor(private routerExtensions: RouterExtensions, private router: Router, private page: Page, private database: Database) {
     this.favorites = [];
   }
 
@@ -57,5 +63,9 @@ export class FavoritesComponent implements OnInit {
   public onTap(args) {
     constants.searchCity = args.object.get("text");
     console.log(constants.searchCity);
+    // set the firstVisit to be false
+    constants.firstVisit = false;
+    this.routerExtensions.navigate(["main"]);
   }
+  
 }

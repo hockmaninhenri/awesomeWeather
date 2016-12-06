@@ -80,12 +80,31 @@ export class MainComponent extends observable.Observable implements OnInit {
       // set weather icons
       this.setIcons();
 
-      // set the firstVisit to be false
-      // CHANGE THIS TO WHEN A CITY IS CLICKED IN FAVS
-      // constants.firstVisit = false;
-
     } else if (constants.searchCity){
+      // get clicked favorite to keyword for API call
       var keyword = constants.searchCity;
+
+      // Construct the API url with key and 'loc'
+      var url = `${constants.WEATHER_URL}${constants.CURRENT_WEATHER_PATH}?q=${keyword}&apikey=${constants.WEATHER_APIKEY}`;
+
+      // Resolve the result
+      requestor.get(url).then((res) => {
+        var weather = res.weather[0].main.toLowerCase();
+        var weather_description = res.weather[0].description;
+
+        var temperature = res.main.temp;
+        var icon = constants.WEATHER_ICONS[time_of_day][weather];
+
+        // Set the correct data to screen
+        that.set('icon', String.fromCharCode(icon));
+        that.set('curWeath', weather_description);
+        that.set('curDesc', `${utilities.describeTemperature(Math.floor(temperature))}`);
+        that.set('curCity', res.name);
+        that.set('curTemp', `${utilities.convertKelvinToCelsius(temperature).toFixed(2)}`);
+        that.set('curWind', `${utilities.describeWindSpeed(Math.floor(res.wind.speed))}`);
+        that.set('curHumid', `${utilities.describeHumidity(Math.floor(res.main.humidity))}`);
+
+      });
     }
 
     function isLocationEnabled() {
