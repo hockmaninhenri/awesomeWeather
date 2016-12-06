@@ -43,18 +43,10 @@ export class FavoritesComponent implements OnInit {
   }
 
   public onItemTap(args) {
-    console.log("clicked " + args.count);
+    console.log("clicked " + args.index);
     /*var num = args.index;
     this.database.delete({id: 'num'}).then(result => {
       this.fetch();
     });*/
   }
 }
-
-export function listViewItemLoading(args) {
-    var cell = args.ios;
-    if (cell) {
-      cell.selectionStyle = UIListViewCellSelectionStyleNone
-    }
-}
-exports.listViewItemLoading = listViewItemLoading;
