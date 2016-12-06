@@ -1,11 +1,13 @@
 "use strict";
 var core_1 = require("@angular/core");
 var database_1 = require("../../providers/database/database");
+var page_1 = require("ui/page");
 var constants = require("../../common/constants");
 var dialogs = require("ui/dialogs");
 var FavoritesComponent = (function () {
-    function FavoritesComponent(database) {
+    function FavoritesComponent(database, page) {
         this.database = database;
+        this.page = page;
         this.favorites = [];
     }
     FavoritesComponent.prototype.ngOnInit = function () {
@@ -16,10 +18,19 @@ var FavoritesComponent = (function () {
     };
     FavoritesComponent.prototype.insert = function () {
         var _this = this;
-        this.database.insert({ name: this.name }).then(function (result) {
-            _this.fetch();
-            _this.name = "";
-        });
+        if (this.name === "") {
+            dialogs.alert({
+                title: "Error!",
+                message: "Please enter city name first!",
+                okButtonText: "OK"
+            });
+        }
+        else {
+            this.database.insert({ name: this.name }).then(function (result) {
+                _this.fetch();
+                _this.name = "";
+            });
+        }
     };
     FavoritesComponent.prototype.fetch = function () {
         var _this = this;
@@ -53,7 +64,7 @@ var FavoritesComponent = (function () {
             templateUrl: "pages/favorites/favorites.html",
             styleUrls: ["pages/favorites/favorites-common.css", "pages/favorites/favorites.css"]
         }), 
-        __metadata('design:paramtypes', [database_1.Database])
+        __metadata('design:paramtypes', [database_1.Database, page_1.Page])
     ], FavoritesComponent);
     return FavoritesComponent;
 }());

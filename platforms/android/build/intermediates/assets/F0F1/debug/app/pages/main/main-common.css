@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#wrap {
+  padding-top: 30;
+}
+
+Button {
+  background-color: #03A9F4;
+  color: #FFFFFF;
+  padding-left: 15;
+  padding-right: 15;
+}
+
+.fav-btn{
+  margin-right: 15;
+}
+
+.current {
+  border-width: 0 0 1 0;
+  border-color: #1976D2;
+  align-content: center;
+  padding: 10 15;
+}
+
+.big-current {
+  height: 270;
+}
+
+.icon {
+  height: 125;
+  font-family: 'weathericons-regular-webfont, Weather Icons';
+  font-size: 85;
+  text-align: center;
+  margin-bottom: 5;
+}
+
+.small-icon {
+  font-family: 'weathericons-regular-webfont, Weather Icons';
+  font-size: 40;
+}
+
+.title {
+  font-size: 33;
+  font-weight: bold;
+  color: #212121;
+}
+
+.temp-holder {
+  margin-bottom: 5;
+  color: #212121;
+}
+
+.add-btn {
+  margin-top: 5;
+}
+
+.scroll-menu {
+  height: 200;
+}
+
+.forecast {
+  border-width: 0 1 0 0;
+  border-color: #1976D2;
+  width: 200;
+  padding: 10;
+}
+
+.forecast-last {
+  border-width: 0;
+}

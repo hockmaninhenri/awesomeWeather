@@ -1,0 +1,1 @@
+C:\awesomeWeather\platforms\android\src\main\assets\app\pages\favorites\favorites.component.js

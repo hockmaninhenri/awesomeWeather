@@ -4,6 +4,7 @@ import requestor = require("../../common/requestor");
 import utilities = require("../../common/utilities");
 import locationStore = require('../../stores/location');
 import application = require("application");
+import { Database } from "../../providers/database/database";
 import { View } from "ui/core/view";
 import { Page } from "ui/page";
 import { Router } from "@angular/router";
@@ -12,6 +13,7 @@ import { Component, NgModule, ElementRef, OnInit, ViewChild } from "@angular/cor
 import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
+import dialogs = require("ui/dialogs");
 //import { GestureTypes, SwipeGestureEventData } from "ui/gestures";
 
 import observable = require("data/observable");
@@ -22,7 +24,7 @@ import observable = require("data/observable");
   styleUrls: ["pages/main/main-common.css", "pages/main/main.css"]
 })
 export class MainComponent extends observable.Observable implements OnInit {
-  constructor(private routerExtensions: RouterExtensions, private router: Router, private page: Page) {
+  constructor(private routerExtensions: RouterExtensions, private router: Router, private page: Page, private database: Database) {
     super();
 
     // Enable location services
@@ -42,6 +44,8 @@ export class MainComponent extends observable.Observable implements OnInit {
     // << Swipe page change
 
   }
+
+  public curCity = this.curCity;
 
   setIcons() {
     var icons = utilities.getIcons([
@@ -161,6 +165,10 @@ export class MainComponent extends observable.Observable implements OnInit {
 
   public addFavorite() {
     // add favorite
-    return;
+    if (this.curCity === "") {
+      dialogs.alert("Location not found!");
+    } else {
+      this.database.insert({name: this.curCity});
+    }
   }
 }
