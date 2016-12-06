@@ -1,0 +1,116 @@
+{
+  "name": "tns-core-modules",
+  "description": "Telerik NativeScript Core Modules",
+  "version": "2.4.0",
+  "homepage": "https://www.nativescript.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NativeScript/NativeScript/commit/bc3910f9c8212bc2685f1f43ec183a3c848fe39f"
+  },
+  "files": [
+    "**/*.d.ts",
+    "**/*.js",
+    "!android17.d.ts",
+    "!ios.d.ts",
+    "!bin/",
+    "!apps/",
+    "!build/",
+    "!node-tests/",
+    "!declarations.android.d.ts",
+    "!declarations.ios.d.ts",
+    "!gruntfile.js",
+    "!org.nativescript.widgets.d.ts"
+  ],
+  "license": "Apache-2.0",
+  "typings": "tns-core-modules.d.ts",
+  "dependencies": {
+    "tns-core-modules-widgets": "2.4.0"
+  },
+  "devDependencies": {
+    "tns-platform-declarations": "*"
+  },
+  "nativescript": {
+    "platforms": {
+      "ios": "2.3.0",
+      "android": "2.3.0"
+    }
+  },
+  "_id": "tns-core-modules@2.4.0",
+  "_shasum": "2fbcb3162ab0a1bb6396f3ebad07ff859d4a19f5",
+  "_resolved": "https://registry.npmjs.org/tns-core-modules/-/tns-core-modules-2.4.0.tgz",
+  "_from": "tns-core-modules@latest",
+  "scripts": {},
+  "_npmVersion": "3.10.3",
+  "_nodeVersion": "6.7.0",
+  "_npmUser": {
+    "name": "tns-bot",
+    "email": "nativescript@telerik.com"
+  },
+  "dist": {
+    "shasum": "2fbcb3162ab0a1bb6396f3ebad07ff859d4a19f5",
+    "tarball": "https://registry.npmjs.org/tns-core-modules/-/tns-core-modules-2.4.0.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "enchev",
+      "email": "vladimir.enchev@gmail.com"
+    },
+    {
+      "name": "erjangavalji",
+      "email": "erjan.gavalji@gmail.com"
+    },
+    {
+      "name": "fatme",
+      "email": "hfatme@gmail.com"
+    },
+    {
+      "name": "hamorphis",
+      "email": "rossen.hristov@progress.com"
+    },
+    {
+      "name": "hdeshev",
+      "email": "hristo@deshev.com"
+    },
+    {
+      "name": "hhristov",
+      "email": "hristo.hristov@outlook.com"
+    },
+    {
+      "name": "ligaz",
+      "email": "stefan.dobrev@gmail.com"
+    },
+    {
+      "name": "nsndeck",
+      "email": "nedyalko.nikolov@telerik.com"
+    },
+    {
+      "name": "panayot.cankov",
+      "email": "panayot.cankov@telerik.com"
+    },
+    {
+      "name": "sdobrev",
+      "email": "stefan.dobrev@gmail.com"
+    },
+    {
+      "name": "tns-bot",
+      "email": "nativescript@telerik.com"
+    },
+    {
+      "name": "tzraikov",
+      "email": "tsvetan.raikov@telerik.com"
+    },
+    {
+      "name": "vakrilov",
+      "email": "alexander.vakrilov@gmail.com"
+    },
+    {
+      "name": "valio.stoychev",
+      "email": "valio.stoychev@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/tns-core-modules-2.4.0.tgz_1479302612579_0.1057890506926924"
+  },
+  "directories": {}
+}

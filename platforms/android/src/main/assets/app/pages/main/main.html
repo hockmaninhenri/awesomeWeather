@@ -1,0 +1,39 @@
+<StackLayout id="wrap">
+  <Button horizontalAlignment="right" text="Go to Favorites >" class="btn fav-btn" (tap)="goFavorites()"></Button>
+  <StackLayout class="current">
+
+    <!-- Here will be the big current weather set -->
+    <StackLayout class="big-current">
+      <Label text="{{ icon }}" class="icon"></Label>
+      <Label text="{{ curWeath }}" class="title" textWrap="true" width="320"></Label>
+    </StackLayout>
+    <StackLayout horizontalAlignment="right" class="temp-holder">
+      <Label horizontalAlignment="right" text="{{ curCity }}" class="curLabel"></Label>
+      <Label horizontalAlignment="right" text="{{ curTemp }} &deg;C" class="curLabel"></Label>
+      <Label horizontalAlignment="right" text="{{ curWind }}" class="curLabel"></Label>
+      <Label horizontalAlignment="right" text="{{ curHumid }}" class="curLabel"></Label>
+      <Button horizontalAlignment="right" text="Add city to Favorites" class="btn add-btn" (tap)="addFavorite()"></Button>
+    </StackLayout>
+
+  </StackLayout>
+
+  <ScrollView orientation="horizontal">
+    <StackLayout orientation="horizontal" class="scroll-menu">
+
+        <StackLayout class="forecast">
+            <Label textWrap="true" text="Here weather 2 hours forward"></Label>
+        </StackLayout>
+        <StackLayout class="forecast">
+            <Label textWrap="true" text="Here weather 4 hours forward"></Label>
+        </StackLayout>
+        <StackLayout class="forecast">
+            <Label textWrap="true" text="Here weather 6 hours forward"></Label>
+        </StackLayout>
+        <StackLayout class="forecast forecast-last">
+            <Label textWrap="true" text="Here weather 8 hours forward"></Label>
+        </StackLayout>
+
+    </StackLayout>
+  </ScrollView>
+
+</StackLayout>
