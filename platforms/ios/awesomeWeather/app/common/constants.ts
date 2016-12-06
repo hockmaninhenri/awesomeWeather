@@ -42,3 +42,4 @@ export const WIND_DIRECTIONS = [
 ];
 
 export let firstVisit = true;
+export var searchCity = "";

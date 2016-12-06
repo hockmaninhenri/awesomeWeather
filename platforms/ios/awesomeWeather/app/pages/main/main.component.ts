@@ -61,6 +61,9 @@ export class MainComponent extends observable.Observable implements OnInit {
     var that = this;
     let locationFound = false;
 
+    // get time of day
+    var time_of_day = utilities.getTimeOfDay();
+
     // get the location based weather only when opening the app
     if (constants.firstVisit){
       //alert("First visit");
@@ -70,9 +73,6 @@ export class MainComponent extends observable.Observable implements OnInit {
       if (locationFound) {
         getLocationNow();
       } else alert("Location services down");
-
-      // get time of day
-      var time_of_day = utilities.getTimeOfDay();
 
       // load location from locationStore
       var location = locationStore.getLocation();
@@ -84,8 +84,8 @@ export class MainComponent extends observable.Observable implements OnInit {
       // CHANGE THIS TO WHEN A CITY IS CLICKED IN FAVS
       // constants.firstVisit = false;
 
-    } else {
-      // HERE HAVE TO MAKE API CALL WITH CITY NAME WHICH WAS CLICKED
+    } else if (constants.searchCity){
+      var keyword = constants.searchCity;
     }
 
     function isLocationEnabled() {

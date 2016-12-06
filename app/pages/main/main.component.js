@@ -49,6 +49,8 @@ var MainComponent = (function (_super) {
         // "cache" OnInit "this"
         var that = this;
         var locationFound = false;
+        // get time of day
+        var time_of_day = utilities.getTimeOfDay();
         // get the location based weather only when opening the app
         if (constants.firstVisit) {
             //alert("First visit");
@@ -58,14 +60,13 @@ var MainComponent = (function (_super) {
             }
             else
                 alert("Location services down");
-            // get time of day
-            var time_of_day = utilities.getTimeOfDay();
             // load location from locationStore
             var location = locationStore.getLocation();
             // set weather icons
             this.setIcons();
         }
-        else {
+        else if (constants.searchCity) {
+            var keyword = constants.searchCity;
         }
         function isLocationEnabled() {
             // Check if location services are enabled
