@@ -107,4 +107,12 @@ function getIcons(icon_names) {
     return icons;
 }
 exports.getIcons = getIcons;
+function replaceUmlauts(string) {
+    var value = string.toLowerCase();
+    value = value.replace(/\u00e4/g, 'a');
+    value = value.replace(/\u00f6/g, 'o');
+    value = value.replace(/\u00fc/g, 'u');
+    return value;
+}
+exports.replaceUmlauts = replaceUmlauts;
 //# sourceMappingURL=utilities.js.map

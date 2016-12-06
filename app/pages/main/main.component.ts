@@ -45,7 +45,7 @@ export class MainComponent extends observable.Observable implements OnInit {
 
   }
 
-  public curCity = this.curCity;
+  public curCity: string;
 
   setIcons() {
     var icons = utilities.getIcons([
@@ -70,7 +70,6 @@ export class MainComponent extends observable.Observable implements OnInit {
 
     // get the location based weather only when opening the app
     if (constants.firstVisit){
-      //alert("First visit");
 
       isLocationEnabled();
 
@@ -85,8 +84,9 @@ export class MainComponent extends observable.Observable implements OnInit {
       this.setIcons();
 
     } else if (constants.searchCity){
+
       // get clicked favorite to keyword for API call
-      var keyword = constants.searchCity;
+      var keyword = utilities.replaceUmlauts(constants.searchCity);
 
       // Construct the API url with key and 'loc'
       var url = `${constants.WEATHER_URL}${constants.CURRENT_WEATHER_PATH}?q=${keyword}&apikey=${constants.WEATHER_APIKEY}`;
@@ -156,7 +156,7 @@ export class MainComponent extends observable.Observable implements OnInit {
         });
     }
 
-    
+
     function pageLoaded(args) {
       exports.pageLoaded = pageLoaded;
     }
@@ -175,7 +175,6 @@ export class MainComponent extends observable.Observable implements OnInit {
           console.log("First visit: " + constants.firstVisit);
       }
     });
-
   }
 
   public goFavorites() {

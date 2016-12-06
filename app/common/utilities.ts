@@ -90,3 +90,12 @@ export function getIcons(icon_names) {
   });
   return icons;
 }
+
+export function replaceUmlauts(string)
+{
+    var value = string.toLowerCase();
+    value = value.replace(/\u00e4/g, 'a');
+    value = value.replace(/\u00f6/g, 'o');
+    value = value.replace(/\u00fc/g, 'u');
+    return value;
+}
