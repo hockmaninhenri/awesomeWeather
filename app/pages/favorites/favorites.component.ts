@@ -1,9 +1,9 @@
 import { Component, OnInit, NgModule, ElementRef} from "@angular/core";
 import { Database } from "../../providers/database/database";
+import { Page } from "ui/page";
 import constants = require("../../common/constants");
 import { GestureTypes, GestureEventData } from "ui/gestures";
 import dialogs = require("ui/dialogs");
-import { Page } from "ui/page";
 import { Router } from "@angular/router";
 import { routes } from "../../app.routing";
 import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
@@ -21,6 +21,7 @@ export class FavoritesComponent implements OnInit {
   public name: string;
   public favorites: Array<any>;
 
+
   public constructor(private routerExtensions: RouterExtensions, private router: Router, private page: Page, private database: Database) {
     this.favorites = [];
   }
@@ -32,10 +33,18 @@ export class FavoritesComponent implements OnInit {
   }
 
   public insert() {
-    this.database.insert({name: this.name}).then(result => {
-      this.fetch();
-      this.name = "";
+    if (this.name === "") {
+      dialogs.alert({
+        title: "Error!",
+        message: "Please enter city name first!",
+        okButtonText: "OK"
+      });
+    } else {
+      this.database.insert({name: this.name}).then(result => {
+        this.fetch();
+        this.name = "";
     });
+    }
   }
 
   public fetch() {
@@ -67,5 +76,5 @@ export class FavoritesComponent implements OnInit {
     constants.firstVisit = false;
     this.routerExtensions.navigate(["main"]);
   }
-  
+
 }
