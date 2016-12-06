@@ -1,9 +1,9 @@
 "use strict";
 var core_1 = require("@angular/core");
 var database_1 = require("../../providers/database/database");
+var page_1 = require("ui/page");
 var constants = require("../../common/constants");
 var dialogs = require("ui/dialogs");
-var page_1 = require("ui/page");
 var router_1 = require("@angular/router");
 var router_2 = require("nativescript-angular/router");
 var FavoritesComponent = (function () {
@@ -22,10 +22,19 @@ var FavoritesComponent = (function () {
     };
     FavoritesComponent.prototype.insert = function () {
         var _this = this;
-        this.database.insert({ name: this.name }).then(function (result) {
-            _this.fetch();
-            _this.name = "";
-        });
+        if (this.name === "") {
+            dialogs.alert({
+                title: "Error!",
+                message: "Please enter city name first!",
+                okButtonText: "OK"
+            });
+        }
+        else {
+            this.database.insert({ name: this.name }).then(function (result) {
+                _this.fetch();
+                _this.name = "";
+            });
+        }
     };
     FavoritesComponent.prototype.fetch = function () {
         var _this = this;

@@ -5,19 +5,23 @@ var requestor = require("../../common/requestor");
 var utilities = require("../../common/utilities");
 var locationStore = require('../../stores/location');
 var application = require("application");
+var database_1 = require("../../providers/database/database");
 var page_1 = require("ui/page");
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 var router_2 = require("nativescript-angular/router");
+var dialogs = require("ui/dialogs");
 //import { GestureTypes, SwipeGestureEventData } from "ui/gestures";
 var observable = require("data/observable");
 var MainComponent = (function (_super) {
     __extends(MainComponent, _super);
-    function MainComponent(routerExtensions, router, page) {
+    function MainComponent(routerExtensions, router, page, database) {
         _super.call(this);
         this.routerExtensions = routerExtensions;
         this.router = router;
         this.page = page;
+        this.database = database;
+        this.curCity = this.curCity;
         // Enable location services
         nativescript_geolocation_1.enableLocationRequest(true);
         // >> This set contains code for swipe event to change the page.
@@ -123,11 +127,9 @@ var MainComponent = (function (_super) {
                 alert("Location error received: " + e);
             });
         }
-        /*
         function pageLoaded(args) {
-          exports.pageLoaded = pageLoaded;
+            exports.pageLoaded = pageLoaded;
         }
-        */
         // When the application is about to close, set the 'firstVisit' value to true,
         // to get the location based weather forecast on startup
         application.on(application.exitEvent, function (args) {
@@ -147,7 +149,12 @@ var MainComponent = (function (_super) {
     };
     MainComponent.prototype.addFavorite = function () {
         // add favorite
-        return;
+        if (this.curCity === "") {
+            dialogs.alert("Location not found!");
+        }
+        else {
+            this.database.insert({ name: this.curCity });
+        }
     };
     MainComponent = __decorate([
         core_1.Component({
@@ -155,7 +162,7 @@ var MainComponent = (function (_super) {
             templateUrl: "pages/main/main.html",
             styleUrls: ["pages/main/main-common.css", "pages/main/main.css"]
         }), 
-        __metadata('design:paramtypes', [router_2.RouterExtensions, router_1.Router, page_1.Page])
+        __metadata('design:paramtypes', [router_2.RouterExtensions, router_1.Router, page_1.Page, database_1.Database])
     ], MainComponent);
     return MainComponent;
 }(observable.Observable));
