@@ -8,9 +8,9 @@
     <Button (tap)="insert()" col="1" text="Add"></Button>
   </GridLayout>
 
-  <ListView [items]="favorites" row="1" class="favoriteList">
+  <ListView [items]="favorites" row="1" class="favoriteList" (itemTap)="onItemTap($event)">
     <template let-favorite="item" let-i="index" class="">
-      <Label text="{{ favorite.name }}" class="item" (longPress)="onLongPress($event)" (tap)="onTap($event)"></Label>
+      <Label text="{{ favorite.name }}" class="item" (longPress)="onLongPress($event)"></Label>
     </template>
   </ListView>
 </GridLayout>
